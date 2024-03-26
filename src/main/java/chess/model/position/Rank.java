@@ -1,6 +1,5 @@
 package chess.model.position;
 
-import chess.model.piece.Side;
 import java.util.Arrays;
 
 public enum Rank {
@@ -28,13 +27,6 @@ public enum Rank {
 
     public int minus(final Rank other) {
         return this.coordinate - other.coordinate;
-    }
-
-    public boolean isPawnInitialRank(final Side side) {
-        if (side.isWhite()) {
-            return TWO.equals(this);
-        }
-        return SEVEN.equals(this);
     }
 
     public Rank findNextRank(final int offset) {
