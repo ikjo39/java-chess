@@ -3,14 +3,14 @@ package chess.model.position;
 import java.util.Arrays;
 
 public enum Rank {
-    EIGHT(8),
-    SEVEN(7),
-    SIX(6),
-    FIVE(5),
-    FOUR(4),
-    THREE(3),
-    TWO(2),
-    ONE(1);
+    EIGHT(1),
+    SEVEN(2),
+    SIX(3),
+    FIVE(4),
+    FOUR(5),
+    THREE(6),
+    TWO(7),
+    ONE(8);
 
     private final int coordinate;
 
@@ -26,7 +26,7 @@ public enum Rank {
     }
 
     public int minus(final Rank other) {
-        return this.coordinate - other.coordinate;
+        return other.coordinate - this.coordinate;
     }
 
     public Rank findNextRank(final int offset) {

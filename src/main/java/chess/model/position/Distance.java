@@ -55,7 +55,7 @@ public class Distance {
             return List.of();
         }
         final int fileOffset = calculateIncrement(fileDifference);
-        final int rankOffset = calculateIncrement(rankDifference);
+        final int rankOffset = -calculateIncrement(rankDifference);
         final int repeatCount = calculateRepeatCount();
 
         final List<ChessPosition> path = new ArrayList<>();

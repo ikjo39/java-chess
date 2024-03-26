@@ -30,7 +30,7 @@ class RankTest {
     }
 
     @ParameterizedTest
-    @CsvSource(value = {"TWO,2,FOUR", "ONE,3,FOUR", "EIGHT,-5,THREE"})
+    @CsvSource(value = {"FOUR,2,TWO", "FOUR,3,ONE", "THREE,-5,EIGHT"})
     @DisplayName("이동할 칸 수 만큼 증가한 랭크를 반환한다.")
     void findNextRank(Rank given, int offset, Rank expected) {
         //when
@@ -41,7 +41,7 @@ class RankTest {
     }
 
     @ParameterizedTest
-    @CsvSource(value = {"TWO,-6", "ONE,20", "EIGHT,1"})
+    @CsvSource(value = {"TWO,-7", "ONE,20", "EIGHT,-1"})
     @DisplayName("이동할 수 없다면 예외가 발생한다.")
     void findNextRankExceedRange(Rank given, int offset) {
         //when //then
