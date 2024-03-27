@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Knight extends Piece {
     private static final int DISPLACEMENT = 3;
+    private static final double KNIGHT_POINT = 2.5;
 
     public Knight(final Side side) {
         super(side);
@@ -26,6 +27,11 @@ public class Knight extends Piece {
     @Override
     public boolean isKing() {
         return false;
+    }
+
+    @Override
+    public double getPoint() {
+        return KNIGHT_POINT;
     }
 
     private boolean canMove(final Distance distance) {

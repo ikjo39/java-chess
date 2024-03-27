@@ -67,13 +67,27 @@ class KnightTest {
     @DisplayName("왕인지 판단한다.")
     void isKing(Side side) {
         //given
-        final Knight knight = new Knight(side);
+        final Knight bishop = new Knight(side);
 
         //when
-        final boolean result = knight.isKing();
+        final boolean result = bishop.isKing();
 
         //then
         assertThat(result).isFalse();
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"BLACK", "WHITE"})
+    @DisplayName("점수를 반환한다.")
+    void getPoint(Side side) {
+        //given
+        final Knight knight = new Knight(side);
+
+        //when
+        final double result = knight.getPoint();
+
+        //then
+        assertThat(result).isEqualTo(2.5);
     }
 
     private static Stream<Arguments> getPathsWhenKnightInE4() {

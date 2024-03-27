@@ -6,6 +6,7 @@ import java.util.List;
 
 public class King extends Piece {
     private static final int DISPLACEMENT = 1;
+    private static final int KING_POINT = 0;
 
     public King(final Side side) {
         super(side);
@@ -26,5 +27,10 @@ public class King extends Piece {
     @Override
     public boolean isKing() {
         return true;
+    }
+
+    @Override
+    public double getPoint() {
+        return KING_POINT;
     }
 }

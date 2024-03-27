@@ -5,6 +5,8 @@ import chess.model.position.Distance;
 import java.util.List;
 
 public class Rook extends Piece {
+    private static final int ROOK_POINT = 5;
+
     public Rook(Side side) {
         super(side);
     }
@@ -24,5 +26,10 @@ public class Rook extends Piece {
     @Override
     public boolean isKing() {
         return false;
+    }
+
+    @Override
+    public double getPoint() {
+        return ROOK_POINT;
     }
 }

@@ -5,6 +5,9 @@ import chess.model.position.Distance;
 import java.util.List;
 
 public class Bishop extends Piece {
+
+    private static final double BISHOP_POINT = 3;
+
     public Bishop(final Side side) {
         super(side);
     }
@@ -24,5 +27,10 @@ public class Bishop extends Piece {
     @Override
     public boolean isKing() {
         return false;
+    }
+
+    @Override
+    public double getPoint() {
+        return BISHOP_POINT;
     }
 }

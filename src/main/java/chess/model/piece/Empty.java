@@ -19,4 +19,9 @@ public class Empty extends Piece {
     public boolean isKing() {
         return false;
     }
+
+    @Override
+    public double getPoint() {
+        return 0;
+    }
 }

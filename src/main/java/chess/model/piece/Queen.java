@@ -5,6 +5,9 @@ import chess.model.position.Distance;
 import java.util.List;
 
 public class Queen extends Piece {
+
+    private static final int QUEEN_POINT = 9;
+
     public Queen(final Side side) {
         super(side);
     }
@@ -24,6 +27,11 @@ public class Queen extends Piece {
     @Override
     public boolean isKing() {
         return false;
+    }
+
+    @Override
+    public double getPoint() {
+        return QUEEN_POINT;
     }
 
     private boolean canMove(final Distance distance) {

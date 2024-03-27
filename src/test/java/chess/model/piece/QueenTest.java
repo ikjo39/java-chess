@@ -86,6 +86,20 @@ class QueenTest {
         assertThat(result).isFalse();
     }
 
+    @ParameterizedTest
+    @CsvSource(value = {"BLACK", "WHITE"})
+    @DisplayName("점수를 반환한다.")
+    void getPoint(Side side) {
+        //given
+        final Queen queen = new Queen(side);
+
+        //when
+        final double result = queen.getPoint();
+
+        //then
+        assertThat(result).isEqualTo(9);
+    }
+
     private static Stream<Arguments> getPathsWhenQueenInC2() {
         return Stream.of(
                 // 대각선 움직임

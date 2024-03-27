@@ -33,4 +33,17 @@ class EmptyTest {
         //then
         assertThat(result).isFalse();
     }
+
+    @Test
+    @DisplayName("점수를 반환한다.")
+    void getPoint() {
+        //given
+        final Empty empty = new Empty();
+
+        //when
+        final double result = empty.getPoint();
+
+        //then
+        assertThat(result).isEqualTo(0);
+    }
 }

@@ -10,6 +10,7 @@ import java.util.List;
 public class Pawn extends Piece {
     private static final int DISPLACEMENT = 1;
     private static final int INITIAL_SPECIAL_DISPLACEMENT = 2;
+    private static final int PAWN_POINT = 1;
     private static final List<ChessPosition> INITIAL_WHITE_POSITION = Arrays.stream(File.values())
             .map(file -> new ChessPosition(file, Rank.TWO))
             .toList();
@@ -37,6 +38,11 @@ public class Pawn extends Piece {
     @Override
     public boolean isKing() {
         return false;
+    }
+
+    @Override
+    public double getPoint() {
+        return PAWN_POINT;
     }
 
     private void validateForwardPath(

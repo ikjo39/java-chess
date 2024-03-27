@@ -74,6 +74,20 @@ class BishopTest {
         assertThat(result).isFalse();
     }
 
+    @ParameterizedTest
+    @CsvSource(value = {"BLACK", "WHITE"})
+    @DisplayName("점수를 반환한다.")
+    void getPoint(Side side) {
+        //given
+        final Bishop bishop = new Bishop(side);
+
+        //when
+        final double result = bishop.getPoint();
+
+        //then
+        assertThat(result).isEqualTo(3);
+    }
+
     private static Stream<Arguments> getPathsWhenBishopInC2() {
         return Stream.of(
                 Arguments.of(D3, List.of(D3)),

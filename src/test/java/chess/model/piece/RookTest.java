@@ -78,6 +78,20 @@ class RookTest {
         assertThat(result).isFalse();
     }
 
+    @ParameterizedTest
+    @CsvSource(value = {"BLACK", "WHITE"})
+    @DisplayName("점수를 반환한다.")
+    void getPoint(Side side) {
+        //given
+        final Rook rook = new Rook(side);
+
+        //when
+        final double result = rook.getPoint();
+
+        //then
+        assertThat(result).isEqualTo(5);
+    }
+
     private static Stream<Arguments> getPathsWhenRookInC2() {
         return Stream.of(
                 Arguments.of(C3, List.of(C3)),

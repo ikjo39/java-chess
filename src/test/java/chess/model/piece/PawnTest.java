@@ -112,6 +112,20 @@ class PawnTest {
         assertThat(result).isFalse();
     }
 
+    @ParameterizedTest
+    @CsvSource(value = {"BLACK", "WHITE"})
+    @DisplayName("점수를 반환한다.")
+    void getPoint(Side side) {
+        //given
+        final Pawn pawn = new Pawn(side);
+
+        //when
+        final double result = pawn.getPoint();
+
+        //then
+        assertThat(result).isEqualTo(1);
+    }
+
     private static Stream<Arguments> getPathsWhenPawnInB2() {
         return Stream.of(
                 Arguments.arguments(B3, List.of(B3)),

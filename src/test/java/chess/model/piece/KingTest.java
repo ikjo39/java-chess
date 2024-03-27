@@ -75,6 +75,20 @@ class KingTest {
         assertThat(result).isTrue();
     }
 
+    @ParameterizedTest
+    @CsvSource(value = {"BLACK", "WHITE"})
+    @DisplayName("점수를 반환한다.")
+    void getPoint(Side side) {
+        //given
+        final King king = new King(side);
+
+        //when
+        final double result = king.getPoint();
+
+        //then
+        assertThat(result).isEqualTo(0);
+    }
+
     private static Stream<Arguments> getPathsWhenKingInC2() {
         return Stream.of(
                 Arguments.of(B1, List.of(B1)),

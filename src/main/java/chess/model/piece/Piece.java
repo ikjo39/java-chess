@@ -16,6 +16,8 @@ public abstract class Piece {
 
     public abstract boolean isKing();
 
+    public abstract double getPoint();
+
     public boolean isEmpty() {
         return this.side.isEmpty();
     }
