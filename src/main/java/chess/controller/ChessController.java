@@ -2,6 +2,7 @@ package chess.controller;
 
 import chess.model.board.ChessBoard;
 import chess.model.board.ChessBoardInitializer;
+import chess.model.piece.Points;
 import chess.model.position.ChessPosition;
 import chess.view.GameArguments;
 import chess.view.GameCommand;
@@ -30,6 +31,7 @@ public class ChessController {
         final ChessBoard chessBoard = new ChessBoard(ChessBoardInitializer.create());
         outputView.printChessBoard(chessBoard);
         retryOnException(() -> playChess(chessBoard));
+        printPoints(chessBoard);
     }
 
     private void playChess(final ChessBoard chessBoard) {
@@ -38,6 +40,10 @@ public class ChessController {
             final GameCommand gameCommand = gameArguments.gameCommand();
             if (gameCommand.isEnd()) {
                 break;
+            }
+            if (gameCommand.isStatus()) {
+                printPoints(chessBoard);
+                continue;
             }
             final MoveArguments moveArguments = gameArguments.moveArguments();
             move(chessBoard, moveArguments);
@@ -49,6 +55,11 @@ public class ChessController {
         final ChessPosition target = moveArguments.createTargetPosition();
         chessBoard.move(source, target);
         outputView.printChessBoard(chessBoard);
+    }
+
+    private void printPoints(final ChessBoard chessBoard) {
+        Points points = new Points(chessBoard.calculatePoints());
+        outputView.printPoints(points);
     }
 
     private void retryOnException(final Runnable retryOperation) {
