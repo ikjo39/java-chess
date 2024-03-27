@@ -16,6 +16,8 @@ public abstract class Piece {
 
     public abstract boolean isKing();
 
+    public abstract boolean isPawn();
+
     public abstract double getPoint();
 
     public boolean isEmpty() {

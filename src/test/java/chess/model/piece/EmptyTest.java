@@ -35,6 +35,19 @@ class EmptyTest {
     }
 
     @Test
+    @DisplayName("폰인지 판단한다.")
+    void isPawn() {
+        //given
+        final Empty empty = new Empty();
+
+        //when
+        final boolean result = empty.isPawn();
+
+        //then
+        assertThat(result).isFalse();
+    }
+    
+    @Test
     @DisplayName("점수를 반환한다.")
     void getPoint() {
         //given

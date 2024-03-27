@@ -30,6 +30,11 @@ public class Bishop extends Piece {
     }
 
     @Override
+    public boolean isPawn() {
+        return false;
+    }
+
+    @Override
     public double getPoint() {
         return BISHOP_POINT;
     }

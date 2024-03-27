@@ -67,10 +67,24 @@ class KnightTest {
     @DisplayName("왕인지 판단한다.")
     void isKing(Side side) {
         //given
-        final Knight bishop = new Knight(side);
+        final Knight knight = new Knight(side);
 
         //when
-        final boolean result = bishop.isKing();
+        final boolean result = knight.isKing();
+
+        //then
+        assertThat(result).isFalse();
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"BLACK", "WHITE"})
+    @DisplayName("폰인지 판단한다.")
+    void isPawn(Side side) {
+        //given
+        final Knight knight = new Knight(side);
+
+        //when
+        final boolean result = knight.isPawn();
 
         //then
         assertThat(result).isFalse();

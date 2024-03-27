@@ -114,6 +114,20 @@ class PawnTest {
 
     @ParameterizedTest
     @CsvSource(value = {"BLACK", "WHITE"})
+    @DisplayName("폰인지 판단한다.")
+    void isPawn(Side side) {
+        //given
+        final Pawn pawn = new Pawn(side);
+
+        //when
+        final boolean result = pawn.isPawn();
+
+        //then
+        assertThat(result).isTrue();
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"BLACK", "WHITE"})
     @DisplayName("점수를 반환한다.")
     void getPoint(Side side) {
         //given

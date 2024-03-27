@@ -76,6 +76,20 @@ class BishopTest {
 
     @ParameterizedTest
     @CsvSource(value = {"BLACK", "WHITE"})
+    @DisplayName("폰인지 판단한다.")
+    void isPawn(Side side) {
+        //given
+        final Bishop bishop = new Bishop(side);
+
+        //when
+        final boolean result = bishop.isPawn();
+
+        //then
+        assertThat(result).isFalse();
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"BLACK", "WHITE"})
     @DisplayName("점수를 반환한다.")
     void getPoint(Side side) {
         //given

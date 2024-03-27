@@ -77,6 +77,20 @@ class KingTest {
 
     @ParameterizedTest
     @CsvSource(value = {"BLACK", "WHITE"})
+    @DisplayName("폰인지 판단한다.")
+    void isPawn(Side side) {
+        //given
+        final King king = new King(side);
+
+        //when
+        final boolean result = king.isPawn();
+
+        //then
+        assertThat(result).isFalse();
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"BLACK", "WHITE"})
     @DisplayName("점수를 반환한다.")
     void getPoint(Side side) {
         //given

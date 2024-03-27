@@ -41,6 +41,11 @@ public class Pawn extends Piece {
     }
 
     @Override
+    public boolean isPawn() {
+        return true;
+    }
+
+    @Override
     public double getPoint() {
         return PAWN_POINT;
     }
