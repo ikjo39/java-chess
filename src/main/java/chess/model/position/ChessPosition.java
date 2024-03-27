@@ -53,4 +53,8 @@ public class ChessPosition {
                 ", rank=" + rank +
                 '}';
     }
+
+    public boolean hasSameFile(final ChessPosition target) {
+        return file.equals(target.file);
+    }
 }
