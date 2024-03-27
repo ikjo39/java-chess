@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.stream.IntStream;
 
 public class ChessBoard {
+    public static final int KING_COUNT = 2;
     private final Map<ChessPosition, Piece> board;
 
     public ChessBoard(final Map<ChessPosition, Piece> board) {
@@ -54,5 +55,16 @@ public class ChessBoard {
 
     public Map<ChessPosition, Piece> getBoard() {
         return board;
+    }
+
+    public boolean checkChessEnd() {
+        return calculateKingCount() != KING_COUNT;
+    }
+
+    private int calculateKingCount() {
+        return (int) board.values()
+                .stream()
+                .filter(Piece::isKing)
+                .count();
     }
 }
