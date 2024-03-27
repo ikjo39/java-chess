@@ -3,6 +3,7 @@ package chess.model.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -25,5 +26,32 @@ class PieceTest {
 
         //then
         assertThat(result.side).isEqualTo(expected);
+    }
+
+
+    @Test
+    @DisplayName("기물이 King인지 판단한다.")
+    void isKing() {
+        // given
+        final Piece given = new King(Side.WHITE);
+
+        // when
+        final boolean result = given.isKing();
+
+        // then
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    @DisplayName("기물이 King인지 판단한다.")
+    void isNotKing() {
+        // given
+        final Piece given = new Pawn(Side.WHITE);
+
+        // when
+        final boolean result = given.isKing();
+
+        // then
+        assertThat(result).isFalse();
     }
 }

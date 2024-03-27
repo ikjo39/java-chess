@@ -42,4 +42,8 @@ public abstract class Piece {
     public Side getSide() {
         return side;
     }
+
+    public boolean isKing() {
+        return this instanceof King;
+    }
 }
