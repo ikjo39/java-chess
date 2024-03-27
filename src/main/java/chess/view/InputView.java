@@ -25,7 +25,7 @@ public class InputView {
         final List<String> inputs = Arrays.stream(input.split(" "))
                 .toList();
         final GameCommand moveCommand = GameCommand.createMoveCommand(inputs.get(0));
-        if (moveCommand.isEnd()) {
+        if (moveCommand.isEnd() || moveCommand.isStatus()) {
             return new GameArguments(moveCommand, null);
         }
         return new GameArguments(moveCommand, MoveArguments.from(inputs));

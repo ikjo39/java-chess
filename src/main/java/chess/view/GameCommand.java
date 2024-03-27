@@ -5,6 +5,7 @@ import java.util.Arrays;
 public enum GameCommand {
     START("start"),
     MOVE("move"),
+    STATUS("status"),
     END("end");
 
     private final String text;
@@ -26,10 +27,14 @@ public enum GameCommand {
                 .filter(value -> value.text.equals(input))
                 .filter(value -> !START.equals(value))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("move 혹은 end를 입력해주세요."));
+                .orElseThrow(() -> new IllegalArgumentException("move, end, status 중 하나를 입력해주세요."));
     }
 
     public boolean isEnd() {
         return this.equals(END);
+    }
+
+    public boolean isStatus() {
+        return this.equals(STATUS);
     }
 }
