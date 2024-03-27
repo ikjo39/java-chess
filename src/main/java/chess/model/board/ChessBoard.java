@@ -1,14 +1,22 @@
 package chess.model.board;
 
 import chess.model.piece.Piece;
+import chess.model.piece.Point;
+import chess.model.piece.Side;
 import chess.model.position.ChessPosition;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class ChessBoard {
-    public static final int KING_COUNT = 2;
+    private static final int KING_COUNT = 2;
+    private static final double POINT_WHEN_SAME_FILE_PAWN = 0.5;
     private final Map<ChessPosition, Piece> board;
 
     public ChessBoard(final Map<ChessPosition, Piece> board) {
@@ -23,6 +31,41 @@ public class ChessBoard {
         final List<ChessPosition> path = sourcePiece.findPath(sourcePosition, targetPosition, targetPiece);
         validatePathContainsPiece(path);
         changePositions(sourcePosition, targetPosition, sourcePiece, targetPiece);
+    }
+
+    public Map<Side, Point> calculatePoints() {
+        return Arrays.stream(Side.values())
+                .filter(side -> !side.isEmpty())
+                .collect(Collectors.toMap(Function.identity(), this::getPoint));
+    }
+
+    private Point getPoint(Side side) {
+        final double totalSum = calculateTotalSum(side);
+        final long sameFilePawn = getSameFilePawnCount(side);
+        return new Point(totalSum - sameFilePawn * POINT_WHEN_SAME_FILE_PAWN);
+    }
+
+    private double calculateTotalSum(final Side side) {
+        return board.values()
+                .stream()
+                .filter(piece -> piece.isSameSide(side))
+                .mapToDouble(Piece::getPoint)
+                .sum();
+    }
+
+    private long getSameFilePawnCount(final Side side) {
+        final Set<ChessPosition> positions = board.entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().isSameSide(side))
+                .filter(entry -> entry.getValue().isPawn())
+                .map(Entry::getKey)
+                .collect(Collectors.toSet());
+
+        return positions.stream()
+                .filter(position -> positions.stream()
+                        .filter(position::hasSameFile)
+                        .count() != 1)
+                .count();
     }
 
     private void changePositions(

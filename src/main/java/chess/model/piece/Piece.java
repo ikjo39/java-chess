@@ -28,6 +28,10 @@ public abstract class Piece {
         return this.side == other.side;
     }
 
+    public boolean isSameSide(final Side other) {
+        return this.side == other;
+    }
+
     public boolean isEnemy(final Piece other) {
         return this.side.isEnemy(other.side);
     }
