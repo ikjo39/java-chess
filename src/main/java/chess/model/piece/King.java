@@ -22,4 +22,9 @@ public class King extends Piece {
         }
         throw new IllegalStateException("왕은 해당 경로로 이동할 수 없습니다.");
     }
+
+    @Override
+    public boolean isKing() {
+        return true;
+    }
 }

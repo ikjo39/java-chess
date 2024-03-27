@@ -34,6 +34,11 @@ public class Pawn extends Piece {
         throw new IllegalStateException("폰은 해당 경로로 이동할 수 없습니다.");
     }
 
+    @Override
+    public boolean isKing() {
+        return false;
+    }
+
     private void validateForwardPath(
             final ChessPosition source, final Piece targetPiece, final Distance distance
     ) {

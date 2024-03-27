@@ -14,4 +14,9 @@ public class Empty extends Piece {
     ) {
         throw new IllegalStateException("해당 경로로 이동할 수 없습니다.");
     }
+
+    @Override
+    public boolean isKing() {
+        return false;
+    }
 }

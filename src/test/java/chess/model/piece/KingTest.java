@@ -20,6 +20,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class KingTest {
@@ -58,6 +59,20 @@ class KingTest {
         // when // then
         assertThatThrownBy(() -> king.findPath(C2, H3, new Empty()))
                 .isInstanceOf(IllegalStateException.class);
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"BLACK", "WHITE"})
+    @DisplayName("왕인지 판단한다.")
+    void isKing(Side side) {
+        //given
+        final King king = new King(side);
+
+        //when
+        final boolean result = king.isKing();
+
+        //then
+        assertThat(result).isTrue();
     }
 
     private static Stream<Arguments> getPathsWhenKingInC2() {

@@ -14,6 +14,8 @@ public abstract class Piece {
             final ChessPosition source, final ChessPosition target, final Piece targetPiece
     );
 
+    public abstract boolean isKing();
+
     public boolean isEmpty() {
         return this.side.isEmpty();
     }
@@ -41,9 +43,5 @@ public abstract class Piece {
 
     public Side getSide() {
         return side;
-    }
-
-    public boolean isKing() {
-        return this instanceof King;
     }
 }

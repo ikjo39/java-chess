@@ -23,6 +23,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class RookTest {
@@ -61,6 +62,20 @@ class RookTest {
         // when // then
         assertThatThrownBy(() -> rook.findPath(C2, H3, new Empty()))
                 .isInstanceOf(IllegalStateException.class);
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"BLACK", "WHITE"})
+    @DisplayName("왕인지 판단한다.")
+    void isKing(Side side) {
+        //given
+        final Rook rook = new Rook(side);
+
+        //when
+        final boolean result = rook.isKing();
+
+        //then
+        assertThat(result).isFalse();
     }
 
     private static Stream<Arguments> getPathsWhenRookInC2() {

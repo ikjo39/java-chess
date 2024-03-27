@@ -19,6 +19,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class BishopTest {
@@ -57,6 +58,20 @@ class BishopTest {
         // when //then
         assertThatThrownBy(() -> bishop.findPath(C2, D2, new Empty()))
                 .isInstanceOf(IllegalStateException.class);
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"BLACK", "WHITE"})
+    @DisplayName("왕인지 판단한다.")
+    void isKing(Side side) {
+        //given
+        final Bishop bishop = new Bishop(side);
+
+        //when
+        final boolean result = bishop.isKing();
+
+        //then
+        assertThat(result).isFalse();
     }
 
     private static Stream<Arguments> getPathsWhenBishopInC2() {

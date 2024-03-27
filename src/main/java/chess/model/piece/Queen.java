@@ -21,6 +21,11 @@ public class Queen extends Piece {
         throw new IllegalStateException("퀸은 해당 경로로 이동할 수 없습니다.");
     }
 
+    @Override
+    public boolean isKing() {
+        return false;
+    }
+
     private boolean canMove(final Distance distance) {
         return distance.isCrossMovement() || distance.isDiagonalMovement();
     }
