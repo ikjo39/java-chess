@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 class EmptyTest {
     @Test
-    @DisplayName("경로 찾기를 시도하면 빈 배열을 반환한다.")
+    @DisplayName("경로 찾기를 시도하면 예외가 발생한다.")
     void findPath() {
         //given
         Piece sourcePiece = new Empty();

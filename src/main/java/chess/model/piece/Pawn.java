@@ -2,25 +2,18 @@ package chess.model.piece;
 
 import chess.model.position.ChessPosition;
 import chess.model.position.Distance;
-import chess.model.position.File;
-import chess.model.position.Rank;
-import java.util.Arrays;
 import java.util.List;
 
-public class Pawn extends Piece {
+public abstract class Pawn extends Piece {
     private static final int DISPLACEMENT = 1;
     private static final int INITIAL_SPECIAL_DISPLACEMENT = 2;
     private static final int PAWN_POINT = 1;
-    private static final List<ChessPosition> INITIAL_WHITE_POSITION = Arrays.stream(File.values())
-            .map(file -> new ChessPosition(file, Rank.TWO))
-            .toList();
-    private static final List<ChessPosition> INITIAL_BLACK_POSITION = Arrays.stream(File.values())
-            .map(file -> new ChessPosition(file, Rank.SEVEN))
-            .toList();
 
-    public Pawn(final Side side) {
+    protected Pawn(final Side side) {
         super(side);
     }
+
+    protected abstract boolean isPawnInitialPosition(final ChessPosition source);
 
     @Override
     public List<ChessPosition> findPath(
@@ -64,16 +57,6 @@ public class Pawn extends Piece {
                     canMoveForwardWith(distance, INITIAL_SPECIAL_DISPLACEMENT);
         }
         return canMoveForwardWith(distance, DISPLACEMENT);
-    }
-
-    private boolean isPawnInitialPosition(final ChessPosition source) {
-        if (side.isWhite()) {
-            return INITIAL_WHITE_POSITION.contains(source);
-        }
-        if (side.isBlack()) {
-            return INITIAL_BLACK_POSITION.contains(source);
-        }
-        throw new IllegalStateException("Source 위치가 비어있습니다.");
     }
 
     private boolean canDiagonalMove(final Piece targetPiece, final Distance distance) {

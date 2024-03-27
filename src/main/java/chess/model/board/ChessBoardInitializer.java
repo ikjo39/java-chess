@@ -1,14 +1,15 @@
 package chess.model.board;
 
 import chess.model.piece.Bishop;
+import chess.model.piece.BlackPawn;
 import chess.model.piece.Empty;
 import chess.model.piece.King;
 import chess.model.piece.Knight;
-import chess.model.piece.Pawn;
 import chess.model.piece.Piece;
 import chess.model.piece.Queen;
 import chess.model.piece.Rook;
 import chess.model.piece.Side;
+import chess.model.piece.WhitePawn;
 import chess.model.position.ChessPosition;
 import chess.model.position.File;
 import chess.model.position.Rank;
@@ -24,9 +25,8 @@ public class ChessBoardInitializer {
     public static Map<ChessPosition, Piece> create() {
         final Map<ChessPosition, Piece> board = createInitialBoard();
         board.putAll(createSpecialPieces(Side.BLACK));
-        board.putAll(createPawns(Side.BLACK));
+        board.putAll(createPawns());
         board.putAll(createSpecialPieces(Side.WHITE));
-        board.putAll(createPawns(Side.WHITE));
         return board;
     }
 
@@ -51,17 +51,24 @@ public class ChessBoardInitializer {
         );
     }
 
-    private static Map<ChessPosition, Piece> createPawns(final Side side) {
-        final Rank rank = convertPawnRanksWithSide(side);
-        return Map.of(
-                new ChessPosition(File.A, rank), new Pawn(side),
-                new ChessPosition(File.B, rank), new Pawn(side),
-                new ChessPosition(File.C, rank), new Pawn(side),
-                new ChessPosition(File.D, rank), new Pawn(side),
-                new ChessPosition(File.E, rank), new Pawn(side),
-                new ChessPosition(File.F, rank), new Pawn(side),
-                new ChessPosition(File.G, rank), new Pawn(side),
-                new ChessPosition(File.H, rank), new Pawn(side)
+    private static Map<ChessPosition, Piece> createPawns() {
+        return Map.ofEntries(
+                Map.entry(new ChessPosition(File.A, Rank.TWO), new WhitePawn()),
+                Map.entry(new ChessPosition(File.B, Rank.TWO), new WhitePawn()),
+                Map.entry(new ChessPosition(File.C, Rank.TWO), new WhitePawn()),
+                Map.entry(new ChessPosition(File.D, Rank.TWO), new WhitePawn()),
+                Map.entry(new ChessPosition(File.E, Rank.TWO), new WhitePawn()),
+                Map.entry(new ChessPosition(File.F, Rank.TWO), new WhitePawn()),
+                Map.entry(new ChessPosition(File.G, Rank.TWO), new WhitePawn()),
+                Map.entry(new ChessPosition(File.H, Rank.TWO), new WhitePawn()),
+                Map.entry(new ChessPosition(File.A, Rank.SEVEN), new BlackPawn()),
+                Map.entry(new ChessPosition(File.B, Rank.SEVEN), new BlackPawn()),
+                Map.entry(new ChessPosition(File.C, Rank.SEVEN), new BlackPawn()),
+                Map.entry(new ChessPosition(File.D, Rank.SEVEN), new BlackPawn()),
+                Map.entry(new ChessPosition(File.E, Rank.SEVEN), new BlackPawn()),
+                Map.entry(new ChessPosition(File.F, Rank.SEVEN), new BlackPawn()),
+                Map.entry(new ChessPosition(File.G, Rank.SEVEN), new BlackPawn()),
+                Map.entry(new ChessPosition(File.H, Rank.SEVEN), new BlackPawn())
         );
     }
 
@@ -70,12 +77,5 @@ public class ChessBoardInitializer {
             return Rank.EIGHT;
         }
         return Rank.ONE;
-    }
-
-    private static Rank convertPawnRanksWithSide(final Side side) {
-        if (side == Side.BLACK) {
-            return Rank.SEVEN;
-        }
-        return Rank.TWO;
     }
 }

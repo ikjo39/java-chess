@@ -52,7 +52,7 @@ class QueenTest {
     void findPathWhenInvalidTarget() {
         // given
         Queen queen = new Queen(Side.WHITE);
-        Pawn targetPiece = new Pawn(Side.WHITE);
+        Pawn targetPiece = new WhitePawn();
 
         // when // then
         assertThatThrownBy(() -> queen.findPath(C2, D3, targetPiece))
@@ -60,7 +60,7 @@ class QueenTest {
     }
 
     @Test
-    @DisplayName("Queen 움직임으로 타겟 위치에 도달할 수 없다면 빈 리스트를 반환한다.")
+    @DisplayName("Queen 움직임으로 타겟 위치에 도달할 수 없다면 예외가 발생한다.")
     void findPathWhenCanNotReachTargetPiece() {
         // given
         Queen queen = new Queen(Side.BLACK);

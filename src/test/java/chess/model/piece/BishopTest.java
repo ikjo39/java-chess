@@ -42,7 +42,7 @@ class BishopTest {
     void findPathWhenInvalidTarget() {
         // given
         Bishop bishop = new Bishop(Side.WHITE);
-        Pawn targetPiece = new Pawn(Side.WHITE);
+        Pawn targetPiece = new WhitePawn();
 
         // when // then
         assertThatThrownBy(() -> bishop.findPath(C2, D3, targetPiece))

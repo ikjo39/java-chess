@@ -33,6 +33,10 @@ public class ChessBoard {
         changePositions(sourcePosition, targetPosition, sourcePiece, targetPiece);
     }
 
+    public boolean checkChessEnd() {
+        return calculateKingCount() != KING_COUNT;
+    }
+
     public Map<Side, Point> calculatePoints() {
         return Arrays.stream(Side.values())
                 .filter(side -> !side.isEmpty())
@@ -96,18 +100,14 @@ public class ChessBoard {
         }
     }
 
-    public Map<ChessPosition, Piece> getBoard() {
-        return board;
-    }
-
-    public boolean checkChessEnd() {
-        return calculateKingCount() != KING_COUNT;
-    }
-
     private int calculateKingCount() {
         return (int) board.values()
                 .stream()
                 .filter(Piece::isKing)
                 .count();
+    }
+
+    public Map<ChessPosition, Piece> getBoard() {
+        return board;
     }
 }

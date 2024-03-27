@@ -27,14 +27,15 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import chess.model.piece.Bishop;
+import chess.model.piece.BlackPawn;
 import chess.model.piece.King;
 import chess.model.piece.Knight;
-import chess.model.piece.Pawn;
 import chess.model.piece.Piece;
 import chess.model.piece.Point;
 import chess.model.piece.Queen;
 import chess.model.piece.Rook;
 import chess.model.piece.Side;
+import chess.model.piece.WhitePawn;
 import chess.model.position.ChessPosition;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -152,17 +153,17 @@ class ChessBoardTest {
                                 Map.ofEntries(
                                         Map.entry(B8, new King(Side.BLACK)),
                                         Map.entry(C8, new Rook(Side.BLACK)),
-                                        Map.entry(A7, new Pawn(Side.BLACK)),
-                                        Map.entry(C7, new Pawn(Side.BLACK)),
+                                        Map.entry(A7, new BlackPawn()),
+                                        Map.entry(C7, new BlackPawn()),
                                         Map.entry(D7, new Bishop(Side.BLACK)),
-                                        Map.entry(B6, new Pawn(Side.BLACK)),
+                                        Map.entry(B6, new BlackPawn()),
                                         Map.entry(E6, new Queen(Side.BLACK)),
                                         Map.entry(F4, new Knight(Side.WHITE)),
                                         Map.entry(G4, new Queen(Side.WHITE)),
-                                        Map.entry(F3, new Pawn(Side.WHITE)),
-                                        Map.entry(H3, new Pawn(Side.WHITE)),
-                                        Map.entry(F2, new Pawn(Side.WHITE)),
-                                        Map.entry(G2, new Pawn(Side.WHITE)),
+                                        Map.entry(F3, new WhitePawn()),
+                                        Map.entry(H3, new WhitePawn()),
+                                        Map.entry(F2, new WhitePawn()),
+                                        Map.entry(G2, new WhitePawn()),
                                         Map.entry(E1, new Rook(Side.WHITE)),
                                         Map.entry(F1, new King(Side.WHITE))
                                 )
@@ -195,8 +196,8 @@ class ChessBoardTest {
                 Arguments.of(
                         new ChessBoard(
                                 Map.of(
-                                        F2, new Pawn(Side.BLACK),
-                                        G2, new Pawn(Side.WHITE)
+                                        F2, new BlackPawn(),
+                                        G2, new WhitePawn()
                                 )
                         ),
                         true

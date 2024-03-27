@@ -46,7 +46,7 @@ class RookTest {
     void findPathWhenInvalidTarget() {
         // given
         Rook rook = new Rook(Side.WHITE);
-        Pawn targetPiece = new Pawn(Side.WHITE);
+        Pawn targetPiece = new WhitePawn();
 
         // when // then
         assertThatThrownBy(() -> rook.findPath(C2, D3, targetPiece))

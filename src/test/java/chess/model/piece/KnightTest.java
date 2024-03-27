@@ -44,7 +44,7 @@ class KnightTest {
     void findPathWhenInvalidTarget() {
         // given
         Knight knight = new Knight(Side.WHITE);
-        Pawn targetPiece = new Pawn(Side.WHITE);
+        Pawn targetPiece = new WhitePawn();
 
         // when // then
         assertThatThrownBy(() -> knight.findPath(C2, D3, targetPiece))

@@ -43,7 +43,7 @@ class KingTest {
     void findPathWhenInvalidTarget() {
         // given
         King king = new King(Side.WHITE);
-        Pawn targetPiece = new Pawn(Side.WHITE);
+        Pawn targetPiece = new WhitePawn();
 
         // when // then
         assertThatThrownBy(() -> king.findPath(C2, D3, targetPiece))
