@@ -6,6 +6,9 @@ import static chess.model.Fixture.B2;
 import static chess.model.Fixture.B4;
 import static chess.model.Fixture.C5;
 import static chess.model.Fixture.D2;
+import static chess.model.Fixture.F2;
+import static chess.model.Fixture.F7;
+import static chess.model.Fixture.G2;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -15,8 +18,6 @@ import chess.model.piece.Pawn;
 import chess.model.piece.Piece;
 import chess.model.piece.Side;
 import chess.model.position.ChessPosition;
-import chess.model.position.File;
-import chess.model.position.Rank;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -85,15 +86,15 @@ class ChessBoardTest {
         return Stream.of(
                 Arguments.of(
                         new ChessBoard(
-                                Map.of(new ChessPosition(File.F, Rank.TWO), new King(Side.BLACK))
+                                Map.of(F2, new King(Side.BLACK))
                         ),
                         true
                 ),
                 Arguments.of(
                         new ChessBoard(
                                 Map.of(
-                                        new ChessPosition(File.F, Rank.TWO), new King(Side.BLACK),
-                                        new ChessPosition(File.F, Rank.SEVEN), new King(Side.BLACK)
+                                        F2, new King(Side.BLACK),
+                                        F7, new King(Side.BLACK)
                                 )
                         ),
                         false
@@ -101,8 +102,8 @@ class ChessBoardTest {
                 Arguments.of(
                         new ChessBoard(
                                 Map.of(
-                                        new ChessPosition(File.F, Rank.TWO), new Pawn(Side.BLACK),
-                                        new ChessPosition(File.G, Rank.TWO), new Pawn(Side.WHITE)
+                                        F2, new Pawn(Side.BLACK),
+                                        G2, new Pawn(Side.WHITE)
                                 )
                         ),
                         true
