@@ -33,7 +33,7 @@ public class ChessController {
     }
 
     private void playChess(final ChessBoard chessBoard) {
-        while (true) {
+        while (!chessBoard.checkChessEnd()) {
             final GameArguments gameArguments = inputView.readGameArguments();
             final GameCommand gameCommand = gameArguments.gameCommand();
             if (gameCommand.isEnd()) {
