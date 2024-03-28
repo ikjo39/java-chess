@@ -9,9 +9,8 @@ public class Empty extends Piece {
     }
 
     @Override
-    public List<ChessPosition> findPath(
-            final ChessPosition source, final ChessPosition target, final Piece targetPiece
-    ) {
+    public List<ChessPosition> findPath(final ChessPosition source, final ChessPosition target,
+                                        final Piece targetPiece) {
         throw new IllegalStateException("해당 경로로 이동할 수 없습니다.");
     }
 

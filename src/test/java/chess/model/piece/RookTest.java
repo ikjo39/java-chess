@@ -54,13 +54,14 @@ class RookTest {
     }
 
     @Test
-    @DisplayName("Rook 움직임으로 타겟 위치에 도달할 수 없다면 빈 리스트를 반환한다.")
+    @DisplayName("Rook 움직임으로 타겟 위치에 도달할 수 없다면 예외를 발생한다.")
     void findPathWhenCanNotReachTargetPiece() {
         // given
         Rook rook = new Rook(Side.BLACK);
+        Piece targetPiece = new Empty();
 
         // when // then
-        assertThatThrownBy(() -> rook.findPath(C2, H3, new Empty()))
+        assertThatThrownBy(() -> rook.findPath(C2, H3, targetPiece))
                 .isInstanceOf(IllegalStateException.class);
     }
 

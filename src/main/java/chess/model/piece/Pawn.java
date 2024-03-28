@@ -43,9 +43,7 @@ public abstract class Pawn extends Piece {
         return PAWN_POINT;
     }
 
-    private void validateForwardPath(
-            final ChessPosition source, final Piece targetPiece, final Distance distance
-    ) {
+    private void validateForwardPath(final ChessPosition source, final Piece targetPiece, final Distance distance) {
         if (!targetPiece.isEmpty() && canCrossMove(source, distance)) {
             throw new IllegalArgumentException("타겟 위치에 기물이 존재하여 전진할 수 없습니다.");
         }

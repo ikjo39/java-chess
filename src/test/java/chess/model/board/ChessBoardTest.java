@@ -101,24 +101,6 @@ class ChessBoardTest {
         assertThat(result).isEqualTo(expected);
     }
 
-    @Test
-    @DisplayName("체스판 위 진영 별 점수를 계산한다.")
-    void calculatePoints() {
-        // given
-        final ChessBoard chessBoard = createInitializedChessBoard();
-
-        // when
-        final Map<Side, Point> totalPoints = chessBoard.calculatePoints();
-        final double whitePoint = totalPoints.get(Side.WHITE).getValue();
-        final double blackPoint = totalPoints.get(Side.BLACK).getValue();
-
-        // then
-        assertAll(
-                () -> assertThat(whitePoint).isEqualTo(38),
-                () -> assertThat(blackPoint).isEqualTo(38)
-        );
-    }
-
     @ParameterizedTest
     @MethodSource("createChessBoardDynamicPiecesWithPoints")
     @DisplayName("체스판 위 진영 별 점수를 계산한다.")

@@ -52,13 +52,14 @@ class KnightTest {
     }
 
     @Test
-    @DisplayName("Knight 움직임으로 타겟 위치에 도달할 수 없다면 빈 리스트를 반환한다.")
+    @DisplayName("Knight 움직임으로 타겟 위치에 도달할 수 없다면 예외를 발생한다.")
     void findPathWhenCanNotReachTargetPiece() {
         // given
         Knight knight = new Knight(Side.BLACK);
+        Piece targetPiece = new Empty();
 
         // when // then
-        assertThatThrownBy(() -> knight.findPath(C2, D2, new Empty()))
+        assertThatThrownBy(() -> knight.findPath(C2, D2, targetPiece))
                 .isInstanceOf(IllegalStateException.class);
     }
 

@@ -51,13 +51,14 @@ class KingTest {
     }
 
     @Test
-    @DisplayName("King 움직임으로 타겟 위치에 도달할 수 없다면 빈 리스트를 반환한다.")
+    @DisplayName("King 움직임으로 타겟 위치에 도달할 수 없다면 예외를 발생한다.")
     void findPathWhenCanNotReachTargetPiece() {
         // given
         King king = new King(Side.BLACK);
+        Piece targetPiece = new Empty();
 
         // when // then
-        assertThatThrownBy(() -> king.findPath(C2, H3, new Empty()))
+        assertThatThrownBy(() -> king.findPath(C2, H3, targetPiece))
                 .isInstanceOf(IllegalStateException.class);
     }
 

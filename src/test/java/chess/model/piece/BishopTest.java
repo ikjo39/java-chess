@@ -54,9 +54,10 @@ class BishopTest {
     void findPathWhenCanNotReachTargetPiece() {
         // given
         Bishop bishop = new Bishop(Side.BLACK);
+        Piece targetPiece = new Empty();
 
         // when //then
-        assertThatThrownBy(() -> bishop.findPath(C2, D2, new Empty()))
+        assertThatThrownBy(() -> bishop.findPath(C2, D2, targetPiece))
                 .isInstanceOf(IllegalStateException.class);
     }
 

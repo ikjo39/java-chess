@@ -13,9 +13,8 @@ public class Knight extends Piece {
     }
 
     @Override
-    public List<ChessPosition> findPath(
-            final ChessPosition source, final ChessPosition target, final Piece targetPiece
-    ) {
+    public List<ChessPosition> findPath(final ChessPosition source, final ChessPosition target,
+                                        final Piece targetPiece) {
         checkValidTargetPiece(targetPiece);
         final Distance distance = target.calculateDistance(source);
         if (canMove(distance)) {

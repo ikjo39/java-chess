@@ -60,15 +60,14 @@ class QueenTest {
     }
 
     @Test
-    @DisplayName("Queen 움직임으로 타겟 위치에 도달할 수 없다면 예외가 발생한다.")
+    @DisplayName("Queen 움직임으로 타겟 위치에 도달할 수 없다면 예외를 발생한다.")
     void findPathWhenCanNotReachTargetPiece() {
         // given
         Queen queen = new Queen(Side.BLACK);
+        Piece targetPiece = new Empty();
 
-        // when
-
-        // then
-        assertThatThrownBy(() -> queen.findPath(C2, D4, new Empty()))
+        // when // then
+        assertThatThrownBy(() -> queen.findPath(C2, D4, targetPiece))
                 .isInstanceOf(IllegalStateException.class);
     }
 
