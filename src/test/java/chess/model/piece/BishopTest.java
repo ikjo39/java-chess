@@ -26,6 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import chess.model.board.ChessBoard;
+import chess.model.board.Point;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -157,9 +158,9 @@ class BishopTest {
         final Bishop bishop = new Bishop(side);
 
         //when
-        final double result = bishop.getPoint();
+        final Point result = bishop.getPoint();
 
         //then
-        assertThat(result).isEqualTo(3);
+        assertThat(result).isEqualTo(Point.from(3));
     }
 }

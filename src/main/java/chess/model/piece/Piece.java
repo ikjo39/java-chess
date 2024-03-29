@@ -1,6 +1,7 @@
 package chess.model.piece;
 
 import chess.model.board.ChessBoard;
+import chess.model.board.Point;
 import chess.model.position.ChessPosition;
 import chess.model.position.Direction;
 import java.util.Set;
@@ -16,7 +17,7 @@ public abstract class Piece {
 
     public abstract boolean isPawn();
 
-    public abstract double getPoint();
+    public abstract Point getPoint();
 
     protected abstract Set<ChessPosition> calculatePaths(final ChessPosition source, final ChessPosition target,
                                                          final ChessBoard chessBoard);

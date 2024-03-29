@@ -26,6 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import chess.model.board.ChessBoard;
+import chess.model.board.Point;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -162,9 +163,9 @@ class QueenTest {
         final Queen queen = new Queen(side);
 
         //when
-        final double result = queen.getPoint();
+        final Point result = queen.getPoint();
 
         //then
-        assertThat(result).isEqualTo(9);
+        assertThat(result).isEqualTo(Point.from(9));
     }
 }

@@ -26,6 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import chess.model.board.ChessBoard;
+import chess.model.board.Point;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -161,9 +162,9 @@ class RookTest {
         final Rook rook = new Rook(side);
 
         //when
-        final double result = rook.getPoint();
+        final Point result = rook.getPoint();
 
         //then
-        assertThat(result).isEqualTo(5);
+        assertThat(result).isEqualTo(Point.from(5));
     }
 }

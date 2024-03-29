@@ -23,6 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import chess.model.board.ChessBoard;
+import chess.model.board.Point;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -154,9 +155,9 @@ class KingTest {
         final King king = new King(side);
 
         //when
-        final double result = king.getPoint();
+        final Point result = king.getPoint();
 
         //then
-        assertThat(result).isEqualTo(0);
+        assertThat(result).isEqualTo(Point.from(0));
     }
 }

@@ -18,8 +18,8 @@ class PointsTest {
     void calculateWinner(int white, int black, Side expected) {
         //given
         Map<Side, Point> sidePoints = Map.of(
-                Side.WHITE, new Point(white),
-                Side.BLACK, new Point(black)
+                Side.WHITE, Point.from(white),
+                Side.BLACK, Point.from(black)
         );
 
         //when
@@ -35,8 +35,8 @@ class PointsTest {
     void calculateWinnerTie() {
         //given
         Map<Side, Point> sidePoints = Map.of(
-                Side.BLACK, new Point(10),
-                Side.WHITE, new Point(10)
+                Side.BLACK, Point.from(10),
+                Side.WHITE, Point.from(10)
         );
 
         //when

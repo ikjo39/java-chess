@@ -1,6 +1,7 @@
 package chess.model.piece;
 
 import chess.model.board.ChessBoard;
+import chess.model.board.Point;
 import chess.model.position.ChessPosition;
 import chess.model.position.Direction;
 import java.util.Set;
@@ -26,8 +27,8 @@ public class Empty extends Piece {
     }
 
     @Override
-    public double getPoint() {
-        return 0;
+    public Point getPoint() {
+        return Point.getDefaults();
     }
 
     @Override

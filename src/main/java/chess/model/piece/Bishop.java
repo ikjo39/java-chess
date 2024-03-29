@@ -6,6 +6,7 @@ import static chess.model.position.Direction.UP_LEFT;
 import static chess.model.position.Direction.UP_RIGHT;
 
 import chess.model.board.ChessBoard;
+import chess.model.board.Point;
 import chess.model.position.ChessPosition;
 import chess.model.position.Direction;
 import java.util.HashSet;
@@ -30,8 +31,8 @@ public class Bishop extends Piece {
     }
 
     @Override
-    public double getPoint() {
-        return BISHOP_POINT;
+    public Point getPoint() {
+        return Point.from(BISHOP_POINT);
     }
 
     @Override

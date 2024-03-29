@@ -10,6 +10,7 @@ import static chess.model.position.Direction.UP_UP_LEFT;
 import static chess.model.position.Direction.UP_UP_RIGHT;
 
 import chess.model.board.ChessBoard;
+import chess.model.board.Point;
 import chess.model.position.ChessPosition;
 import chess.model.position.Direction;
 import java.util.HashSet;
@@ -33,8 +34,8 @@ public class Knight extends Piece {
     }
 
     @Override
-    public double getPoint() {
-        return KNIGHT_POINT;
+    public Point getPoint() {
+        return Point.from(KNIGHT_POINT);
     }
 
     @Override

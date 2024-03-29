@@ -6,6 +6,7 @@ import static chess.model.position.Direction.RIGHT;
 import static chess.model.position.Direction.UP;
 
 import chess.model.board.ChessBoard;
+import chess.model.board.Point;
 import chess.model.position.ChessPosition;
 import chess.model.position.Direction;
 import java.util.HashSet;
@@ -29,8 +30,8 @@ public class Rook extends Piece {
     }
 
     @Override
-    public double getPoint() {
-        return ROOK_POINT;
+    public Point getPoint() {
+        return Point.from(ROOK_POINT);
     }
 
     @Override

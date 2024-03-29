@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class ChessBoard {
     private static final int KING_COUNT = 2;
     private static final int PAWN_COUNT_WHEN_SOLID_IN_FILE = 1;
-    private static final double POINT_WHEN_SAME_FILE_PAWN = 0.5;
+    private static final double POINT_WHEN_SAME_FILE_PAWN = -0.5;
 
     private final Map<ChessPosition, Piece> board;
     private final Side turn;
@@ -114,12 +114,12 @@ public class ChessBoard {
                 .count();
     }
 
-    private double calculateTotalSum(final Side side) {
+    private Point calculateTotalSum(final Side side) {
         return board.values()
                 .stream()
                 .filter(piece -> piece.isSameSide(side))
-                .mapToDouble(Piece::getPoint)
-                .sum();
+                .map(Piece::getPoint)
+                .reduce(Point.getDefaults(), Point::sum);
     }
 
     private Set<ChessPosition> findAllSamSidePawns(final Side side) {
@@ -132,9 +132,9 @@ public class ChessBoard {
     }
 
     private Point calculatePoint(Side side) {
-        final double totalSum = calculateTotalSum(side);
+        final Point totalSum = calculateTotalSum(side);
         final long sameFilePawn = getSameFilePawnCount(side);
-        return new Point(totalSum - sameFilePawn * POINT_WHEN_SAME_FILE_PAWN);
+        return totalSum.sum(Point.from(sameFilePawn * POINT_WHEN_SAME_FILE_PAWN));
     }
 
     private Piece findPiece(final ChessPosition position) {

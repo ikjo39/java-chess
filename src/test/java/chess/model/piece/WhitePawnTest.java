@@ -25,6 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import chess.model.board.ChessBoard;
+import chess.model.board.Point;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -129,10 +130,10 @@ class WhitePawnTest {
         final Pawn pawn = new WhitePawn();
 
         //when
-        final double result = pawn.getPoint();
+        final Point result = pawn.getPoint();
 
         //then
-        assertThat(result).isEqualTo(1);
+        assertThat(result).isEqualTo(Point.from(1));
     }
 
     /*

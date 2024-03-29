@@ -25,6 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import chess.model.board.ChessBoard;
+import chess.model.board.Point;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -159,9 +160,9 @@ class KnightTest {
         final Knight knight = new Knight(side);
 
         //when
-        final double result = knight.getPoint();
+        final Point result = knight.getPoint();
 
         //then
-        assertThat(result).isEqualTo(2.5);
+        assertThat(result).isEqualTo(Point.from(2.5));
     }
 }

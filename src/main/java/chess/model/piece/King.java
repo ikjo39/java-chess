@@ -10,6 +10,7 @@ import static chess.model.position.Direction.UP_LEFT;
 import static chess.model.position.Direction.UP_RIGHT;
 
 import chess.model.board.ChessBoard;
+import chess.model.board.Point;
 import chess.model.position.ChessPosition;
 import chess.model.position.Direction;
 import java.util.HashSet;
@@ -33,8 +34,8 @@ public class King extends Piece {
     }
 
     @Override
-    public double getPoint() {
-        return KING_POINT;
+    public Point getPoint() {
+        return Point.from(KING_POINT);
     }
 
     @Override

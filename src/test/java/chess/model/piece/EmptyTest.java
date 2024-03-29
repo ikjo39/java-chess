@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import chess.model.board.ChessBoard;
 import chess.model.board.ChessBoardInitializer;
+import chess.model.board.Point;
 import chess.model.position.ChessPosition;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -70,9 +71,9 @@ class EmptyTest {
         final Empty empty = new Empty();
 
         //when
-        final double result = empty.getPoint();
+        final Point result = empty.getPoint();
 
         //then
-        assertThat(result).isEqualTo(0);
+        assertThat(result).isEqualTo(Point.from(0));
     }
 }

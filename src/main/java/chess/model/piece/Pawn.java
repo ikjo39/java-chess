@@ -1,6 +1,7 @@
 package chess.model.piece;
 
 import chess.model.board.ChessBoard;
+import chess.model.board.Point;
 import chess.model.position.ChessPosition;
 import chess.model.position.Direction;
 import java.util.HashSet;
@@ -29,8 +30,8 @@ public abstract class Pawn extends Piece {
     }
 
     @Override
-    public double getPoint() {
-        return PAWN_POINT;
+    public Point getPoint() {
+        return Point.from(PAWN_POINT);
     }
 
     @Override
@@ -52,7 +53,8 @@ public abstract class Pawn extends Piece {
 
     private boolean canMoveDiagonal(final ChessBoard chessBoard, final Direction direction,
                                     final ChessPosition current) {
-        return direction.isDiagonal() && current.canMove(direction) && chessBoard.isEnemy(current.move(direction), side);
+        return direction.isDiagonal() && current.canMove(direction) && chessBoard.isEnemy(current.move(direction),
+                side);
     }
 
     private boolean canMoveVertical(final Direction direction, final ChessBoard chessBoard,
