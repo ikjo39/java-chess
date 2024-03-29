@@ -44,9 +44,8 @@ public class Knight extends Piece {
         final Set<ChessPosition> paths = new HashSet<>();
         Set<Direction> directions = availableDirections();
         for (final Direction direction : directions) {
-            ChessPosition current = source;
-            if (current.canMove(direction) && !chessBoard.isSameSide(current.move(direction), side)) {
-                paths.add(current.move(direction));
+            if (source.canMove(direction) && !chessBoard.isSameSide(source.move(direction), side)) {
+                paths.add(source.move(direction));
             }
         }
         return paths;

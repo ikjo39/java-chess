@@ -40,12 +40,11 @@ public abstract class Pawn extends Piece {
         final Set<ChessPosition> paths = new HashSet<>();
         Set<Direction> directions = availableDirections();
         for (final Direction direction : directions) {
-            ChessPosition current = source;
-            if (!isPawnInitialPosition(current) && direction.isDoubleForward()) {
+            if (!isPawnInitialPosition(source) && direction.isDoubleForward()) {
                 continue;
             }
-            if (canMoveDiagonal(chessBoard, direction, current) || canMoveVertical(direction, chessBoard, current)) {
-                paths.add(current.move(direction));
+            if (canMoveDiagonal(chessBoard, direction, source) || canMoveVertical(direction, chessBoard, source)) {
+                paths.add(source.move(direction));
             }
         }
         return paths;
