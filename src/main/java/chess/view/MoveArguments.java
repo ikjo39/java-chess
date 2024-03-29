@@ -14,13 +14,13 @@ public class MoveArguments {
     private static final String MOVE_REGEX = "([a-zA-Z])(\\d)";
     private static final Pattern MOVE_PATTERN = Pattern.compile(MOVE_REGEX);
 
-    private final int sourceRank;
-    private final int targetRank;
+    private final String sourceRank;
+    private final String targetRank;
     private final String sourceFile;
     private final String targetFile;
 
     private MoveArguments(
-            final String sourceFile, final int sourceRank, final String targetFile, final int targetRank
+            final String sourceFile, final String sourceRank, final String targetFile, final String targetRank
     ) {
         this.sourceFile = sourceFile;
         this.sourceRank = sourceRank;
@@ -31,8 +31,8 @@ public class MoveArguments {
     public static MoveArguments from(final List<String> inputs) {
         List<String> arguments = convertArguments(inputs);
         validateArgumentsSize(arguments);
-        return new MoveArguments(arguments.get(0), parseInt(arguments.get(1)),
-                arguments.get(2), parseInt(arguments.get(3)));
+        return new MoveArguments(arguments.get(0), arguments.get(1),
+                arguments.get(2), arguments.get(3));
     }
 
     private static List<String> convertArguments(final List<String> arguments) {
@@ -54,14 +54,6 @@ public class MoveArguments {
         return matcher.matches();
     }
 
-    private static int parseInt(final String value) {
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Rank가 숫자형식의 입력값이 아닙니다.");
-        }
-    }
-
     public ChessPosition createSourcePosition() {
         return new ChessPosition(File.from(sourceFile), Rank.from(sourceRank));
     }
@@ -71,31 +63,21 @@ public class MoveArguments {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == this) {
+    public boolean equals(final Object o) {
+        if (this == o) {
             return true;
         }
-        if (obj == null || obj.getClass() != this.getClass()) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        var that = (MoveArguments) obj;
-        return Objects.equals(this.sourceFile, that.sourceFile) &&
-                this.sourceRank == that.sourceRank &&
-                Objects.equals(this.targetFile, that.targetFile) &&
-                this.targetRank == that.targetRank;
+        MoveArguments that = (MoveArguments) o;
+        return Objects.equals(sourceRank, that.sourceRank) && Objects.equals(targetRank,
+                that.targetRank) && Objects.equals(sourceFile, that.sourceFile) && Objects.equals(
+                targetFile, that.targetFile);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sourceFile, sourceRank, targetFile, targetRank);
-    }
-
-    @Override
-    public String toString() {
-        return "MoveArguments[" +
-                "sourceFile=" + sourceFile + ", " +
-                "sourceRank=" + sourceRank + ", " +
-                "targetFile=" + targetFile + ", " +
-                "targetRank=" + targetRank + ']';
+        return Objects.hash(sourceRank, targetRank, sourceFile, targetFile);
     }
 }

@@ -10,9 +10,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class RankTest {
     @ParameterizedTest
-    @ValueSource(ints = {-50, -2, -1, 0, 9, 10, 11, 244})
+    @ValueSource(strings = {"-50", "-2", "-1", "0", "9", "10", "11", "244"})
     @DisplayName("유효하지 않는 좌표로 Rank를 생성하면 예외가 발생한다.")
-    void from(int given) {
+    void from(String given) {
         //when //then
         assertThatThrownBy(() -> Rank.from(given))
                 .isInstanceOf(IllegalArgumentException.class);

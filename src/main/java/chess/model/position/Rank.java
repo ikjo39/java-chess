@@ -3,24 +3,26 @@ package chess.model.position;
 import java.util.Arrays;
 
 public enum Rank {
-    EIGHT(1),
-    SEVEN(2),
-    SIX(3),
-    FIVE(4),
-    FOUR(5),
-    THREE(6),
-    TWO(7),
-    ONE(8);
+    EIGHT(1, "8"),
+    SEVEN(2, "7"),
+    SIX(3, "6"),
+    FIVE(4, "5"),
+    FOUR(5, "4"),
+    THREE(6, "3"),
+    TWO(7, "2"),
+    ONE(8, "1");
 
     private final int coordinate;
+    private final String name;
 
-    Rank(final int coordinate) {
+    Rank(final int coordinate, String name) {
         this.coordinate = coordinate;
+        this.name = name;
     }
 
-    public static Rank from(final int coordinate) {
+    public static Rank from(final String name) {
         return Arrays.stream(values())
-                .filter(rank -> rank.coordinate == coordinate)
+                .filter(rank -> rank.name.equals(name))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 Rank 이름입니다."));
     }
