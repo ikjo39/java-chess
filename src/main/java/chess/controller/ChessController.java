@@ -2,6 +2,7 @@ package chess.controller;
 
 import chess.model.board.ChessBoard;
 import chess.model.board.ChessBoardInitializer;
+import chess.model.board.PointCalculator;
 import chess.model.board.Points;
 import chess.model.position.ChessPosition;
 import chess.view.GameArguments;
@@ -58,7 +59,8 @@ public class ChessController {
     }
 
     private void printPoints(final ChessBoard chessBoard) {
-        Points points = new Points(chessBoard.calculatePoints());
+        final PointCalculator pointCalculator = chessBoard.getPointCalculator();
+        final Points points = pointCalculator.calculatesPoints();
         outputView.printPoints(points);
     }
 
