@@ -32,7 +32,6 @@ import chess.model.piece.BlackPawn;
 import chess.model.piece.King;
 import chess.model.piece.Knight;
 import chess.model.piece.Piece;
-import chess.model.piece.Point;
 import chess.model.piece.Queen;
 import chess.model.piece.Rook;
 import chess.model.piece.Side;

@@ -2,7 +2,6 @@ package chess.model.board;
 
 import chess.model.piece.Empty;
 import chess.model.piece.Piece;
-import chess.model.piece.Point;
 import chess.model.piece.Side;
 import chess.model.position.ChessPosition;
 import java.util.Arrays;

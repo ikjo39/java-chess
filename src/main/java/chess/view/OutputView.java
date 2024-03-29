@@ -1,9 +1,9 @@
 package chess.view;
 
 import chess.model.board.ChessBoard;
+import chess.model.board.Point;
+import chess.model.board.Points;
 import chess.model.piece.Piece;
-import chess.model.piece.Point;
-import chess.model.piece.Points;
 import chess.model.piece.Side;
 import chess.model.position.ChessPosition;
 import chess.model.position.File;

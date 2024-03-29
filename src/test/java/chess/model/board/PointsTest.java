@@ -1,7 +1,8 @@
-package chess.model.piece;
+package chess.model.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import chess.model.piece.Side;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;

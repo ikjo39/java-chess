@@ -1,5 +1,6 @@
-package chess.model.piece;
+package chess.model.board;
 
+import chess.model.piece.Side;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
