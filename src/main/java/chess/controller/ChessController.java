@@ -28,13 +28,13 @@ public class ChessController {
         if (gameCommand.isEnd()) {
             return;
         }
-        final ChessBoard chessBoard = new ChessBoard(ChessBoardInitializer.create());
+        ChessBoard chessBoard = new ChessBoard(ChessBoardInitializer.create());
         outputView.printChessBoard(chessBoard);
         retryOnException(() -> playChess(chessBoard));
         printPoints(chessBoard);
     }
 
-    private void playChess(final ChessBoard chessBoard) {
+    private void playChess(ChessBoard chessBoard) {
         while (!chessBoard.checkChessEnd()) {
             final GameArguments gameArguments = inputView.readGameArguments();
             final GameCommand gameCommand = gameArguments.gameCommand();
@@ -50,10 +50,10 @@ public class ChessController {
         }
     }
 
-    private void move(final ChessBoard chessBoard, final MoveArguments moveArguments) {
+    private void move(ChessBoard chessBoard, final MoveArguments moveArguments) {
         final ChessPosition source = moveArguments.createSourcePosition();
         final ChessPosition target = moveArguments.createTargetPosition();
-        chessBoard.move(source, target);
+        chessBoard = chessBoard.move(source, target);
         outputView.printChessBoard(chessBoard);
     }
 

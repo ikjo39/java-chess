@@ -191,7 +191,8 @@ class ChessBoardTest {
 
     private static Stream<Arguments> createChessBoardWithDynamicKingCount() {
         return Stream.of(
-                Arguments.of(new ChessBoard(Map.of(
+                Arguments.of(
+                        new ChessBoard(Map.of(
                                 F2, new King(Side.BLACK))
                         ),
                         true

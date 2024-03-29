@@ -22,14 +22,14 @@ public class ChessBoard {
         this.board = new HashMap<>(board);
     }
 
-    public void move(final ChessPosition sourcePosition, final ChessPosition targetPosition) {
+    public ChessBoard move(final ChessPosition sourcePosition, final ChessPosition targetPosition) {
         final Piece sourcePiece = findPiece(sourcePosition);
         final Piece targetPiece = findPiece(targetPosition);
         validateSourcePiece(sourcePiece);
         validateSameSide(sourcePiece, targetPiece);
         if (sourcePiece.canMove(sourcePosition, targetPosition, this)) {
             changePositions(sourcePosition, targetPosition, sourcePiece, targetPiece);
-            return;
+            return new ChessBoard(board);
         }
         throw new IllegalArgumentException("Target 위치로 움직일 수 없습니다.");
     }
