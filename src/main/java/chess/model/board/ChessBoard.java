@@ -18,19 +18,26 @@ public class ChessBoard {
     private static final double POINT_WHEN_SAME_FILE_PAWN = 0.5;
 
     private final Map<ChessPosition, Piece> board;
+    private final Side turn;
 
     public ChessBoard(final Map<ChessPosition, Piece> board) {
+        this(board, Side.WHITE);
+    }
+
+    public ChessBoard(final Map<ChessPosition, Piece> board, final Side turn) {
         this.board = new HashMap<>(board);
+        this.turn = turn;
     }
 
     public ChessBoard move(final ChessPosition sourcePosition, final ChessPosition targetPosition) {
         final Piece sourcePiece = findPiece(sourcePosition);
         final Piece targetPiece = findPiece(targetPosition);
         validateSourcePiece(sourcePiece);
+        validateTurn(sourcePiece);
         validateSameSide(sourcePiece, targetPiece);
         if (sourcePiece.canMove(sourcePosition, targetPosition, this)) {
             changePositions(sourcePosition, targetPosition, sourcePiece, targetPiece);
-            return new ChessBoard(board);
+            return new ChessBoard(board, turn.getEnemy());
         }
         throw new IllegalArgumentException("Target 위치로 움직일 수 없습니다.");
     }
@@ -55,6 +62,12 @@ public class ChessBoard {
         return Arrays.stream(Side.values())
                 .filter(side -> !side.isEmpty())
                 .collect(Collectors.toMap(Function.identity(), this::calculatePoint));
+    }
+
+    private void validateTurn(final Piece sourcePiece) {
+        if (!sourcePiece.isSameSide(turn)) {
+            throw new IllegalArgumentException("반대편 기물을 움직일 차례입니다.");
+        }
     }
 
     private void validateSameSide(final Piece sourcePiece, final Piece targetPiece) {

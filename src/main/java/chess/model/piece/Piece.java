@@ -43,6 +43,10 @@ public abstract class Piece {
         return this.side.isEnemy(other);
     }
 
+    public Side getEnemy() {
+        return this.side.getEnemy();
+    }
+
     public Piece catchTargetPiece(final Piece targetPiece) {
         if (isEnemy(targetPiece)) {
             return new Empty();

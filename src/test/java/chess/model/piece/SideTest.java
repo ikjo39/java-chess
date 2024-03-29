@@ -1,8 +1,10 @@
 package chess.model.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -53,5 +55,27 @@ class SideTest {
 
         //then
         assertThat(result).isEqualTo(expected);
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"WHITE,BLACK", "BLACK,WHITE"})
+    @DisplayName("적 진영을 반환한다.")
+    void getEnemy(Side given, Side expected) {
+        //when
+        Side result = given.getEnemy();
+
+        //then
+        assertThat(result).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("빈 진영의 적을 반환하려하면 예외가 발생한다.")
+    void getEnemy() {
+        //given
+        Side given = Side.EMPTY;
+
+        //when         //then
+        assertThatThrownBy(given::getEnemy)
+                .isInstanceOf(IllegalStateException.class);
     }
 }

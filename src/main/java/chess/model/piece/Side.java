@@ -26,4 +26,14 @@ public enum Side {
         }
         return false;
     }
+
+    public Side getEnemy() {
+        if (isWhite()) {
+            return BLACK;
+        }
+        if (isBlack()) {
+            return WHITE;
+        }
+        throw new IllegalStateException("빈 진영의 적을 탐색할 수 없습니다.");
+    }
 }

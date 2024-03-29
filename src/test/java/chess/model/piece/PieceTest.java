@@ -43,4 +43,18 @@ class PieceTest {
         //then
         assertThat(result).isEqualTo(expected);
     }
+
+    @ParameterizedTest
+    @CsvSource(value = {"WHITE,BLACK", "BLACK,WHITE",})
+    @DisplayName("같은 진영인지 판단한다.")
+    void getEnemy(Side given, Side expected) {
+        //given
+        final Piece source = new Bishop(given);
+
+        //when
+        Side result = source.getEnemy();
+
+        //then
+        assertThat(result).isEqualTo(expected);
+    }
 }

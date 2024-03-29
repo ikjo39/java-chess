@@ -51,13 +51,13 @@ class ChessBoardTest {
     @DisplayName("Source 위치의 기물을 Target 위치로 이동한다.")
     void move() {
         //given
-        final ChessBoard chessBoard = createInitializedChessBoard();
+        final ChessBoard chessBoard = createInitializedChessBoard(Side.WHITE);
         ChessPosition source = B2;
         ChessPosition target = B4;
 
         //when
-        chessBoard.move(source, target);
-        Map<ChessPosition, Piece> board = chessBoard.getBoard();
+        ChessBoard movedBoard = chessBoard.move(source, target);
+        Map<ChessPosition, Piece> board = movedBoard.getBoard();
         Piece sourcePiece = board.get(source);
         Piece targetPiece = board.get(target);
 
@@ -72,7 +72,7 @@ class ChessBoardTest {
     @DisplayName("Source 위치에 기물이 없으면 예외가 발생한다.")
     void moveEmptySource() {
         //given
-        final ChessBoard chessBoard = createInitializedChessBoard();
+        final ChessBoard chessBoard = createInitializedChessBoard(Side.WHITE);
 
         //when //then
         assertThatThrownBy(() -> chessBoard.move(C5, D2))
@@ -80,10 +80,21 @@ class ChessBoardTest {
     }
 
     @Test
+    @DisplayName("현재 차례가 아닌 기물을 움직이려하면 예외가 발생한다.")
+    void moveInvalidTurn() {
+        //given
+        final ChessBoard chessBoard = createInitializedChessBoard(Side.BLACK);
+
+        //when // then
+        assertThatThrownBy(() -> chessBoard.move(B2, B4))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
     @DisplayName("아군 기물이 있는 곳으로 이동하면 예외가 발생한다.")
     void moveWhenTargetPieceSameSide() {
         //given
-        final ChessBoard chessBoard = createInitializedChessBoard();
+        final ChessBoard chessBoard = createInitializedChessBoard(Side.WHITE);
 
         //when //then
         assertThatThrownBy(() -> chessBoard.move(A1, A2))
@@ -94,7 +105,7 @@ class ChessBoardTest {
     @DisplayName("이동할 수 없다면 예외가 발생한다.")
     void moveWhenPathContainsPiece() {
         //given
-        final ChessBoard chessBoard = createInitializedChessBoard();
+        final ChessBoard chessBoard = createInitializedChessBoard(Side.WHITE);
 
         //when //then
         assertThatThrownBy(() -> chessBoard.move(A1, A6))
@@ -116,7 +127,7 @@ class ChessBoardTest {
     @DisplayName("체스판 위 진영 별 점수를 계산한다.")
     void calculatePoints() {
         // given
-        final ChessBoard chessBoard = createInitializedChessBoard();
+        final ChessBoard chessBoard = createInitializedChessBoard(Side.BLACK);
 
         // when
         final Map<Side, Point> totalPoints = chessBoard.calculatePoints();
@@ -212,7 +223,7 @@ class ChessBoardTest {
         );
     }
 
-    private ChessBoard createInitializedChessBoard() {
-        return new ChessBoard(ChessBoardInitializer.create());
+    private ChessBoard createInitializedChessBoard(Side side) {
+        return new ChessBoard(ChessBoardInitializer.create(), side);
     }
 }
