@@ -22,11 +22,11 @@ public enum Rank {
         return Arrays.stream(values())
                 .filter(rank -> rank.coordinate == coordinate)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 Rank 좌표입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 Rank 이름입니다."));
     }
 
-    public int minus(final Rank other) {
-        return other.coordinate - this.coordinate;
+    public boolean canMove(final int step) {
+        return canMoveUp(step) && canMoveDown(step);
     }
 
     public Rank findNextRank(final int offset) {
@@ -34,6 +34,14 @@ public enum Rank {
         return Arrays.stream(values())
                 .filter(file -> file.coordinate == nextCoordinate)
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException("존재하지 않는 Rank 좌표입니다."));
+                .orElseThrow(() -> new IllegalStateException("Rank 범위를 벗어났습니다."));
+    }
+
+    private boolean canMoveUp(final int step) {
+        return coordinate + step <= values().length;
+    }
+
+    private boolean canMoveDown(final int step) {
+        return coordinate + step >= 1;
     }
 }

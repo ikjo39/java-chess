@@ -1,10 +1,18 @@
 package chess.model.piece;
 
+import static chess.model.position.Direction.UP;
+import static chess.model.position.Direction.UP_LEFT;
+import static chess.model.position.Direction.UP_RIGHT;
+import static chess.model.position.Direction.UP_UP;
+
+import chess.model.board.ChessBoard;
 import chess.model.position.ChessPosition;
+import chess.model.position.Direction;
 import chess.model.position.File;
 import chess.model.position.Rank;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 public class WhitePawn extends Pawn {
     private static final List<ChessPosition> INITIAL_WHITE_POSITION = Arrays.stream(File.values())
@@ -18,5 +26,21 @@ public class WhitePawn extends Pawn {
     @Override
     protected boolean isPawnInitialPosition(final ChessPosition source) {
         return INITIAL_WHITE_POSITION.contains(source);
+    }
+
+    @Override
+    protected boolean canMoveVerticalPaths(final Direction direction, final ChessBoard chessBoard,
+                                           final ChessPosition source) {
+        for (int i = direction.getY(); i <= -1; i++) {
+            if (!source.canMoveVertical(i) || !chessBoard.isEmpty(source.moveVertical(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    protected Set<Direction> availableDirections() {
+        return Set.of(UP, UP_UP, UP_LEFT, UP_RIGHT);
     }
 }

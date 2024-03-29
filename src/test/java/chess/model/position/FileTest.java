@@ -21,17 +21,6 @@ class FileTest {
     }
 
     @ParameterizedTest
-    @CsvSource(value = {"A,C,-2", "H,E,3", "C,F,-3"})
-    @DisplayName("두 File의 차이를 구한다.")
-    void minus(File given, File other, int expected) {
-        //when
-        int result = given.minus(other);
-
-        //then
-        assertThat(result).isEqualTo(expected);
-    }
-
-    @ParameterizedTest
     @CsvSource(value = {"B,2,D", "A,3,D", "H,-5,C"})
     @DisplayName("이동할 칸 수 만큼 증가한 랭크를 반환한다.")
     void findNextFile(File given, int offset, File expected) {
@@ -49,5 +38,19 @@ class FileTest {
         //when //then
         assertThatThrownBy(() -> given.findNextFile(offset))
                 .isInstanceOf(IllegalStateException.class);
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"-6,false", "-5,true", "-4,true", "1,true", "2,true", "3,false", "4,false"})
+    @DisplayName("해당 거리만큼 움직일 수 있는지 판단한다.")
+    void canMove_THREE(int given, boolean expected) {
+        //given
+        Rank rank = Rank.THREE;
+
+        //when
+        boolean result = rank.canMove(given);
+
+        //then
+        assertThat(result).isEqualTo(expected);
     }
 }

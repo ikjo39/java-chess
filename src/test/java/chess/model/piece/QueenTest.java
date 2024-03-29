@@ -1,74 +1,129 @@
 package chess.model.piece;
 
-import static chess.model.Fixture.A2;
-import static chess.model.Fixture.A4;
-import static chess.model.Fixture.B1;
-import static chess.model.Fixture.B2;
-import static chess.model.Fixture.B3;
-import static chess.model.Fixture.C1;
-import static chess.model.Fixture.C2;
-import static chess.model.Fixture.C3;
-import static chess.model.Fixture.C4;
-import static chess.model.Fixture.C5;
-import static chess.model.Fixture.C6;
+import static chess.model.Fixture.A1;
+import static chess.model.Fixture.A7;
+import static chess.model.Fixture.B6;
+import static chess.model.Fixture.B8;
 import static chess.model.Fixture.C7;
 import static chess.model.Fixture.C8;
-import static chess.model.Fixture.D1;
-import static chess.model.Fixture.D2;
-import static chess.model.Fixture.D3;
-import static chess.model.Fixture.D4;
+import static chess.model.Fixture.D5;
+import static chess.model.Fixture.D7;
+import static chess.model.Fixture.E1;
+import static chess.model.Fixture.E3;
 import static chess.model.Fixture.E4;
-import static chess.model.Fixture.F5;
+import static chess.model.Fixture.E6;
+import static chess.model.Fixture.E7;
+import static chess.model.Fixture.E8;
+import static chess.model.Fixture.F1;
+import static chess.model.Fixture.F2;
+import static chess.model.Fixture.F3;
+import static chess.model.Fixture.F4;
+import static chess.model.Fixture.G2;
+import static chess.model.Fixture.G4;
+import static chess.model.Fixture.G8;
+import static chess.model.Fixture.H3;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
-import chess.model.position.ChessPosition;
-import java.util.List;
-import java.util.stream.Stream;
+import chess.model.board.ChessBoard;
+import java.util.Map;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
 
 class QueenTest {
-    @ParameterizedTest
-    @MethodSource("getPathsWhenQueenInC2")
-    @DisplayName("Queen이 타켓 위치까지 움직이는 경로를 찾는다.")
-    void findPath(ChessPosition target, List<ChessPosition> expected) {
-        // given
-        Queen queen = new Queen(Side.WHITE);
 
-        // when
-        List<ChessPosition> path = queen.findPath(C2, target, new Empty());
+    private ChessBoard chessBoard;
 
-        // then
-        assertThat(path).isEqualTo(expected);
+    /*
+    퀸의 위치(E6)
+        .KR..... 8
+        P.PB.... 7
+        .P..Q... 6
+        ...b.... 5
+        .....Xq. 4
+        .....p.p 3
+        .....pp. 2
+        ....rk.. 1
+        abcdefgh
+    */
+    @BeforeEach
+    void setUp() {
+        chessBoard = new ChessBoard(Map.ofEntries(
+                Map.entry(B8, new King(Side.BLACK)),
+                Map.entry(C8, new Rook(Side.BLACK)),
+                Map.entry(A7, new BlackPawn()),
+                Map.entry(C7, new BlackPawn()),
+                Map.entry(D7, new Bishop(Side.BLACK)),
+                Map.entry(B6, new BlackPawn()),
+                Map.entry(E6, new Queen(Side.BLACK)),
+                Map.entry(D5, new Bishop(Side.WHITE)),
+                Map.entry(F4, new Knight(Side.WHITE)),
+                Map.entry(G4, new Queen(Side.WHITE)),
+                Map.entry(F3, new WhitePawn()),
+                Map.entry(H3, new WhitePawn()),
+                Map.entry(F2, new WhitePawn()),
+                Map.entry(G2, new WhitePawn()),
+                Map.entry(E1, new Rook(Side.WHITE)),
+                Map.entry(F1, new King(Side.WHITE))));
     }
 
     @Test
-    @DisplayName("타겟 위치에 아군 기물이 존재하면 예외가 발생한다.")
-    void findPathWhenInvalidTarget() {
-        // given
-        Queen queen = new Queen(Side.WHITE);
-        Pawn targetPiece = new WhitePawn();
-
-        // when // then
-        assertThatThrownBy(() -> queen.findPath(C2, D3, targetPiece))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    @DisplayName("Queen 움직임으로 타겟 위치에 도달할 수 없다면 예외를 발생한다.")
-    void findPathWhenCanNotReachTargetPiece() {
-        // given
+    @DisplayName("퀸가 이동할 수 있는지 판단한다.")
+    void canMove() {
+        //given
         Queen queen = new Queen(Side.BLACK);
-        Piece targetPiece = new Empty();
 
-        // when // then
-        assertThatThrownBy(() -> queen.findPath(C2, D4, targetPiece))
-                .isInstanceOf(IllegalStateException.class);
+        //when //then
+        assertAll(
+                () -> assertThat(queen.canMove(E6, E8, chessBoard)).isTrue(),
+                () -> assertThat(queen.canMove(E6, E7, chessBoard)).isTrue(),
+                () -> assertThat(queen.canMove(E6, E4, chessBoard)).isTrue(),
+                () -> assertThat(queen.canMove(E6, E3, chessBoard)).isTrue(),
+                () -> assertThat(queen.canMove(E6, G8, chessBoard)).isTrue()
+        );
+    }
+
+    @Test
+    @DisplayName("퀸가 갈 수 있는 위치에 적 기물이 있으면 이동할 수 있다.")
+    void canMoveWhenEnemy() {
+        //given
+        Queen queen = new Queen(Side.BLACK);
+
+        //when
+        boolean result = queen.canMove(E6, D5, chessBoard);
+
+        //then
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    @DisplayName("아군 기물이 있다면 이동할 수 없다.")
+    void canNotMove() {
+        //given
+        final Queen queen = new Queen(Side.BLACK);
+        final ChessBoard chessBoardQueenWithSameSide = chessBoard;
+
+        //when
+        boolean result = queen.canMove(E6, D7, chessBoardQueenWithSameSide);
+
+        //then
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    @DisplayName("퀸의 움직임으로 갈 수 없다면 움직일 수 없다.")
+    void canNotMoveWithInvalidMove() {
+        //given
+        Queen queen = new Queen(Side.BLACK);
+
+        //when
+        boolean result = queen.canMove(E6, A1, chessBoard);
+
+        //then
+        assertThat(result).isFalse();
     }
 
     @ParameterizedTest
@@ -111,24 +166,5 @@ class QueenTest {
 
         //then
         assertThat(result).isEqualTo(9);
-    }
-
-    private static Stream<Arguments> getPathsWhenQueenInC2() {
-        return Stream.of(
-                // 대각선 움직임
-                Arguments.of(D3, List.of(D3)),
-                Arguments.of(D1, List.of(D1)),
-                Arguments.of(B3, List.of(B3)),
-                Arguments.of(B1, List.of(B1)),
-                Arguments.of(A4, List.of(B3, A4)),
-                Arguments.of(F5, List.of(D3, E4, F5)),
-                // 상하좌우 움직임
-                Arguments.of(C3, List.of(C3)),
-                Arguments.of(C1, List.of(C1)),
-                Arguments.of(B2, List.of(B2)),
-                Arguments.of(D2, List.of(D2)),
-                Arguments.of(A2, List.of(B2, A2)),
-                Arguments.of(C8, List.of(C3, C4, C5, C6, C7, C8))
-        );
     }
 }

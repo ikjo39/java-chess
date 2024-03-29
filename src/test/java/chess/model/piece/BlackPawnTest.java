@@ -1,100 +1,139 @@
 package chess.model.piece;
 
-import static chess.model.Fixture.B5;
+import static chess.model.Fixture.A1;
+import static chess.model.Fixture.A6;
+import static chess.model.Fixture.A7;
 import static chess.model.Fixture.B6;
-import static chess.model.Fixture.B7;
-import static chess.model.Fixture.C2;
-import static chess.model.Fixture.C3;
-import static chess.model.Fixture.C4;
-import static chess.model.Fixture.D4;
+import static chess.model.Fixture.B8;
+import static chess.model.Fixture.C5;
+import static chess.model.Fixture.C7;
+import static chess.model.Fixture.C8;
+import static chess.model.Fixture.D7;
+import static chess.model.Fixture.E1;
+import static chess.model.Fixture.E6;
+import static chess.model.Fixture.F1;
+import static chess.model.Fixture.F2;
+import static chess.model.Fixture.F3;
+import static chess.model.Fixture.F4;
+import static chess.model.Fixture.F5;
+import static chess.model.Fixture.F6;
+import static chess.model.Fixture.G2;
+import static chess.model.Fixture.G4;
 import static chess.model.Fixture.H3;
+import static chess.model.Fixture.H5;
+import static chess.model.Fixture.H6;
+import static chess.model.Fixture.H7;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
-import chess.model.position.ChessPosition;
-import java.util.List;
-import java.util.stream.Stream;
+import chess.model.board.ChessBoard;
+import java.util.Map;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 class BlackPawnTest {
-    @ParameterizedTest
-    @MethodSource("getPathsWhenPawnInB2")
-    @DisplayName("초기 위치에 있는 Pawn이 타켓 위치까지 움직이는 경로를 찾는다.")
-    void findPathInitialPosition(ChessPosition target, List<ChessPosition> expected) {
-        // given
-        Piece pawn = new BlackPawn();
 
-        // when
-        List<ChessPosition> path = pawn.findPath(B7, target, new Empty());
+    private ChessBoard chessBoard;
 
-        // then
-        assertThat(path).isEqualTo(expected);
+    /*
+        .KR..... 8
+        P.PB...P 7
+        np..QP.. 6
+        ..R..... 5
+        .....nq. 4
+        .....p.p 3
+        .....pp. 2
+        ....rk.. 1
+        abcdefgh
+    */
+    @BeforeEach
+    void setUp() {
+        chessBoard = new ChessBoard(Map.ofEntries(
+                Map.entry(B8, new King(Side.BLACK)),
+                Map.entry(C8, new Rook(Side.BLACK)),
+                Map.entry(A7, new BlackPawn()),
+                Map.entry(C7, new BlackPawn()),
+                Map.entry(D7, new Bishop(Side.BLACK)),
+                Map.entry(H7, new BlackPawn()),
+                Map.entry(A6, new Knight(Side.WHITE)),
+                Map.entry(B6, new WhitePawn()),
+                Map.entry(E6, new Queen(Side.BLACK)),
+                Map.entry(F6, new BlackPawn()),
+                Map.entry(C5, new Rook(Side.BLACK)),
+                Map.entry(F4, new Knight(Side.WHITE)),
+                Map.entry(G4, new Queen(Side.WHITE)),
+                Map.entry(F3, new WhitePawn()),
+                Map.entry(H3, new WhitePawn()),
+                Map.entry(F2, new WhitePawn()),
+                Map.entry(G2, new WhitePawn()),
+                Map.entry(E1, new Rook(Side.WHITE)),
+                Map.entry(F1, new King(Side.WHITE))));
     }
 
     @Test
-    @DisplayName("초기 위치가 아닌 Pawn이 타켓 위치까지 움직이는 경로를 찾는다.")
-    void findPath() {
-        // given
-        Piece pawn = new BlackPawn();
-
-        // when
-        List<ChessPosition> path = pawn.findPath(C4, C3, new Empty());
-
-        // then
-        assertThat(path).isEqualTo(List.of(C3));
-    }
-
-    @Test
-    @DisplayName("Pawn의 대각선에 적 기물이 있다면 움직이는 경로를 찾는다.")
-    void findPathCatchEnemy() {
-        // given
-        Piece pawn = new BlackPawn();
-        Piece targetPiece = new WhitePawn();
-
-        // when
-        List<ChessPosition> path = pawn.findPath(D4, C3, targetPiece);
-
-        // then
-        assertThat(path).isEqualTo(List.of(C3));
-    }
-
-    @Test
-    @DisplayName("타겟 위치에 아군 기물이 존재하면 예외가 발생한다.")
-    void findPathWhenInvalidTarget() {
-        // given
-        Piece pawn = new BlackPawn();
-        Piece targetPiece = new Rook(Side.WHITE);
+    @DisplayName("초기 위치라면 폰은 한칸 또는 두칸 앞으로 움직일 수 있다.")
+    void canMove() {
+        //given
+        final Pawn blackPawn = new BlackPawn();
 
         //when //then
-        assertThatThrownBy(() -> pawn.findPath(C3, C2, targetPiece))
-                .isInstanceOf(IllegalArgumentException.class);
+        assertAll(
+                () -> assertThat(blackPawn.canMove(H7, H6, chessBoard)).isTrue(),
+                () -> assertThat(blackPawn.canMove(H7, H5, chessBoard)).isTrue()
+        );
     }
 
     @Test
-    @DisplayName("타겟 위치에 적 기물이 존재하면 예외가 발생한다.")
-    void findPathWhenInvalidEnemyTarget() {
-        // given
-        Piece pawn = new BlackPawn();
-        Piece targetPiece = new Rook(Side.BLACK);
+    @DisplayName("초기 위치가 아니라면 폰은 한칸만 움직일 수 있다.")
+    void canMoveNotInitial() {
+        //given
+        final Pawn blackPawn = new BlackPawn();
 
         //when //then
-        assertThatThrownBy(() -> pawn.findPath(C3, C2, targetPiece))
-                .isInstanceOf(IllegalArgumentException.class);
+        assertAll(
+                () -> assertThat(blackPawn.canMove(F6, F5, chessBoard)).isTrue(),
+                () -> assertThat(blackPawn.canMove(F6, F4, chessBoard)).isFalse()
+        );
     }
 
     @Test
-    @DisplayName("Pawn 움직임으로 타겟 위치에 도달할 수 없다면 예외가 발생한다.")
-    void findPathWhenCanNotReachTargetPiece() {
-        // given
-        Piece pawn = new BlackPawn();
+    @DisplayName("적 기물이 대각선 앞에 있다면 이동할 수 있다.")
+    void canMoveDiagonal() {
+        //given
+        BlackPawn blackPawn = new BlackPawn();
 
-        // when // then
-        assertThatThrownBy(() -> pawn.findPath(C2, H3, new Empty()))
-                .isInstanceOf(IllegalStateException.class);
+        //when
+        boolean result = blackPawn.canMove(C7, B6, chessBoard);
+
+        //then
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    @DisplayName("아군 기물이 있다면 이동할 수 없다.")
+    void canNotMove() {
+        //given
+        BlackPawn blackPawn = new BlackPawn();
+
+        //when
+        boolean result = blackPawn.canMove(C7, C5, chessBoard);
+
+        //then
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    @DisplayName("폰이 갈 수 없는 방향이면 이동할 수 없다.")
+    void canNotMoveInvalidDirection() {
+        //given
+        BlackPawn blackPawn = new BlackPawn();
+
+        //when
+        boolean result = blackPawn.canMove(C7, A1, chessBoard);
+
+        //then
+        assertThat(result).isFalse();
     }
 
     @Test
@@ -134,12 +173,5 @@ class BlackPawnTest {
 
         //then
         assertThat(result).isEqualTo(1);
-    }
-
-    private static Stream<Arguments> getPathsWhenPawnInB2() {
-        return Stream.of(
-                Arguments.arguments(B6, List.of(B6)),
-                Arguments.arguments(B5, List.of(B6, B5))
-        );
     }
 }

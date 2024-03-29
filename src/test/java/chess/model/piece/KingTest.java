@@ -1,65 +1,121 @@
 package chess.model.piece;
 
-import static chess.model.Fixture.B1;
-import static chess.model.Fixture.B2;
-import static chess.model.Fixture.B3;
-import static chess.model.Fixture.C1;
-import static chess.model.Fixture.C2;
-import static chess.model.Fixture.C3;
-import static chess.model.Fixture.D1;
-import static chess.model.Fixture.D2;
-import static chess.model.Fixture.D3;
+import static chess.model.Fixture.A4;
+import static chess.model.Fixture.A7;
+import static chess.model.Fixture.A8;
+import static chess.model.Fixture.B6;
+import static chess.model.Fixture.B7;
+import static chess.model.Fixture.B8;
+import static chess.model.Fixture.C6;
+import static chess.model.Fixture.C7;
+import static chess.model.Fixture.C8;
+import static chess.model.Fixture.D7;
+import static chess.model.Fixture.E1;
+import static chess.model.Fixture.E6;
+import static chess.model.Fixture.F1;
+import static chess.model.Fixture.F2;
+import static chess.model.Fixture.F3;
+import static chess.model.Fixture.F4;
+import static chess.model.Fixture.G2;
+import static chess.model.Fixture.G4;
 import static chess.model.Fixture.H3;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
-import chess.model.position.ChessPosition;
-import java.util.List;
-import java.util.stream.Stream;
+import chess.model.board.ChessBoard;
+import java.util.Map;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
 
 class KingTest {
-    @ParameterizedTest
-    @MethodSource("getPathsWhenKingInC2")
-    @DisplayName("King이 타켓 위치까지 움직이는 경로를 찾는다.")
-    void findPath(ChessPosition target, List<ChessPosition> expected) {
-        // given
-        King king = new King(Side.WHITE);
 
-        // when
-        List<ChessPosition> path = king.findPath(C2, target, new Empty());
+    private ChessBoard chessBoard;
 
-        // then
-        assertThat(path).isEqualTo(expected);
+    /*
+        .KR..... 8
+        P.PB.... 7
+        .P..Q... 6
+        ........ 5
+        .....nq. 4
+        .....p.p 3
+        .....pp. 2
+        ....rk.. 1
+        abcdefgh
+    */
+    @BeforeEach
+    void setUp() {
+        chessBoard = new ChessBoard(Map.ofEntries(
+                Map.entry(B8, new King(Side.BLACK)),
+                Map.entry(C8, new Rook(Side.BLACK)),
+                Map.entry(A7, new BlackPawn()),
+                Map.entry(C7, new BlackPawn()),
+                Map.entry(D7, new Bishop(Side.BLACK)),
+                Map.entry(B6, new BlackPawn()),
+                Map.entry(C6, new Knight(Side.WHITE)),
+                Map.entry(E6, new Queen(Side.BLACK)),
+                Map.entry(F4, new Knight(Side.WHITE)),
+                Map.entry(G4, new Queen(Side.WHITE)),
+                Map.entry(F3, new WhitePawn()),
+                Map.entry(H3, new WhitePawn()),
+                Map.entry(F2, new WhitePawn()),
+                Map.entry(G2, new WhitePawn()),
+                Map.entry(E1, new Rook(Side.WHITE)),
+                Map.entry(F1, new King(Side.WHITE))));
     }
 
     @Test
-    @DisplayName("타겟 위치에 아군 기물이 존재하면 예외가 발생한다.")
-    void findPathWhenInvalidTarget() {
-        // given
-        King king = new King(Side.WHITE);
-        Pawn targetPiece = new WhitePawn();
-
-        // when // then
-        assertThatThrownBy(() -> king.findPath(C2, D3, targetPiece))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    @DisplayName("King 움직임으로 타겟 위치에 도달할 수 없다면 예외를 발생한다.")
-    void findPathWhenCanNotReachTargetPiece() {
-        // given
+    @DisplayName("킹이 이동할 수 있는지 판단한다.")
+    void canMove() {
+        //given
         King king = new King(Side.BLACK);
-        Piece targetPiece = new Empty();
 
-        // when // then
-        assertThatThrownBy(() -> king.findPath(C2, H3, targetPiece))
-                .isInstanceOf(IllegalStateException.class);
+        //when //then
+        assertAll(
+                () -> assertThat(king.canMove(B8, A8, chessBoard)).isTrue(),
+                () -> assertThat(king.canMove(B8, B7, chessBoard)).isTrue()
+        );
+    }
+
+    @Test
+    @DisplayName("킹이 갈 수 있는 위치에 적 기물이 있으면 이동할 수 있다.")
+    void canMoveWhenEnemy() {
+        //given
+        King king = new King(Side.WHITE);
+
+        //when
+        boolean result = king.canMove(B8, C8, chessBoard);
+
+        //then
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    @DisplayName("아군 기물이 있다면 이동할 수 없다.")
+    void canNotMove() {
+        //given
+        final King king = new King(Side.BLACK);
+
+        //when
+        boolean result = king.canMove(B8, C8, chessBoard);
+
+        //then
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    @DisplayName("킹의 움직임으로 갈 수 없다면 움직일 수 없다.")
+    void canNotMoveWithInvalidMove() {
+        //given
+        King king = new King(Side.WHITE);
+
+        //when
+        boolean result = king.canMove(B8, A4, chessBoard);
+
+        //then
+        assertThat(result).isFalse();
     }
 
     @ParameterizedTest
@@ -102,18 +158,5 @@ class KingTest {
 
         //then
         assertThat(result).isEqualTo(0);
-    }
-
-    private static Stream<Arguments> getPathsWhenKingInC2() {
-        return Stream.of(
-                Arguments.of(B1, List.of(B1)),
-                Arguments.of(C1, List.of(C1)),
-                Arguments.of(D1, List.of(D1)),
-                Arguments.of(B2, List.of(B2)),
-                Arguments.of(D2, List.of(D2)),
-                Arguments.of(B3, List.of(B3)),
-                Arguments.of(C3, List.of(C3)),
-                Arguments.of(D3, List.of(D3))
-        );
     }
 }

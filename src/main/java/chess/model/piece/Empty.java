@@ -1,7 +1,9 @@
 package chess.model.piece;
 
+import chess.model.board.ChessBoard;
 import chess.model.position.ChessPosition;
-import java.util.List;
+import chess.model.position.Direction;
+import java.util.Set;
 
 public class Empty extends Piece {
     public Empty() {
@@ -9,9 +11,8 @@ public class Empty extends Piece {
     }
 
     @Override
-    public List<ChessPosition> findPath(final ChessPosition source, final ChessPosition target,
-                                        final Piece targetPiece) {
-        throw new IllegalStateException("해당 경로로 이동할 수 없습니다.");
+    public boolean canMove(final ChessPosition source, final ChessPosition target, final ChessBoard chessBoard) {
+        return false;
     }
 
     @Override
@@ -27,5 +28,16 @@ public class Empty extends Piece {
     @Override
     public double getPoint() {
         return 0;
+    }
+
+    @Override
+    protected Set<ChessPosition> calculatePaths(final ChessPosition source, final ChessPosition target,
+                                                final ChessBoard chessBoard) {
+        throw new IllegalStateException("Source는 빈 기물일 수 없습니다.");
+    }
+
+    @Override
+    protected Set<Direction> availableDirections() {
+        throw new UnsupportedOperationException("Source는 빈 기물일 수 없습니다.");
     }
 }

@@ -1,68 +1,128 @@
 package chess.model.piece;
 
-import static chess.model.Fixture.A2;
-import static chess.model.Fixture.B2;
-import static chess.model.Fixture.C1;
-import static chess.model.Fixture.C2;
-import static chess.model.Fixture.C3;
-import static chess.model.Fixture.C4;
-import static chess.model.Fixture.C5;
-import static chess.model.Fixture.C6;
+import static chess.model.Fixture.A1;
+import static chess.model.Fixture.A7;
+import static chess.model.Fixture.B6;
+import static chess.model.Fixture.B8;
 import static chess.model.Fixture.C7;
 import static chess.model.Fixture.C8;
-import static chess.model.Fixture.D2;
-import static chess.model.Fixture.D3;
+import static chess.model.Fixture.D7;
+import static chess.model.Fixture.E1;
+import static chess.model.Fixture.E6;
+import static chess.model.Fixture.E7;
+import static chess.model.Fixture.F1;
+import static chess.model.Fixture.F2;
+import static chess.model.Fixture.F3;
+import static chess.model.Fixture.F4;
+import static chess.model.Fixture.F7;
+import static chess.model.Fixture.G2;
+import static chess.model.Fixture.G4;
+import static chess.model.Fixture.G5;
+import static chess.model.Fixture.G6;
+import static chess.model.Fixture.G7;
+import static chess.model.Fixture.G8;
 import static chess.model.Fixture.H3;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
-import chess.model.position.ChessPosition;
-import java.util.List;
-import java.util.stream.Stream;
+import chess.model.board.ChessBoard;
+import java.util.Map;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
 
 class RookTest {
-    @ParameterizedTest
-    @MethodSource("getPathsWhenRookInC2")
-    @DisplayName("Rook이 타켓 위치까지 움직이는 경로를 찾는다.")
-    void findPath(ChessPosition target, List<ChessPosition> expected) {
-        // given
-        Rook rook = new Rook(Side.WHITE);
+    private ChessBoard chessBoard;
 
-        // when
-        List<ChessPosition> path = rook.findPath(C2, target, new Empty());
-
-        // then
-        assertThat(path).isEqualTo(expected);
+    /*
+        룩의 위치 (G7)
+        .KR..... 8
+        P.PB..X. 7
+        .P..Q... 6
+        ........ 5
+        .....nq. 4
+        .....p.p 3
+        .....pp. 2
+        ....rk.. 1
+        abcdefgh
+    */
+    @BeforeEach
+    void setUp() {
+        chessBoard = new ChessBoard(Map.ofEntries(
+                Map.entry(B8, new King(Side.BLACK)),
+                Map.entry(C8, new Rook(Side.BLACK)),
+                Map.entry(A7, new BlackPawn()),
+                Map.entry(C7, new BlackPawn()),
+                Map.entry(D7, new Bishop(Side.BLACK)),
+                Map.entry(G7, new Rook(Side.BLACK)),
+                Map.entry(B6, new BlackPawn()),
+                Map.entry(E6, new Queen(Side.BLACK)),
+                Map.entry(F4, new Knight(Side.WHITE)),
+                Map.entry(G4, new Queen(Side.WHITE)),
+                Map.entry(F3, new WhitePawn()),
+                Map.entry(H3, new WhitePawn()),
+                Map.entry(F2, new WhitePawn()),
+                Map.entry(G2, new WhitePawn()),
+                Map.entry(E1, new Rook(Side.WHITE)),
+                Map.entry(F1, new King(Side.WHITE))));
     }
 
     @Test
-    @DisplayName("타겟 위치에 아군 기물이 존재하면 예외가 발생한다.")
-    void findPathWhenInvalidTarget() {
-        // given
-        Rook rook = new Rook(Side.WHITE);
-        Pawn targetPiece = new WhitePawn();
-
-        // when // then
-        assertThatThrownBy(() -> rook.findPath(C2, D3, targetPiece))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    @DisplayName("Rook 움직임으로 타겟 위치에 도달할 수 없다면 예외를 발생한다.")
-    void findPathWhenCanNotReachTargetPiece() {
-        // given
+    @DisplayName("룩이 이동할 수 있는지 판단한다.")
+    void canMove() {
+        //given
         Rook rook = new Rook(Side.BLACK);
-        Piece targetPiece = new Empty();
 
-        // when // then
-        assertThatThrownBy(() -> rook.findPath(C2, H3, targetPiece))
-                .isInstanceOf(IllegalStateException.class);
+        //when //then
+        assertAll(
+                () -> assertThat(rook.canMove(G7, F7, chessBoard)).isTrue(),
+                () -> assertThat(rook.canMove(G7, E7, chessBoard)).isTrue(),
+                () -> assertThat(rook.canMove(G7, G6, chessBoard)).isTrue(),
+                () -> assertThat(rook.canMove(G7, G5, chessBoard)).isTrue(),
+                () -> assertThat(rook.canMove(G7, G8, chessBoard)).isTrue()
+        );
+    }
+
+    @Test
+    @DisplayName("룩이 갈 수 있는 위치에 적 기물이 있으면 이동할 수 있다.")
+    void canMoveWhenEnemy() {
+        //given
+        Rook rook = new Rook(Side.BLACK);
+
+        //when
+        boolean result = rook.canMove(G7, G4, chessBoard);
+
+        //then
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    @DisplayName("아군 기물이 있다면 이동할 수 없다.")
+    void canNotMove() {
+        //given
+        final Rook rook = new Rook(Side.BLACK);
+        final ChessBoard chessBoardRookWithSameSide = chessBoard;
+
+        //when
+        boolean result = rook.canMove(G7, D7, chessBoardRookWithSameSide);
+
+        //then
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    @DisplayName("룩의 움직임으로 갈 수 없다면 움직일 수 없다.")
+    void canNotMoveWithInvalidMove() {
+        //given
+        Rook rook = new Rook(Side.BLACK);
+
+        //when
+        boolean result = rook.canMove(E6, A1, chessBoard);
+
+        //then
+        assertThat(result).isFalse();
     }
 
     @ParameterizedTest
@@ -105,16 +165,5 @@ class RookTest {
 
         //then
         assertThat(result).isEqualTo(5);
-    }
-
-    private static Stream<Arguments> getPathsWhenRookInC2() {
-        return Stream.of(
-                Arguments.of(C3, List.of(C3)),
-                Arguments.of(C1, List.of(C1)),
-                Arguments.of(B2, List.of(B2)),
-                Arguments.of(D2, List.of(D2)),
-                Arguments.of(A2, List.of(B2, A2)),
-                Arguments.of(C8, List.of(C3, C4, C5, C6, C7, C8))
-        );
     }
 }

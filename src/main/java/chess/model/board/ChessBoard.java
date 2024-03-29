@@ -1,18 +1,17 @@
 package chess.model.board;
 
+import chess.model.piece.Empty;
 import chess.model.piece.Piece;
 import chess.model.piece.Point;
 import chess.model.piece.Side;
 import chess.model.position.ChessPosition;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class ChessBoard {
     private static final int KING_COUNT = 2;
@@ -24,37 +23,63 @@ public class ChessBoard {
     }
 
     public void move(final ChessPosition sourcePosition, final ChessPosition targetPosition) {
-        final Piece sourcePiece = board.get(sourcePosition);
-        final Piece targetPiece = board.get(targetPosition);
+        final Piece sourcePiece = findPiece(sourcePosition);
+        final Piece targetPiece = findPiece(targetPosition);
         validateSourcePiece(sourcePiece);
-
-        final List<ChessPosition> path = sourcePiece.findPath(sourcePosition, targetPosition, targetPiece);
-        validatePathContainsPiece(path);
-        changePositions(sourcePosition, targetPosition, sourcePiece, targetPiece);
+        validateSameSide(sourcePiece, targetPiece);
+        if (sourcePiece.canMove(sourcePosition, targetPosition, this)) {
+            changePositions(sourcePosition, targetPosition, sourcePiece, targetPiece);
+            return;
+        }
+        throw new IllegalArgumentException("Target 위치로 움직일 수 없습니다.");
     }
 
     public boolean checkChessEnd() {
         return calculateKingCount() != KING_COUNT;
     }
 
+    public boolean isSameSide(ChessPosition position, Side side) {
+        return findPiece(position).isSameSide(side);
+    }
+
+    public boolean isEmpty(ChessPosition position) {
+        return findPiece(position).isEmpty();
+    }
+
+    public boolean isEnemy(ChessPosition position, Side side) {
+        return findPiece(position).isEnemy(side);
+    }
+
     public Map<Side, Point> calculatePoints() {
         return Arrays.stream(Side.values())
                 .filter(side -> !side.isEmpty())
-                .collect(Collectors.toMap(Function.identity(), this::getPoint));
+                .collect(Collectors.toMap(Function.identity(), this::calculatePoint));
     }
 
-    private Point getPoint(Side side) {
-        final double totalSum = calculateTotalSum(side);
-        final long sameFilePawn = getSameFilePawnCount(side);
-        return new Point(totalSum - sameFilePawn * POINT_WHEN_SAME_FILE_PAWN);
+    private void validateSameSide(final Piece sourcePiece, final Piece targetPiece) {
+        if (sourcePiece.isSameSide(targetPiece)) {
+            throw new IllegalArgumentException("아군 기물이 있어 움직일 수 없습니다.");
+        }
     }
 
-    private double calculateTotalSum(final Side side) {
-        return board.values()
+    private void validateSourcePiece(final Piece sourcePiece) {
+        if (sourcePiece.isEmpty()) {
+            throw new IllegalArgumentException("Source에 기물이 존재하지 않습니다.");
+        }
+    }
+
+    private void changePositions(
+            final ChessPosition sourcePosition, final ChessPosition targetPosition,
+            final Piece sourcePiece, final Piece targetPiece) {
+        board.put(targetPosition, sourcePiece);
+        board.put(sourcePosition, sourcePiece.catchTargetPiece(targetPiece));
+    }
+
+    private int calculateKingCount() {
+        return (int) board.values()
                 .stream()
-                .filter(piece -> piece.isSameSide(side))
-                .mapToDouble(Piece::getPoint)
-                .sum();
+                .filter(Piece::isKing)
+                .count();
     }
 
     private long getSameFilePawnCount(final Side side) {
@@ -72,39 +97,22 @@ public class ChessBoard {
                 .count();
     }
 
-    private void changePositions(
-            final ChessPosition sourcePosition, final ChessPosition targetPosition,
-            final Piece sourcePiece, final Piece targetPiece
-    ) {
-        board.put(targetPosition, sourcePiece);
-        board.put(sourcePosition, sourcePiece.catchTargetPiece(targetPiece));
-    }
-
-    private void validateSourcePiece(final Piece sourcePiece) {
-        if (sourcePiece.isEmpty()) {
-            throw new IllegalArgumentException("Source에 기물이 존재하지 않습니다.");
-        }
-    }
-
-    private void validatePathContainsPiece(final List<ChessPosition> path) {
-        int repeatCount = path.size() - 1;
-        IntStream.range(0, repeatCount)
-                .mapToObj(path::get)
-                .map(board::get)
-                .forEach(this::validatePathContainsPiece);
-    }
-
-    private void validatePathContainsPiece(final Piece found) {
-        if (!found.isEmpty()) {
-            throw new IllegalArgumentException("이동 경로에 기물이 존재하여 움직일 수 없습니다.");
-        }
-    }
-
-    private int calculateKingCount() {
-        return (int) board.values()
+    private double calculateTotalSum(final Side side) {
+        return board.values()
                 .stream()
-                .filter(Piece::isKing)
-                .count();
+                .filter(piece -> piece.isSameSide(side))
+                .mapToDouble(Piece::getPoint)
+                .sum();
+    }
+
+    private Point calculatePoint(Side side) {
+        final double totalSum = calculateTotalSum(side);
+        final long sameFilePawn = getSameFilePawnCount(side);
+        return new Point(totalSum - sameFilePawn * POINT_WHEN_SAME_FILE_PAWN);
+    }
+
+    private Piece findPiece(final ChessPosition position) {
+        return board.getOrDefault(position, new Empty());
     }
 
     public Map<ChessPosition, Piece> getBoard() {

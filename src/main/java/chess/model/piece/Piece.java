@@ -1,7 +1,9 @@
 package chess.model.piece;
 
+import chess.model.board.ChessBoard;
 import chess.model.position.ChessPosition;
-import java.util.List;
+import chess.model.position.Direction;
+import java.util.Set;
 
 public abstract class Piece {
     protected final Side side;
@@ -10,15 +12,20 @@ public abstract class Piece {
         this.side = side;
     }
 
-    public abstract List<ChessPosition> findPath(
-            final ChessPosition source, final ChessPosition target, final Piece targetPiece
-    );
-
     public abstract boolean isKing();
 
     public abstract boolean isPawn();
 
     public abstract double getPoint();
+
+    protected abstract Set<ChessPosition> calculatePaths(final ChessPosition source, final ChessPosition target,
+                                                         final ChessBoard chessBoard);
+
+    protected abstract Set<Direction> availableDirections();
+
+    public boolean canMove(final ChessPosition source, final ChessPosition target, final ChessBoard chessBoard) {
+        return calculatePaths(source, target, chessBoard).contains(target);
+    }
 
     public boolean isEmpty() {
         return this.side.isEmpty();
@@ -32,14 +39,8 @@ public abstract class Piece {
         return this.side == other;
     }
 
-    public boolean isEnemy(final Piece other) {
-        return this.side.isEnemy(other.side);
-    }
-
-    public void checkValidTargetPiece(final Piece other) {
-        if (!other.isEmpty() && isSameSide(other)) {
-            throw new IllegalArgumentException("타겟 위치에 아군 기물이 존재합니다.");
-        }
+    public boolean isEnemy(final Side other) {
+        return this.side.isEnemy(other);
     }
 
     public Piece catchTargetPiece(final Piece targetPiece) {
@@ -47,6 +48,10 @@ public abstract class Piece {
             return new Empty();
         }
         return targetPiece;
+    }
+
+    private boolean isEnemy(final Piece other) {
+        return this.side.isEnemy(other.side);
     }
 
     public Side getSide() {

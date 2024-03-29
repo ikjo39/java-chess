@@ -19,17 +19,6 @@ class RankTest {
     }
 
     @ParameterizedTest
-    @CsvSource(value = {"ONE,THREE,-2", "EIGHT,FIVE,3", "THREE,SIX,-3"})
-    @DisplayName("두 Rank의 차이를 구한다.")
-    void minus(Rank given, Rank other, int expected) {
-        //when
-        int result = given.minus(other);
-
-        //then
-        assertThat(result).isEqualTo(expected);
-    }
-
-    @ParameterizedTest
     @CsvSource(value = {"FOUR,2,TWO", "FOUR,3,ONE", "THREE,-5,EIGHT"})
     @DisplayName("이동할 칸 수 만큼 증가한 랭크를 반환한다.")
     void findNextRank(Rank given, int offset, Rank expected) {
@@ -47,5 +36,19 @@ class RankTest {
         //when //then
         assertThatThrownBy(() -> given.findNextRank(offset))
                 .isInstanceOf(IllegalStateException.class);
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"-4,false", "-3,false", "-2,true", "-1,true", "4,true", "5,true", "6,false"})
+    @DisplayName("해당 거리만큼 움직일 수 있는지 판단한다.")
+    void canMove_C(int given, boolean expected) {
+        //given
+        File file = File.C;
+
+        //when
+        boolean result = file.canMove(given);
+
+        //then
+        assertThat(result).isEqualTo(expected);
     }
 }

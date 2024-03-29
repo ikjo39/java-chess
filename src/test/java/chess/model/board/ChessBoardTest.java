@@ -1,6 +1,7 @@
 package chess.model.board;
 
 import static chess.model.Fixture.A1;
+import static chess.model.Fixture.A2;
 import static chess.model.Fixture.A6;
 import static chess.model.Fixture.A7;
 import static chess.model.Fixture.B2;
@@ -80,7 +81,18 @@ class ChessBoardTest {
     }
 
     @Test
-    @DisplayName("이동 경로에 기물이 존재한다면 예외가 발생한다.")
+    @DisplayName("아군 기물이 있는 곳으로 이동하면 예외가 발생한다.")
+    void moveWhenTargetPieceSameSide() {
+        //given
+        final ChessBoard chessBoard = createInitializedChessBoard();
+
+        //when //then
+        assertThatThrownBy(() -> chessBoard.move(A1, A2))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("이동할 수 없다면 예외가 발생한다.")
     void moveWhenPathContainsPiece() {
         //given
         final ChessBoard chessBoard = createInitializedChessBoard();
@@ -99,6 +111,24 @@ class ChessBoardTest {
 
         // then
         assertThat(result).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("체스판 위 진영 별 점수를 계산한다.")
+    void calculatePoints() {
+        // given
+        final ChessBoard chessBoard = createInitializedChessBoard();
+
+        // when
+        final Map<Side, Point> totalPoints = chessBoard.calculatePoints();
+        final double whitePoint = totalPoints.get(Side.WHITE).getValue();
+        final double blackPoint = totalPoints.get(Side.BLACK).getValue();
+
+        // then
+        assertAll(
+                () -> assertThat(whitePoint).isEqualTo(38),
+                () -> assertThat(blackPoint).isEqualTo(38)
+        );
     }
 
     @ParameterizedTest
@@ -131,57 +161,52 @@ class ChessBoardTest {
                     abcdefgh
                  */
                 Arguments.of(
-                        new ChessBoard(
-                                Map.ofEntries(
-                                        Map.entry(B8, new King(Side.BLACK)),
-                                        Map.entry(C8, new Rook(Side.BLACK)),
-                                        Map.entry(A7, new BlackPawn()),
-                                        Map.entry(C7, new BlackPawn()),
-                                        Map.entry(D7, new Bishop(Side.BLACK)),
-                                        Map.entry(B6, new BlackPawn()),
-                                        Map.entry(E6, new Queen(Side.BLACK)),
-                                        Map.entry(F4, new Knight(Side.WHITE)),
-                                        Map.entry(G4, new Queen(Side.WHITE)),
-                                        Map.entry(F3, new WhitePawn()),
-                                        Map.entry(H3, new WhitePawn()),
-                                        Map.entry(F2, new WhitePawn()),
-                                        Map.entry(G2, new WhitePawn()),
-                                        Map.entry(E1, new Rook(Side.WHITE)),
-                                        Map.entry(F1, new King(Side.WHITE))
-                                )
-                        ), 19.5, 20
+                        new ChessBoard(Map.ofEntries(
+                                Map.entry(B8, new King(Side.BLACK)),
+                                Map.entry(C8, new Rook(Side.BLACK)),
+                                Map.entry(A7, new BlackPawn()),
+                                Map.entry(C7, new BlackPawn()),
+                                Map.entry(D7, new Bishop(Side.BLACK)),
+                                Map.entry(B6, new BlackPawn()),
+                                Map.entry(E6, new Queen(Side.BLACK)),
+                                Map.entry(F4, new Knight(Side.WHITE)),
+                                Map.entry(G4, new Queen(Side.WHITE)),
+                                Map.entry(F3, new WhitePawn()),
+                                Map.entry(H3, new WhitePawn()),
+                                Map.entry(F2, new WhitePawn()),
+                                Map.entry(G2, new WhitePawn()),
+                                Map.entry(E1, new Rook(Side.WHITE)),
+                                Map.entry(F1, new King(Side.WHITE)))
+                        ),
+                        19.5,
+                        20
                 ),
                 Arguments.of(
                         new ChessBoard(ChessBoardInitializer.create()),
-                        38, 38
+                        38,
+                        38
                 )
         );
     }
 
     private static Stream<Arguments> createChessBoardWithDynamicKingCount() {
         return Stream.of(
-                Arguments.of(
-                        new ChessBoard(
-                                Map.of(F2, new King(Side.BLACK))
+                Arguments.of(new ChessBoard(Map.of(
+                                F2, new King(Side.BLACK))
                         ),
                         true
                 ),
                 Arguments.of(
-                        new ChessBoard(
-                                Map.of(
-                                        F2, new King(Side.BLACK),
-                                        F7, new King(Side.BLACK)
-                                )
+                        new ChessBoard(Map.of(
+                                F2, new King(Side.BLACK),
+                                F7, new King(Side.BLACK))
                         ),
                         false
                 ),
                 Arguments.of(
-                        new ChessBoard(
-                                Map.of(
-                                        F2, new BlackPawn(),
-                                        G2, new WhitePawn()
-                                )
-                        ),
+                        new ChessBoard(Map.of(
+                                F2, new BlackPawn(),
+                                G2, new WhitePawn())),
                         true
                 )
         );

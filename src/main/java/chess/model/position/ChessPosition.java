@@ -11,18 +11,26 @@ public class ChessPosition {
         this.rank = rank;
     }
 
-    public Distance calculateDistance(final ChessPosition other) {
-        final int fileDifference = file.minus(other.file);
-        final int rankDifference = rank.minus(other.rank);
-        return new Distance(fileDifference, rankDifference);
+    public boolean canMove(final Direction direction) {
+        return file.canMove(direction.getX()) && rank.canMove(direction.getY());
     }
 
-    public File findNextFile(final int offset) {
-        return file.findNextFile(offset);
+    public boolean canMoveVertical(final int step) {
+        return rank.canMove(step);
     }
 
-    public Rank findNextRank(final int offset) {
-        return rank.findNextRank(offset);
+    public ChessPosition move(final Direction direction) {
+        if (canMove(direction)) {
+            return new ChessPosition(file.findNextFile(direction.getX()), rank.findNextRank(direction.getY()));
+        }
+        throw new IllegalArgumentException("해당 방향으로 움직일 수 없습니다");
+    }
+
+    public ChessPosition moveVertical(final int step) {
+        if (canMoveVertical(step)) {
+            return new ChessPosition(file, rank.findNextRank(step));
+        }
+        throw new IllegalArgumentException("해당 방향으로 움직일 수 없습니다");
     }
 
     public File getFile() {

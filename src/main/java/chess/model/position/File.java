@@ -27,8 +27,8 @@ public enum File {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 file 이름입니다."));
     }
 
-    public int minus(final File other) {
-        return this.coordinate - other.coordinate;
+    public boolean canMove(final int step) {
+        return canMoveLeft(step) && canMoveRight(step);
     }
 
     public File findNextFile(final int offset) {
@@ -36,6 +36,14 @@ public enum File {
         return Arrays.stream(values())
                 .filter(file -> file.coordinate == nextCoordinate)
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException("존재하지 않는 file 좌표입니다."));
+                .orElseThrow(() -> new IllegalStateException("File 범위를 벗어났습니다."));
+    }
+
+    private boolean canMoveLeft(final int step) {
+        return coordinate + step >= 1;
+    }
+
+    private boolean canMoveRight(final int step) {
+        return coordinate + step <= values().length;
     }
 }
