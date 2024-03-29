@@ -15,7 +15,9 @@ import java.util.stream.Collectors;
 
 public class ChessBoard {
     private static final int KING_COUNT = 2;
+    private static final int PAWN_COUNT_WHEN_SOLID_IN_FILE = 1;
     private static final double POINT_WHEN_SAME_FILE_PAWN = 0.5;
+
     private final Map<ChessPosition, Piece> board;
 
     public ChessBoard(final Map<ChessPosition, Piece> board) {
@@ -75,6 +77,10 @@ public class ChessBoard {
         board.put(sourcePosition, sourcePiece.catchTargetPiece(targetPiece));
     }
 
+    private boolean hasSameFilePawn(final ChessPosition position, final Set<ChessPosition> positions) {
+        return calculatePawnCountSameFile(position, positions) != PAWN_COUNT_WHEN_SOLID_IN_FILE;
+    }
+
     private int calculateKingCount() {
         return (int) board.values()
                 .stream()
@@ -83,17 +89,16 @@ public class ChessBoard {
     }
 
     private long getSameFilePawnCount(final Side side) {
-        final Set<ChessPosition> positions = board.entrySet()
-                .stream()
-                .filter(entry -> entry.getValue().isSameSide(side))
-                .filter(entry -> entry.getValue().isPawn())
-                .map(Entry::getKey)
-                .collect(Collectors.toSet());
+        final Set<ChessPosition> positions = findAllSamSidePawns(side);
 
         return positions.stream()
-                .filter(position -> positions.stream()
-                        .filter(position::hasSameFile)
-                        .count() != 1)
+                .filter(position -> hasSameFilePawn(position, positions))
+                .count();
+    }
+
+    private long calculatePawnCountSameFile(final ChessPosition position, final Set<ChessPosition> positions) {
+        return positions.stream()
+                .filter(position::hasSameFile)
                 .count();
     }
 
@@ -103,6 +108,15 @@ public class ChessBoard {
                 .filter(piece -> piece.isSameSide(side))
                 .mapToDouble(Piece::getPoint)
                 .sum();
+    }
+
+    private Set<ChessPosition> findAllSamSidePawns(final Side side) {
+        return board.entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().isSameSide(side))
+                .filter(entry -> entry.getValue().isPawn())
+                .map(Entry::getKey)
+                .collect(Collectors.toSet());
     }
 
     private Point calculatePoint(Side side) {
