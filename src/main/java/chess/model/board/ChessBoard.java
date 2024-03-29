@@ -50,8 +50,8 @@ public class ChessBoard {
         return findPiece(position).isSameSide(side);
     }
 
-    public boolean isEmpty(ChessPosition position) {
-        return findPiece(position).isEmpty();
+    public boolean isNotEmpty(ChessPosition position) {
+        return !findPiece(position).isEmpty();
     }
 
     public boolean isEnemy(ChessPosition position, Side side) {

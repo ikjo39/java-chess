@@ -32,7 +32,7 @@ public class BlackPawn extends Pawn {
     protected boolean canMoveVerticalPaths(final Direction direction, final ChessBoard chessBoard,
                                            final ChessPosition source) {
         for (int i = 1; i <= direction.getY(); i++) {
-            if (!source.canMoveVertical(i) || !chessBoard.isEmpty(source.moveVertical(i))) {
+            if (!source.canMoveVertical(i) || chessBoard.isNotEmpty(source.moveVertical(i))) {
                 return false;
             }
         }
