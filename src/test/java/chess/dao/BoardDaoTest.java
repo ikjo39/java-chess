@@ -13,22 +13,22 @@ import org.junit.jupiter.api.Test;
 
 class BoardDaoTest {
 
-    private BoardDao boardDao;
+    private BoardRepository boardRepository;
 
     @BeforeEach
     void setUp() {
-        boardDao = new BoardDao();
+        boardRepository = new TestBoardDao();
         Set<PieceDto> pieces = Set.of(
                 PieceDto.from("a8", "R"),
                 PieceDto.from("b7", "N"),
                 PieceDto.from("d5", "q")
         );
-        boardDao.add(ChessBoardDto.from(pieces, "WHITE"));
+        boardRepository.add(ChessBoardDto.from(pieces, "WHITE"));
     }
 
     @AfterEach
     void tearDown() {
-        boardDao.deleteAll();
+        boardRepository.deleteAll();
     }
 
     @Test
@@ -43,10 +43,10 @@ class BoardDaoTest {
         final ChessBoardDto given = ChessBoardDto.from(pieces, "WHITE");
 
         //when
-        boardDao.add(given);
+        boardRepository.add(given);
 
         //then
-        assertThat(boardDao.findAll().pieces()).hasSize(6);
+        assertThat(boardRepository.findAll().pieces()).hasSize(6);
     }
 
     @Test
@@ -56,7 +56,7 @@ class BoardDaoTest {
         String position = "a8";
 
         //when
-        PieceDto piece = boardDao.findByPosition(position);
+        PieceDto piece = boardRepository.findByPosition(position);
 
         //then
         assertAll(
@@ -69,7 +69,7 @@ class BoardDaoTest {
     @DisplayName("체스보드 테이블의 모든 정보를 가져온다.")
     void findAll() {
         //when
-        ChessBoardDto board = boardDao.findAll();
+        ChessBoardDto board = boardRepository.findAll();
 
         //then
         assertThat(board.pieces()).hasSize(3);
@@ -79,7 +79,7 @@ class BoardDaoTest {
     @DisplayName("데이터 개수를 반환한다.")
     void count() {
         //when
-        int count = boardDao.count();
+        int count = boardRepository.count();
 
         //then
         assertThat(count).isEqualTo(3);
@@ -89,9 +89,9 @@ class BoardDaoTest {
     @DisplayName("모든 데이터를 삭제한다.")
     void deleteAll() {
         //when
-        boardDao.deleteAll();
+        boardRepository.deleteAll();
 
         //then
-        assertThat(boardDao.count()).isEqualTo(0);
+        assertThat(boardRepository.count()).isEqualTo(0);
     }
 }

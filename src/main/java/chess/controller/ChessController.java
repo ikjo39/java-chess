@@ -1,6 +1,6 @@
 package chess.controller;
 
-import chess.dao.BoardDao;
+import chess.dao.BoardRepository;
 import chess.dao.TableDao;
 import chess.model.board.ChessBoard;
 import chess.model.board.ChessBoardInitializer;
@@ -18,10 +18,12 @@ import java.util.function.Supplier;
 public class ChessController {
     private final InputView inputView;
     private final OutputView outputView;
+    private final BoardRepository boardRepository;
 
-    public ChessController(final InputView inputView, final OutputView outputView) {
+    public ChessController(final InputView inputView, final OutputView outputView, BoardRepository boardRepository) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.boardRepository = boardRepository;
     }
 
     public void run() {
@@ -31,26 +33,25 @@ public class ChessController {
         if (gameCommand.isEnd()) {
             return;
         }
-        BoardDao boardDao = new BoardDao();
-        final ChessBoard chessBoard = getChessBoard(boardDao);
+        final ChessBoard chessBoard = getChessBoard(boardRepository);
         outputView.printChessBoard(chessBoard);
         ChessBoard finalChessBoard;
         finalChessBoard = retryOnException(() -> playChess(chessBoard));
         printPoints(finalChessBoard);
-        updateBoardChange(boardDao, finalChessBoard);
+        updateBoardChange(boardRepository, finalChessBoard);
     }
 
-    private ChessBoard getChessBoard(BoardDao boardDao) {
+    private ChessBoard getChessBoard(BoardRepository boardRepository) {
         ChessBoard chessBoard;
-        if (boardDao.count() != 0) {
-            return getDataFromDb(boardDao);
+        if (boardRepository.count() != 0) {
+            return getDataFromDb(boardRepository);
         }
         chessBoard = new ChessBoard(ChessBoardInitializer.create());
         return chessBoard;
     }
 
-    private ChessBoard getDataFromDb(BoardDao boardDao) {
-        return boardDao.findAll()
+    private ChessBoard getDataFromDb(BoardRepository boardRepository) {
+        return boardRepository.findAll()
                 .convert();
     }
 
@@ -85,12 +86,12 @@ public class ChessController {
         outputView.printPoints(points);
     }
 
-    private void updateBoardChange(BoardDao boardDao, ChessBoard finalChessBoard) {
-        boardDao.deleteAll();
+    private void updateBoardChange(BoardRepository boardRepository, ChessBoard finalChessBoard) {
+        boardRepository.deleteAll();
         if (finalChessBoard.checkChessEnd()) {
             return;
         }
-        boardDao.add(finalChessBoard.convertDto());
+        boardRepository.add(finalChessBoard.convertDto());
     }
 
     private <T> T retryOnException(final Supplier<T> retryOperation) {

@@ -7,7 +7,8 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-public class BoardDao {
+public class BoardDao implements BoardRepository {
+    @Override
     public void add(ChessBoardDto chessBoardDto) {
         String chessBoardQuery = "INSERT INTO chess_board (position, type, turn) VALUES (?, ?, ?)";
         try (final var connection = CommonDao.getConnection()) {
@@ -26,6 +27,7 @@ public class BoardDao {
         }
     }
 
+    @Override
     public PieceDto findByPosition(String data) {
         final String query = """
                 SELECT *
@@ -49,6 +51,7 @@ public class BoardDao {
         }
     }
 
+    @Override
     public ChessBoardDto findAll() {
         final String query = """
                 SELECT *
@@ -76,6 +79,7 @@ public class BoardDao {
         }
     }
 
+    @Override
     public int count() {
         final String query = "SELECT COUNT(*) AS `count` FROM chess_board;";
         try (final var connection = CommonDao.getConnection()) {
