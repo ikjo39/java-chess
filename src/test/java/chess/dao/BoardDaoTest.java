@@ -18,11 +18,12 @@ class BoardDaoTest {
     @BeforeEach
     void setUp() {
         boardDao = new BoardDao();
-        boardDao.add(ChessBoardDto.from(Set.of(
+        Set<PieceDto> pieces = Set.of(
                 PieceDto.from("a8", "R"),
                 PieceDto.from("b7", "N"),
                 PieceDto.from("d5", "q")
-        )));
+        );
+        boardDao.add(ChessBoardDto.from(pieces, "WHITE"));
     }
 
     @AfterEach
@@ -34,11 +35,12 @@ class BoardDaoTest {
     @DisplayName("체스보드 테이블에 데이터를 추가한다.")
     void add() {
         //given
-        final ChessBoardDto given = ChessBoardDto.from(Set.of(
+        Set<PieceDto> pieces = Set.of(
                 PieceDto.from("a1", "r"),
                 PieceDto.from("b1", "k"),
                 PieceDto.from("c7", "K")
-        ));
+        );
+        final ChessBoardDto given = ChessBoardDto.from(pieces, "WHITE");
 
         //when
         int[] ints = boardDao.add(given);

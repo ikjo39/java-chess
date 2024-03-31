@@ -4,27 +4,37 @@ import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toMap;
 
 import chess.model.board.ChessBoard;
+import chess.model.piece.Side;
 import java.util.Objects;
 import java.util.Set;
 
 public final class ChessBoardDto {
-    private final Set<PieceDto> pieces;
+        private final Set<PieceDto> pieces;
+        private final String turn;
 
-    private ChessBoardDto(Set<PieceDto> pieces) {
+    private ChessBoardDto(Set<PieceDto> pieces, String turn) {
         this.pieces = pieces;
+        this.turn = turn;
     }
 
-    public static ChessBoardDto from(Set<PieceDto> pieces) {
-        return new ChessBoardDto(pieces);
+    public static ChessBoardDto from(Set<PieceDto> pieces, String turn) {
+        return new ChessBoardDto(pieces, turn);
     }
 
     public ChessBoard convert() {
         return pieces.stream()
-                .collect(collectingAndThen(toMap(PieceDto::convertPosition, PieceDto::convertPiece), ChessBoard::new));
+                .collect(collectingAndThen(
+                        toMap(PieceDto::convertPosition, PieceDto::convertPiece),
+                        board -> new ChessBoard(board, Side.from(turn))
+                ));
     }
 
     public Set<PieceDto> pieces() {
         return pieces;
+    }
+
+    public String turn() {
+        return turn;
     }
 
     @Override

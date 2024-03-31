@@ -9,13 +9,14 @@ import java.util.Set;
 
 public class BoardDao {
     public int[] add(ChessBoardDto chessBoardDto) {
-        final String query = "INSERT INTO chess_board (`position`, `type`) VALUES(?, ?)";
+        String chessBoardQuery = "INSERT INTO chess_board (position, type, turn) VALUES (?, ?, ?)";
         try (final var connection = CommonDao.getConnection()) {
             assert connection != null;
-            try (final var preparedStatement = connection.prepareStatement(query)) {
+            try (final var preparedStatement = connection.prepareStatement(chessBoardQuery)) {
                 for (PieceDto piece : chessBoardDto.pieces()) {
                     preparedStatement.setString(1, piece.position());
                     preparedStatement.setString(2, piece.type());
+                    preparedStatement.setString(3, chessBoardDto.turn());
                     preparedStatement.addBatch();
                 }
                 return preparedStatement.executeBatch();
@@ -50,20 +51,25 @@ public class BoardDao {
 
     public ChessBoardDto findAll() {
         final String query = """
-                SELECT * 
+                SELECT *
                 FROM chess_board;
                 """;
+
         try (final var connection = CommonDao.getConnection()) {
             assert connection != null;
             try (final var preparedStatement = connection.prepareStatement(query)) {
                 Set<PieceDto> pieces = new HashSet<>();
                 ResultSet resultSet = preparedStatement.executeQuery();
+                String turn = null;
                 while (resultSet.next()) {
+                    if (turn == null) {
+                        turn = resultSet.getString("turn");
+                    }
                     String position = resultSet.getString("position");
                     String type = resultSet.getString("type");
                     pieces.add(PieceDto.from(position, type));
                 }
-                return ChessBoardDto.from(pieces);
+                return ChessBoardDto.from(pieces, turn);
             }
         } catch (final SQLException e) {
             throw new RuntimeException(e);
@@ -105,11 +111,11 @@ public class BoardDao {
     }
 
     public void deleteAll() {
-        final String query = "TRUNCATE TABLE chess_board;";
+        final String boardQuery = "DELETE FROM chess_board;";
         try (final var connection = CommonDao.getConnection()) {
             assert connection != null;
             try (final var statement = connection.createStatement()) {
-                statement.execute(query);
+                statement.execute(boardQuery);
             }
         } catch (final SQLException e) {
             throw new RuntimeException(e);

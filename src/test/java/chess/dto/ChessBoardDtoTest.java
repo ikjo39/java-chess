@@ -1,8 +1,10 @@
 package chess.dto;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import chess.model.board.ChessBoard;
+import chess.model.piece.Side;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,12 +22,15 @@ class ChessBoardDtoTest {
                 PieceDto.from("a7", "B"),
                 PieceDto.from("h8", "K")
         );
-        final ChessBoardDto chessBoardDto = ChessBoardDto.from(pieces);
+        final ChessBoardDto chessBoardDto = ChessBoardDto.from(pieces, "BLACK");
 
         //when
         final ChessBoard result = chessBoardDto.convert();
 
         //then
-        assertThat(result.getBoard()).hasSize(pieces.size());
+        assertAll(
+                () -> assertThat(result.getBoard()).hasSize(pieces.size()),
+                () -> assertThat(result.getTurn()).isEqualTo(Side.BLACK)
+        );
     }
 }

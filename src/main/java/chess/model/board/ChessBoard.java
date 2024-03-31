@@ -63,7 +63,7 @@ public class ChessBoard {
         return ChessBoardDto.from(board.entrySet()
                 .stream()
                 .map(entry -> PieceDto.from(entry.getKey(), entry.getValue()))
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toSet()), turn.name());
     }
 
     private void validateTurn(final Piece sourcePiece) {
@@ -104,5 +104,9 @@ public class ChessBoard {
 
     public Map<ChessPosition, Piece> getBoard() {
         return board;
+    }
+
+    public Side getTurn() {
+        return turn;
     }
 }

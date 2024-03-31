@@ -1,9 +1,18 @@
 package chess.model.piece;
 
+import java.util.Arrays;
+
 public enum Side {
     BLACK,
     WHITE,
     EMPTY;
+
+    public static Side from(String name) {
+        return Arrays.stream(values())
+                .filter(side -> side.name().equals(name))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("해당 이름의 진영이 존재하지 않습니다."));
+    }
 
     public boolean isWhite() {
         return WHITE.equals(this);

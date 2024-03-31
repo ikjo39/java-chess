@@ -11,7 +11,8 @@ public class TableDao {
                 CREATE TABLE IF NOT EXISTS chess_board (
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     `position` VARCHAR(2) UNIQUE,
-                    `type` VARCHAR(1)
+                    `type` VARCHAR(1), 
+                    `turn` VARCHAR(50)
                 );
                 """;
         try (final var connection = CommonDao.getConnection()) {
