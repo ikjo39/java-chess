@@ -76,24 +76,6 @@ public class BoardDao {
         }
     }
 
-    public int put(PieceDto pieceDto) {
-        final String query = """
-                UPDATE chess_board
-                SET `type` = ?
-                WHERE `position` = ?;
-                """;
-        try (final var connection = CommonDao.getConnection()) {
-            assert connection != null;
-            try (final var preparedStatement = connection.prepareStatement(query)) {
-                preparedStatement.setString(1, pieceDto.type());
-                preparedStatement.setString(2, pieceDto.position());
-                return preparedStatement.executeUpdate();
-            }
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public int count() {
         final String query = "SELECT COUNT(*) AS `count` FROM chess_board;";
         try (final var connection = CommonDao.getConnection()) {

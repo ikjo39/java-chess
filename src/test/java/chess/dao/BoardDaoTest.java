@@ -86,44 +86,6 @@ class BoardDaoTest {
     }
 
     @Test
-    @DisplayName("위치로 테이블 정보를 조회한다.")
-    void put() {
-        //given
-        String position = "a8";
-        PieceDto pieceDto = PieceDto.from(position, "q");
-
-        //when
-        int count = boardDao.put(pieceDto);
-        PieceDto piece = boardDao.findByPosition(position);
-
-        //then
-        assertAll(
-                () -> assertThat(count).isEqualTo(1),
-                () -> assertThat(piece.position()).isEqualTo(position),
-                () -> assertThat(piece.type()).isEqualTo("q")
-        );
-    }
-
-    @Test
-    @DisplayName("위치로 테이블 정보를 수정한다.")
-    void putWhenNoPosition() {
-        //given
-        String position = "a8";
-        PieceDto pieceDto = PieceDto.from(position, "R");
-
-        //when
-        int count = boardDao.put(pieceDto);
-        PieceDto piece = boardDao.findByPosition(position);
-
-        //then
-        assertAll(
-                () -> assertThat(count).isEqualTo(1),
-                () -> assertThat(piece.position()).isEqualTo(position),
-                () -> assertThat(piece.type()).isEqualTo("R")
-        );
-    }
-
-    @Test
     @DisplayName("모든 데이터를 삭제한다.")
     void deleteAll() {
         //when
