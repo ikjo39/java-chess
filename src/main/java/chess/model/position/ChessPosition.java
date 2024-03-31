@@ -33,8 +33,8 @@ public class ChessPosition {
         throw new IllegalArgumentException("해당 방향으로 움직일 수 없습니다");
     }
 
-    public File getFile() {
-        return file;
+    public String getName() {
+        return file.getName() + rank.getName();
     }
 
     @Override

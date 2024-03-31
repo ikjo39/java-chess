@@ -1,6 +1,7 @@
 package chess.model.position;
 
 import static chess.model.Fixture.A1;
+import static chess.model.Fixture.A8;
 import static chess.model.Fixture.B2;
 import static chess.model.Fixture.C1;
 import static chess.model.Fixture.C2;
@@ -9,6 +10,7 @@ import static chess.model.Fixture.C5;
 import static chess.model.Fixture.C6;
 import static chess.model.Fixture.C7;
 import static chess.model.Fixture.C8;
+import static chess.model.Fixture.D3;
 import static chess.model.Fixture.D4;
 import static chess.model.Fixture.D6;
 import static chess.model.Fixture.E3;
@@ -145,5 +147,17 @@ class ChessPositionTest {
         // when // then
         assertThatThrownBy(() -> C1.moveVertical(step))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("이름을 반환한다.")
+    void getName() {
+        //when //then
+        assertAll(
+                () -> assertThat(C1.getName()).isEqualTo("c1"),
+                () -> assertThat(A8.getName()).isEqualTo("a8"),
+                () -> assertThat(D3.getName()).isEqualTo("d3"),
+                () -> assertThat(H4.getName()).isEqualTo("h4")
+        );
     }
 }

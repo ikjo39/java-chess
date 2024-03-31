@@ -46,4 +46,8 @@ public enum Rank {
     private boolean canMoveDown(final int step) {
         return coordinate + step >= 1;
     }
+
+    public String getName() {
+        return name;
+    }
 }

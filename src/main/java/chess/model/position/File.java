@@ -46,4 +46,8 @@ public enum File {
     private boolean canMoveRight(final int step) {
         return coordinate + step <= values().length;
     }
+
+    public String getName() {
+        return name;
+    }
 }
