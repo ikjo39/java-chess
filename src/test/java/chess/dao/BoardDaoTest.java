@@ -43,10 +43,10 @@ class BoardDaoTest {
         final ChessBoardDto given = ChessBoardDto.from(pieces, "WHITE");
 
         //when
-        int[] ints = boardDao.add(given);
+        boardDao.add(given);
 
         //then
-        assertThat(ints).containsExactly(1, 1, 1);
+        assertThat(boardDao.findAll().pieces()).hasSize(6);
     }
 
     @Test

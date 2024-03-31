@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class BoardDao {
-    public int[] add(ChessBoardDto chessBoardDto) {
+    public void add(ChessBoardDto chessBoardDto) {
         String chessBoardQuery = "INSERT INTO chess_board (position, type, turn) VALUES (?, ?, ?)";
         try (final var connection = CommonDao.getConnection()) {
             assert connection != null;
@@ -19,7 +19,7 @@ public class BoardDao {
                     preparedStatement.setString(3, chessBoardDto.turn());
                     preparedStatement.addBatch();
                 }
-                return preparedStatement.executeBatch();
+                preparedStatement.executeBatch();
             }
         } catch (final SQLException e) {
             throw new RuntimeException(e);
