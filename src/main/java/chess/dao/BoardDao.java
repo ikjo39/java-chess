@@ -29,7 +29,7 @@ public class BoardDao {
     public PieceDto findByPosition(String data) {
         final String query = """
                 SELECT *
-                FROM chess_board 
+                FROM chess_board
                 WHERE `position` = ?;
                 """;
         try (final var connection = CommonDao.getConnection()) {
@@ -78,8 +78,8 @@ public class BoardDao {
 
     public int put(PieceDto pieceDto) {
         final String query = """
-                UPDATE chess_board 
-                SET `type` = ? 
+                UPDATE chess_board
+                SET `type` = ?
                 WHERE `position` = ?;
                 """;
         try (final var connection = CommonDao.getConnection()) {
