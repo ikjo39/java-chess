@@ -1,0 +1,31 @@
+package chess.dto;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import chess.model.board.ChessBoard;
+import java.util.Set;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+class ChessBoardDtoTest {
+
+    @Test
+    @DisplayName("체스 보드로 변환한다.")
+    void convert() {
+        //given
+        final Set<PieceDto> pieces = Set.of(
+                PieceDto.from("a1", "k"),
+                PieceDto.from("d3", "R"),
+                PieceDto.from("d7", "p"),
+                PieceDto.from("a7", "B"),
+                PieceDto.from("h8", "K")
+        );
+        final ChessBoardDto chessBoardDto = ChessBoardDto.from(pieces);
+
+        //when
+        final ChessBoard result = chessBoardDto.convert();
+
+        //then
+        assertThat(result.getBoard()).hasSize(pieces.size());
+    }
+}

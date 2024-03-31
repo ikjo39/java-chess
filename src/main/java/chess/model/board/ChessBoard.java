@@ -1,5 +1,7 @@
 package chess.model.board;
 
+import chess.dto.ChessBoardDto;
+import chess.dto.PieceDto;
 import chess.model.piece.Empty;
 import chess.model.piece.Piece;
 import chess.model.piece.Side;
@@ -7,6 +9,7 @@ import chess.model.position.ChessPosition;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ChessBoard {
     private static final int KING_COUNT = 2;
@@ -54,6 +57,13 @@ public class ChessBoard {
 
     public PointCalculator getPointCalculator() {
         return new PointCalculator(Collections.unmodifiableMap(board));
+    }
+
+    public ChessBoardDto convertDto() {
+        return ChessBoardDto.from(board.entrySet()
+                .stream()
+                .map(entry -> PieceDto.from(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toSet()));
     }
 
     private void validateTurn(final Piece sourcePiece) {

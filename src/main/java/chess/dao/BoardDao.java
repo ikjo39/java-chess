@@ -1,5 +1,7 @@
 package chess.dao;
 
+import chess.dto.ChessBoardDto;
+import chess.dto.PieceDto;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
@@ -37,7 +39,7 @@ public class BoardDao {
                 if (resultSet.next()) {
                     String position = resultSet.getString("position");
                     String type = resultSet.getString("type");
-                    return new PieceDto(position, type);
+                    return PieceDto.from(position, type);
                 }
                 throw new RuntimeException("데이터가 존재하지 않습니다.");
             }
@@ -59,9 +61,9 @@ public class BoardDao {
                 while (resultSet.next()) {
                     String position = resultSet.getString("position");
                     String type = resultSet.getString("type");
-                    pieces.add(new PieceDto(position, type));
+                    pieces.add(PieceDto.from(position, type));
                 }
-                return new ChessBoardDto(pieces);
+                return ChessBoardDto.from(pieces);
             }
         } catch (final SQLException e) {
             throw new RuntimeException(e);
@@ -102,24 +104,7 @@ public class BoardDao {
         }
     }
 
-    public int[] put(ChessBoardDto chessBoardDto) {
-        final String query = "UPDATE chess_board SET `type` = ? WHERE `position` = ?;";
-        try (final var connection = CommonDao.getConnection()) {
-            assert connection != null;
-            try (final var preparedStatement = connection.prepareStatement(query)) {
-                for (final PieceDto pieceDto : chessBoardDto.pieces()) {
-                    preparedStatement.setString(1, pieceDto.type());
-                    preparedStatement.setString(2, pieceDto.position());
-                    preparedStatement.addBatch();
-                }
-                return preparedStatement.executeBatch();
-            }
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    void deleteAll() {
+    public void deleteAll() {
         final String query = "TRUNCATE TABLE chess_board;";
         try (final var connection = CommonDao.getConnection()) {
             assert connection != null;

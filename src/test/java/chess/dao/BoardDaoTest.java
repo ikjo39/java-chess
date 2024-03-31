@@ -3,6 +3,8 @@ package chess.dao;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import chess.dto.ChessBoardDto;
+import chess.dto.PieceDto;
 import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,10 +18,10 @@ class BoardDaoTest {
     @BeforeEach
     void setUp() {
         boardDao = new BoardDao();
-        boardDao.add(new ChessBoardDto(Set.of(
-                new PieceDto("a8", "R"),
-                new PieceDto("b7", "N"),
-                new PieceDto("d5", "q")
+        boardDao.add(ChessBoardDto.from(Set.of(
+                PieceDto.from("a8", "R"),
+                PieceDto.from("b7", "N"),
+                PieceDto.from("d5", "q")
         )));
     }
 
@@ -32,10 +34,10 @@ class BoardDaoTest {
     @DisplayName("체스보드 테이블에 데이터를 추가한다.")
     void add() {
         //given
-        final ChessBoardDto given = new ChessBoardDto(Set.of(
-                new PieceDto("a1", "r"),
-                new PieceDto("b1", "k"),
-                new PieceDto("c7", "K")
+        final ChessBoardDto given = ChessBoardDto.from(Set.of(
+                PieceDto.from("a1", "r"),
+                PieceDto.from("b1", "k"),
+                PieceDto.from("c7", "K")
         ));
 
         //when
@@ -86,7 +88,7 @@ class BoardDaoTest {
     void put() {
         //given
         String position = "a8";
-        PieceDto pieceDto = new PieceDto(position, "q");
+        PieceDto pieceDto = PieceDto.from(position, "q");
 
         //when
         int count = boardDao.put(pieceDto);
@@ -105,7 +107,7 @@ class BoardDaoTest {
     void putWhenNoPosition() {
         //given
         String position = "a8";
-        PieceDto pieceDto = new PieceDto(position, "R");
+        PieceDto pieceDto = PieceDto.from(position, "R");
 
         //when
         int count = boardDao.put(pieceDto);
@@ -117,5 +119,15 @@ class BoardDaoTest {
                 () -> assertThat(piece.position()).isEqualTo(position),
                 () -> assertThat(piece.type()).isEqualTo("R")
         );
+    }
+
+    @Test
+    @DisplayName("모든 데이터를 삭제한다.")
+    void deleteAll() {
+        //when
+        boardDao.deleteAll();
+
+        //then
+        assertThat(boardDao.count()).isEqualTo(0);
     }
 }

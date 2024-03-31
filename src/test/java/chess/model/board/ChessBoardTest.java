@@ -14,6 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import chess.dto.ChessBoardDto;
 import chess.model.piece.BlackPawn;
 import chess.model.piece.King;
 import chess.model.piece.Piece;
@@ -104,6 +105,19 @@ class ChessBoardTest {
 
         // then
         assertThat(result).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("DTO로 변환한다.")
+    void convertDto() {
+        //given
+        final ChessBoard initializedChessBoard = createInitializedChessBoard(Side.WHITE);
+
+        //when
+        final ChessBoardDto chessBoardDto = initializedChessBoard.convertDto();
+
+        //then
+        assertThat(chessBoardDto.pieces()).hasSize(initializedChessBoard.getBoard().size());
     }
 
     private static Stream<Arguments> createChessBoardWithDynamicKingCount() {
