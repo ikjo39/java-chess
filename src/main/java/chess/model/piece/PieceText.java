@@ -18,8 +18,7 @@ public enum PieceText {
     BLACK_QUEEN("Q", piece -> piece instanceof Queen && piece.isSameSide(Side.BLACK), new Queen(Side.BLACK)),
     BLACK_KING("K", piece -> piece instanceof King && piece.isSameSide(Side.BLACK), new King(Side.BLACK)),
 
-    EMPTY(".", Piece::isEmpty, new Empty())
-    ;
+    EMPTY(".", Piece::isEmpty, new Empty());
 
     private final String name;
     private final Predicate<Piece> typeDiscriminator;
