@@ -4,6 +4,7 @@ import chess.model.board.ChessBoard;
 import chess.model.board.Point;
 import chess.model.board.Points;
 import chess.model.piece.Piece;
+import chess.model.piece.PieceText;
 import chess.model.piece.Side;
 import chess.model.position.ChessPosition;
 import chess.model.position.File;
@@ -38,12 +39,17 @@ public class OutputView {
 
     private String convertChessBoardText(final Map<ChessPosition, Piece> board) {
         return Arrays.stream(Rank.values())
-                .map(rank -> Arrays.stream(File.values())
-                        .map(file -> new ChessPosition(file, rank))
-                        .map(board::get)
-                        .map(PieceTextConverter::convertToText)
-                        .collect(Collectors.joining("")))
+                .map(rank -> convertPieceTextsInOneRank(board, rank))
                 .collect(Collectors.joining(System.lineSeparator()));
+    }
+
+    private String convertPieceTextsInOneRank(Map<ChessPosition, Piece> board, Rank rank) {
+        return Arrays.stream(File.values())
+                .map(file -> new ChessPosition(file, rank))
+                .map(board::get)
+                .map(PieceText::from)
+                .map(PieceText::getName)
+                .collect(Collectors.joining(""));
     }
 
     private String getSidePointsFormat(final Map<Side, Point> pointsWithSide) {
