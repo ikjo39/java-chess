@@ -34,20 +34,16 @@ public class ChessController {
             return;
         }
         final ChessBoard chessBoard = getChessBoard(boardRepository);
+        updateBoardChange(boardRepository, chessBoard);
         outputView.printChessBoard(chessBoard);
-        ChessBoard finalChessBoard;
-        finalChessBoard = retryOnException(() -> playChess(chessBoard));
-        printPoints(finalChessBoard);
-        updateBoardChange(boardRepository, finalChessBoard);
+        printPoints(retryOnException(() -> playChess(boardRepository)));
     }
 
     private ChessBoard getChessBoard(BoardRepository boardRepository) {
-        ChessBoard chessBoard;
         if (boardRepository.count() != 0) {
             return getDataFromDb(boardRepository);
         }
-        chessBoard = new ChessBoard(ChessBoardInitializer.create());
-        return chessBoard;
+        return new ChessBoard(ChessBoardInitializer.create());
     }
 
     private ChessBoard getDataFromDb(BoardRepository boardRepository) {
@@ -55,7 +51,8 @@ public class ChessController {
                 .convert();
     }
 
-    private ChessBoard playChess(ChessBoard chessBoard) {
+    private ChessBoard playChess(final BoardRepository boardRepository) {
+        ChessBoard chessBoard = boardRepository.findAll().convert();
         while (!chessBoard.checkChessEnd()) {
             final GameArguments gameArguments = inputView.readGameArguments();
             final GameCommand gameCommand = gameArguments.gameCommand();
@@ -68,6 +65,8 @@ public class ChessController {
             }
             final MoveArguments moveArguments = gameArguments.moveArguments();
             chessBoard = move(chessBoard, moveArguments);
+            outputView.printChessBoard(chessBoard);
+            updateBoardChange(boardRepository, chessBoard);
         }
         return chessBoard;
     }
@@ -75,9 +74,7 @@ public class ChessController {
     private ChessBoard move(ChessBoard chessBoard, final MoveArguments moveArguments) {
         final ChessPosition source = moveArguments.createSourcePosition();
         final ChessPosition target = moveArguments.createTargetPosition();
-        chessBoard = chessBoard.move(source, target);
-        outputView.printChessBoard(chessBoard);
-        return chessBoard;
+        return chessBoard.move(source, target);
     }
 
     private void printPoints(final ChessBoard chessBoard) {
