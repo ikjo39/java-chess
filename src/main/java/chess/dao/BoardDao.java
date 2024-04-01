@@ -96,6 +96,7 @@ public class BoardDao implements BoardRepository {
         }
     }
 
+    @Override
     public void deleteAll() {
         final String boardQuery = "DELETE FROM chess_board;";
         try (final var connection = CommonDao.getConnection()) {

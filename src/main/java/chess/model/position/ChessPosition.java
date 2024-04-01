@@ -19,6 +19,10 @@ public class ChessPosition {
         return rank.canMove(step);
     }
 
+    public boolean hasSameFile(final ChessPosition target) {
+        return file.equals(target.file);
+    }
+
     public ChessPosition move(final Direction direction) {
         if (canMove(direction)) {
             return new ChessPosition(file.findNextFile(direction.getX()), rank.findNextRank(direction.getY()));
@@ -60,9 +64,5 @@ public class ChessPosition {
                 "file=" + file +
                 ", rank=" + rank +
                 '}';
-    }
-
-    public boolean hasSameFile(final ChessPosition target) {
-        return file.equals(target.file);
     }
 }
