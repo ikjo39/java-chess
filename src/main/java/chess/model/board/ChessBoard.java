@@ -103,7 +103,7 @@ public class ChessBoard {
     }
 
     public Map<ChessPosition, Piece> getBoard() {
-        return board;
+        return Collections.unmodifiableMap(board);
     }
 
     public Side getTurn() {

@@ -13,24 +13,24 @@ public final class PieceDto {
     private final String position;
     private final String type;
 
-    private PieceDto(String position, String type) {
+    private PieceDto(final String position, final String type) {
         this.position = position;
         this.type = type;
     }
 
-    public static PieceDto from(String position, String type) {
+    public static PieceDto from(final String position, final String type) {
         return new PieceDto(position, type);
     }
 
-    public static PieceDto from(ChessPosition chessPosition, Piece piece) {
-        PieceText pieceText = PieceText.from(piece);
+    public static PieceDto from(final ChessPosition chessPosition, final Piece piece) {
+        final PieceText pieceText = PieceText.from(piece);
         return new PieceDto(chessPosition.getName(), pieceText.getName());
     }
 
     public ChessPosition convertPosition() {
-        String[] positionTexts = position.split("");
-        File file = File.from(positionTexts[0]);
-        Rank rank = Rank.from(convertRankText(positionTexts));
+        final String[] positionTexts = position.split("");
+        final File file = File.from(positionTexts[0]);
+        final Rank rank = Rank.from(convertRankText(positionTexts));
         return new ChessPosition(file, rank);
     }
 

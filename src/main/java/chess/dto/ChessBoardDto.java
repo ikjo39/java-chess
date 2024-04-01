@@ -5,19 +5,21 @@ import static java.util.stream.Collectors.toMap;
 
 import chess.model.board.ChessBoard;
 import chess.model.piece.Side;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 public final class ChessBoardDto {
-        private final Set<PieceDto> pieces;
-        private final String turn;
+    private final Set<PieceDto> pieces;
+    private final String turn;
 
-    private ChessBoardDto(Set<PieceDto> pieces, String turn) {
-        this.pieces = pieces;
+    private ChessBoardDto(final Set<PieceDto> pieces, final String turn) {
+        this.pieces = new HashSet<>(pieces);
         this.turn = turn;
     }
 
-    public static ChessBoardDto from(Set<PieceDto> pieces, String turn) {
+    public static ChessBoardDto from(final Set<PieceDto> pieces, final String turn) {
         return new ChessBoardDto(pieces, turn);
     }
 
@@ -30,7 +32,7 @@ public final class ChessBoardDto {
     }
 
     public Set<PieceDto> pieces() {
-        return pieces;
+        return Collections.unmodifiableSet(pieces);
     }
 
     public String turn() {
