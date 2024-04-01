@@ -32,11 +32,14 @@ public enum Rank {
     }
 
     public Rank findNextRank(final int offset) {
-        final int nextCoordinate = offset + coordinate;
         return Arrays.stream(values())
-                .filter(file -> file.coordinate == nextCoordinate)
+                .filter(rank -> hasSameCoordinate(offset, rank))
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("Rank 범위를 벗어났습니다."));
+    }
+
+    private boolean hasSameCoordinate(int offset, Rank rank) {
+        return rank.coordinate == offset + coordinate;
     }
 
     private boolean canMoveUp(final int step) {

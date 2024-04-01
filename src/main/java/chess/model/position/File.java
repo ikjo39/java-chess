@@ -32,11 +32,14 @@ public enum File {
     }
 
     public File findNextFile(final int offset) {
-        final int nextCoordinate = offset + coordinate;
         return Arrays.stream(values())
-                .filter(file -> file.coordinate == nextCoordinate)
+                .filter(file -> hasSameCoordinate(offset, file))
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("File 범위를 벗어났습니다."));
+    }
+
+    private boolean hasSameCoordinate(int offset, File file) {
+        return file.coordinate == offset + coordinate;
     }
 
     private boolean canMoveLeft(final int step) {
