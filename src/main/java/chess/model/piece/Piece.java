@@ -52,22 +52,11 @@ public abstract class Piece {
         return this.side.getEnemy();
     }
 
-    public Piece catchTargetPiece(final Piece targetPiece) {
-        if (isEnemy(targetPiece)) {
-            return new Empty();
-        }
-        return targetPiece;
-    }
-
     protected Set<ChessPosition> calculatePaths(final ChessPosition source, final ChessBoard chessBoard) {
         final Set<ChessPosition> paths = new HashSet<>();
         final Set<Direction> directions = availableDirections();
         addPossiblePaths(source, chessBoard, paths, directions);
         return paths;
-    }
-
-    private boolean isEnemy(final Piece other) {
-        return this.side.isEnemy(other.side);
     }
 
     public Side getSide() {

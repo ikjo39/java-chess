@@ -31,7 +31,7 @@ public class ChessBoard {
         final Piece targetPiece = findPiece(targetPosition);
         validatePieces(sourcePiece, targetPiece);
         if (sourcePiece.canMove(sourcePosition, targetPosition, this)) {
-            changePositions(sourcePosition, targetPosition, sourcePiece, targetPiece);
+            changePositions(sourcePosition, targetPosition, sourcePiece);
             return new ChessBoard(board, turn.getEnemy());
         }
         throw new IllegalArgumentException("Target 위치로 움직일 수 없습니다.");
@@ -88,11 +88,10 @@ public class ChessBoard {
         }
     }
 
-    private void changePositions(
-            final ChessPosition sourcePosition, final ChessPosition targetPosition,
-            final Piece sourcePiece, final Piece targetPiece) {
+    private void changePositions(final ChessPosition sourcePosition, final ChessPosition targetPosition,
+                                 final Piece sourcePiece) {
         board.put(targetPosition, sourcePiece);
-        board.put(sourcePosition, sourcePiece.catchTargetPiece(targetPiece));
+        board.put(sourcePosition, new Empty());
     }
 
     private int calculateKingCount() {
