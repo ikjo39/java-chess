@@ -2,10 +2,10 @@ package chess.model.board;
 
 import chess.model.piece.Side;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 public final class Points {
     private final Map<Side, Point> points;
@@ -15,19 +15,17 @@ public final class Points {
     }
 
     public List<Side> calculateWinner() {
-        return points.entrySet()
+        return points.keySet()
                 .stream()
-                .filter(entry -> entry.getValue().getValue() == calculateMaxPoint())
-                .map(Entry::getKey)
+                .filter(key -> points.get(key).equals(calculateMaxPoint()))
                 .toList();
     }
 
-    private double calculateMaxPoint() {
+    private Point calculateMaxPoint() {
         return points.values()
                 .stream()
-                .mapToDouble(Point::getValue)
-                .max()
-                .orElse(0);
+                .max(Comparator.comparingDouble(Point::getValue))
+                .orElse(Point.getDefaults());
     }
 
     public Map<Side, Point> getPoints() {
