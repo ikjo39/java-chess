@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ChessBoard {
-    private static final int KING_COUNT = 2;
+    private static final int NORMAL_KING_COUNT = 2;
 
     private final Map<ChessPosition, Piece> board;
     private final Side turn;
@@ -29,9 +29,7 @@ public class ChessBoard {
     public ChessBoard move(final ChessPosition sourcePosition, final ChessPosition targetPosition) {
         final Piece sourcePiece = findPiece(sourcePosition);
         final Piece targetPiece = findPiece(targetPosition);
-        validateSourcePiece(sourcePiece);
-        validateTurn(sourcePiece);
-        validateSameSide(sourcePiece, targetPiece);
+        validatePieces(sourcePiece, targetPiece);
         if (sourcePiece.canMove(sourcePosition, targetPosition, this)) {
             changePositions(sourcePosition, targetPosition, sourcePiece, targetPiece);
             return new ChessBoard(board, turn.getEnemy());
@@ -40,18 +38,18 @@ public class ChessBoard {
     }
 
     public boolean checkChessEnd() {
-        return calculateKingCount() != KING_COUNT;
+        return calculateKingCount() != NORMAL_KING_COUNT;
     }
 
-    public boolean isSameSide(ChessPosition position, Side side) {
+    public boolean isSameSide(final ChessPosition position, final Side side) {
         return findPiece(position).isSameSide(side);
     }
 
-    public boolean isNotEmpty(ChessPosition position) {
+    public boolean isNotEmpty(final ChessPosition position) {
         return !findPiece(position).isEmpty();
     }
 
-    public boolean isEnemy(ChessPosition position, Side side) {
+    public boolean isEnemy(final ChessPosition position, final Side side) {
         return findPiece(position).isEnemy(side);
     }
 
@@ -64,6 +62,12 @@ public class ChessBoard {
                 .stream()
                 .map(entry -> PieceDto.from(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toSet()), turn.name());
+    }
+
+    private void validatePieces(final Piece sourcePiece, final Piece targetPiece) {
+        validateSourcePiece(sourcePiece);
+        validateTurn(sourcePiece);
+        validateSameSide(sourcePiece, targetPiece);
     }
 
     private void validateTurn(final Piece sourcePiece) {

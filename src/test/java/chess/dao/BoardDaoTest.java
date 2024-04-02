@@ -66,7 +66,7 @@ class BoardDaoTest {
     }
 
     @Test
-    @DisplayName("체스보드 테이블의 모든 정보를 가져온다.")
+    @DisplayName("모든 정보를 가져온다.")
     void findAll() {
         //when
         ChessBoardDto board = boardRepository.findAll();

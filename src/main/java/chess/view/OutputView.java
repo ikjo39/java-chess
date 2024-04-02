@@ -32,7 +32,7 @@ public class OutputView {
     }
 
     public void printPoints(final Points points) {
-        Map<Side, Point> pointsWithSide = points.getPoints();
+        final Map<Side, Point> pointsWithSide = points.getPoints();
         System.out.println(getSidePointsFormat(pointsWithSide));
         System.out.println(getWinnerFormat(points.calculateWinner()));
     }
@@ -43,7 +43,7 @@ public class OutputView {
                 .collect(Collectors.joining(System.lineSeparator()));
     }
 
-    private String convertPieceTextsInOneRank(Map<ChessPosition, Piece> board, Rank rank) {
+    private String convertPieceTextsInOneRank(final Map<ChessPosition, Piece> board, final Rank rank) {
         return Arrays.stream(File.values())
                 .map(file -> new ChessPosition(file, rank))
                 .map(board::get)
@@ -66,10 +66,14 @@ public class OutputView {
     }
 
     private String getWinnerFormat(final List<Side> side) {
-        String result = side.stream()
+        String result = getWinnerText(side);
+        return String.format(DOMINANT_FORMAT, result);
+    }
+
+    private String getWinnerText(final List<Side> side) {
+        return side.stream()
                 .map(SideText::from)
                 .map(SideText::getText)
                 .collect(Collectors.joining(", "));
-        return String.format(DOMINANT_FORMAT, result);
     }
 }

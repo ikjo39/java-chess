@@ -24,13 +24,13 @@ public class PointCalculator {
         this.board = new HashMap<>(board);
     }
 
-    public Points calculatesPoints() {
+    public Points calculate() {
         return Arrays.stream(Side.values())
                 .filter(side -> !side.isEmpty())
                 .collect(collectingAndThen(toMap(Function.identity(), this::calculatePiecePoints), Points::new));
     }
 
-    private Point calculatePiecePoints(Side side) {
+    private Point calculatePiecePoints(final Side side) {
         final Point totalSum = calculateTotalSum(side);
         final Point minusPoint = calculateSameFilePawn(side);
         return totalSum.sum(minusPoint);

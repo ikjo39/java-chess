@@ -39,20 +39,20 @@ public class ChessController {
         printPoints(retryOnException(() -> playChess(boardRepository)));
     }
 
-    private ChessBoard getChessBoard(BoardRepository boardRepository) {
+    private ChessBoard getChessBoard(final BoardRepository boardRepository) {
         if (boardRepository.count() != 0) {
-            return getDataFromDb(boardRepository);
+            return getAllDataFrom(boardRepository);
         }
         return new ChessBoard(ChessBoardInitializer.create());
     }
 
-    private ChessBoard getDataFromDb(BoardRepository boardRepository) {
+    private ChessBoard getAllDataFrom(final BoardRepository boardRepository) {
         return boardRepository.findAll()
                 .convert();
     }
 
     private ChessBoard playChess(final BoardRepository boardRepository) {
-        ChessBoard chessBoard = boardRepository.findAll().convert();
+        ChessBoard chessBoard = getAllDataFrom(boardRepository);
         while (!chessBoard.checkChessEnd()) {
             final GameArguments gameArguments = inputView.readGameArguments();
             final GameCommand gameCommand = gameArguments.gameCommand();
@@ -79,7 +79,7 @@ public class ChessController {
 
     private void printPoints(final ChessBoard chessBoard) {
         final PointCalculator pointCalculator = chessBoard.getPointCalculator();
-        final Points points = pointCalculator.calculatesPoints();
+        final Points points = pointCalculator.calculate();
         outputView.printPoints(points);
     }
 

@@ -15,8 +15,8 @@ public abstract class Pawn extends Piece {
 
     protected abstract boolean isPawnInitialPosition(final ChessPosition source);
 
-    protected abstract boolean canMoveVerticalPaths(final Direction direction, final ChessBoard chessBoard,
-                                                    final ChessPosition source);
+    protected abstract boolean canMoveVerticalPaths(final ChessPosition source, final ChessBoard chessBoard,
+                                                    final Direction direction);
 
     @Override
     public boolean isKing() {
@@ -61,6 +61,6 @@ public abstract class Pawn extends Piece {
         if (!direction.isVertical()) {
             return false;
         }
-        return canMoveVerticalPaths(direction, chessBoard, source);
+        return canMoveVerticalPaths(source, chessBoard, direction);
     }
 }

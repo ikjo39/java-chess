@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 class ChessBoardInitializerTest {
     @Test
     @DisplayName("체스판을 초기화한다")
-    void initChessBoard() {
+    void create() {
         // when
         Map<ChessPosition, Piece> chessBoard = ChessBoardInitializer.create();
 

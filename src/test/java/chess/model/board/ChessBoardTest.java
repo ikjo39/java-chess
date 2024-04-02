@@ -111,13 +111,13 @@ class ChessBoardTest {
     @DisplayName("DTO로 변환한다.")
     void convertDto() {
         //given
-        final ChessBoard initializedChessBoard = createInitializedChessBoard(Side.WHITE);
+        final ChessBoard given = createInitializedChessBoard(Side.WHITE);
 
         //when
-        final ChessBoardDto chessBoardDto = initializedChessBoard.convertDto();
+        final ChessBoardDto chessBoardDto = given.convertDto();
 
         //then
-        assertThat(chessBoardDto.pieces()).hasSize(initializedChessBoard.getBoard().size());
+        assertThat(chessBoardDto.pieces()).hasSize(given.getBoard().size());
     }
 
     private static Stream<Arguments> createChessBoardWithDynamicKingCount() {
