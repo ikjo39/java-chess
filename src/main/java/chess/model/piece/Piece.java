@@ -4,6 +4,7 @@ import chess.model.board.ChessBoard;
 import chess.model.board.Point;
 import chess.model.position.ChessPosition;
 import chess.model.position.Direction;
+import java.util.HashSet;
 import java.util.Set;
 
 public abstract class Piece {
@@ -19,13 +20,16 @@ public abstract class Piece {
 
     public abstract Point getPoint();
 
-    protected abstract Set<ChessPosition> calculatePaths(final ChessPosition source, final ChessPosition target,
-                                                         final ChessBoard chessBoard);
-
     protected abstract Set<Direction> availableDirections();
 
+    protected abstract void addPossiblePaths(final ChessPosition source, final ChessBoard chessBoard,
+                                             final Set<ChessPosition> paths, final Set<Direction> directions);
+
+    protected abstract void addPossiblePaths(final ChessPosition source, final ChessBoard chessBoard,
+                                             final Set<ChessPosition> paths, final Direction direction);
+
     public boolean canMove(final ChessPosition source, final ChessPosition target, final ChessBoard chessBoard) {
-        return calculatePaths(source, target, chessBoard).contains(target);
+        return calculatePaths(source, chessBoard).contains(target);
     }
 
     public boolean isEmpty() {
@@ -53,6 +57,13 @@ public abstract class Piece {
             return new Empty();
         }
         return targetPiece;
+    }
+
+    protected Set<ChessPosition> calculatePaths(final ChessPosition source, final ChessBoard chessBoard) {
+        final Set<ChessPosition> paths = new HashSet<>();
+        final Set<Direction> directions = availableDirections();
+        addPossiblePaths(source, chessBoard, paths, directions);
+        return paths;
     }
 
     private boolean isEnemy(final Piece other) {

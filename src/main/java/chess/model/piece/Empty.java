@@ -32,13 +32,19 @@ public class Empty extends Piece {
     }
 
     @Override
-    protected Set<ChessPosition> calculatePaths(final ChessPosition source, final ChessPosition target,
-                                                final ChessBoard chessBoard) {
-        throw new IllegalStateException("Source는 빈 기물일 수 없습니다.");
+    protected Set<Direction> availableDirections() {
+        throw new UnsupportedOperationException("Source는 빈 기물일 수 없습니다.");
     }
 
     @Override
-    protected Set<Direction> availableDirections() {
-        throw new UnsupportedOperationException("Source는 빈 기물일 수 없습니다.");
+    protected void addPossiblePaths(final ChessPosition source, final ChessBoard chessBoard,
+                                    final Set<ChessPosition> paths, final Set<Direction> directions) {
+        throw new UnsupportedOperationException("빈 기물은 경로를 탐색할 수 없습니다.");
+    }
+
+    @Override
+    protected void addPossiblePaths(final ChessPosition source, final ChessBoard chessBoard,
+                                    final Set<ChessPosition> paths, final Direction direction) {
+        throw new UnsupportedOperationException("빈 기물은 경로를 탐색할 수 없습니다.");
     }
 }

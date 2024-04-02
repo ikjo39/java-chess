@@ -3,7 +3,6 @@ package chess.model.piece;
 import chess.model.board.ChessBoard;
 import chess.model.position.ChessPosition;
 import chess.model.position.Direction;
-import java.util.HashSet;
 import java.util.Set;
 
 public abstract class JumpingPiece extends Piece {
@@ -22,15 +21,14 @@ public abstract class JumpingPiece extends Piece {
     }
 
     @Override
-    protected Set<ChessPosition> calculatePaths(final ChessPosition source, final ChessPosition target,
-                                                final ChessBoard chessBoard) {
-        final Set<ChessPosition> paths = new HashSet<>();
-        final Set<Direction> directions = availableDirections();
-        directions.forEach(direction -> addAllPossiblePaths(source, chessBoard, direction, paths));
-        return paths;
+    protected void addPossiblePaths(final ChessPosition source, final ChessBoard chessBoard,
+                                    final Set<ChessPosition> paths, final Set<Direction> directions) {
+        directions.forEach(direction -> addPossiblePaths(source, chessBoard, paths, direction));
     }
 
-    private void addAllPossiblePaths(ChessPosition source, ChessBoard chessBoard, Direction direction, Set<ChessPosition> paths) {
+    @Override
+    protected void addPossiblePaths(final ChessPosition source, final ChessBoard chessBoard,
+                                    final Set<ChessPosition> paths, final Direction direction) {
         ChessPosition current = source;
         while (current.canMove(direction)) {
             current = current.move(direction);

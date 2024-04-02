@@ -4,7 +4,6 @@ import chess.model.board.ChessBoard;
 import chess.model.board.Point;
 import chess.model.position.ChessPosition;
 import chess.model.position.Direction;
-import java.util.HashSet;
 import java.util.Set;
 
 public abstract class Pawn extends Piece {
@@ -35,25 +34,26 @@ public abstract class Pawn extends Piece {
     }
 
     @Override
-    protected Set<ChessPosition> calculatePaths(final ChessPosition source, final ChessPosition target,
-                                                final ChessBoard chessBoard) {
-        final Set<ChessPosition> paths = new HashSet<>();
-        Set<Direction> directions = availableDirections();
-        for (final Direction direction : directions) {
-            if (!isPawnInitialPosition(source) && direction.isDoubleForward()) {
-                continue;
-            }
-            if (canMoveDiagonal(chessBoard, direction, source) || canMoveVertical(direction, chessBoard, source)) {
-                paths.add(source.move(direction));
-            }
+    protected void addPossiblePaths(final ChessPosition source, final ChessBoard chessBoard,
+                                    final Set<ChessPosition> paths, final Set<Direction> directions) {
+        directions.stream()
+                .filter(direction -> isPawnInitialPosition(source) || !direction.isDoubleForward())
+                .forEach(direction -> addPossiblePaths(source, chessBoard, paths, direction));
+    }
+
+    @Override
+    protected void addPossiblePaths(final ChessPosition source, final ChessBoard chessBoard,
+                                    final Set<ChessPosition> paths, final Direction direction) {
+        if (canMoveDiagonal(chessBoard, direction, source) || canMoveVertical(direction, chessBoard, source)) {
+            paths.add(source.move(direction));
         }
-        return paths;
     }
 
     private boolean canMoveDiagonal(final ChessBoard chessBoard, final Direction direction,
                                     final ChessPosition current) {
-        return direction.isDiagonal() && current.canMove(direction) && chessBoard.isEnemy(current.move(direction),
-                side);
+        return direction.isDiagonal()
+                && current.canMove(direction)
+                && chessBoard.isEnemy(current.move(direction), side);
     }
 
     private boolean canMoveVertical(final Direction direction, final ChessBoard chessBoard,

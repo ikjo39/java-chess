@@ -13,7 +13,6 @@ import chess.model.board.ChessBoard;
 import chess.model.board.Point;
 import chess.model.position.ChessPosition;
 import chess.model.position.Direction;
-import java.util.HashSet;
 import java.util.Set;
 
 public class King extends Piece {
@@ -39,16 +38,17 @@ public class King extends Piece {
     }
 
     @Override
-    protected Set<ChessPosition> calculatePaths(final ChessPosition source, final ChessPosition target,
-                                                final ChessBoard chessBoard) {
-        final Set<ChessPosition> paths = new HashSet<>();
-        Set<Direction> directions = availableDirections();
-        for (final Direction direction : directions) {
-            if (source.canMove(direction) && !chessBoard.isSameSide(source.move(direction), side)) {
-                paths.add(source.move(direction));
-            }
+    protected void addPossiblePaths(final ChessPosition source, final ChessBoard chessBoard,
+                                    final Set<ChessPosition> paths, final Set<Direction> directions) {
+        directions.forEach(direction -> addPossiblePaths(source, chessBoard, paths, direction));
+    }
+
+    @Override
+    protected void addPossiblePaths(final ChessPosition source, final ChessBoard chessBoard,
+                                    final Set<ChessPosition> paths, final Direction direction) {
+        if (source.canMove(direction) && !chessBoard.isSameSide(source.move(direction), side)) {
+            paths.add(source.move(direction));
         }
-        return paths;
     }
 
     @Override
