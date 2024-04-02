@@ -48,15 +48,15 @@ public abstract class Piece {
         return this.side.isEnemy(other);
     }
 
-    public Side getEnemy() {
-        return this.side.getEnemy();
-    }
-
     protected Set<ChessPosition> calculatePaths(final ChessPosition source, final ChessBoard chessBoard) {
         final Set<ChessPosition> paths = new HashSet<>();
         final Set<Direction> directions = availableDirections();
         addPossiblePaths(source, chessBoard, paths, directions);
         return paths;
+    }
+
+    public Side getEnemy() {
+        return this.side.getEnemy();
     }
 
     public Side getSide() {
