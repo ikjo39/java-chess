@@ -7,7 +7,7 @@ public enum Side {
     WHITE,
     EMPTY;
 
-    public static Side from(String name) {
+    public static Side from(final String name) {
         return Arrays.stream(values())
                 .filter(side -> side.name().equals(name))
                 .findFirst()

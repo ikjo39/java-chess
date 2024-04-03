@@ -13,7 +13,6 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 public class OutputView {
@@ -53,16 +52,15 @@ public class OutputView {
     }
 
     private String getSidePointsFormat(final Map<Side, Point> pointsWithSide) {
-        return pointsWithSide.entrySet()
+        return pointsWithSide.keySet()
                 .stream()
-                .map(this::getSidePointFormat)
+                .map(side -> getSidePointFormat(side, pointsWithSide))
                 .collect(Collectors.joining(System.lineSeparator()));
     }
 
-    private String getSidePointFormat(final Entry<Side, Point> entry) {
-        String side = SideText.from(entry.getKey()).getText();
-        String pointFormat = POINT_FORMAT.format(entry.getValue().getValue());
-        return String.format(SIDE_POINTS_FORMAT, side, pointFormat);
+    private String getSidePointFormat(final Side side, final Map<Side, Point> pointsWithSide) {
+        String pointFormat = POINT_FORMAT.format(pointsWithSide.get(side).getValue());
+        return String.format(SIDE_POINTS_FORMAT, side.name(), pointFormat);
     }
 
     private String getWinnerFormat(final List<Side> side) {
@@ -72,8 +70,7 @@ public class OutputView {
 
     private String getWinnerText(final List<Side> side) {
         return side.stream()
-                .map(SideText::from)
-                .map(SideText::getText)
+                .map(Side::name)
                 .collect(Collectors.joining(", "));
     }
 }
