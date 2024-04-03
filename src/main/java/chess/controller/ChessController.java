@@ -4,8 +4,6 @@ import chess.dao.BoardRepository;
 import chess.dao.TableDao;
 import chess.model.board.ChessBoard;
 import chess.model.board.ChessBoardInitializer;
-import chess.model.board.PointCalculator;
-import chess.model.board.Points;
 import chess.model.position.ChessPosition;
 import chess.view.GameArguments;
 import chess.view.GameCommand;
@@ -80,9 +78,7 @@ public class ChessController {
     }
 
     private void printPoints(final ChessBoard chessBoard) {
-        final PointCalculator pointCalculator = chessBoard.getPointCalculator();
-        final Points points = pointCalculator.calculate();
-        outputView.printPoints(points);
+        outputView.printPoints(chessBoard.calculate());
     }
 
     private void updateBoardChange(final BoardRepository boardRepository, final ChessBoard finalChessBoard) {
