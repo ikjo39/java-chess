@@ -42,7 +42,7 @@ class BlackPawnTest {
         P.PB...P 7
         np..QP.. 6
         ..R..... 5
-        .....nq. 4
+        ......q. 4
         .....p.p 3
         .....pp. 2
         ....rk.. 1
@@ -62,7 +62,6 @@ class BlackPawnTest {
                 Map.entry(E6, new Queen(Side.BLACK)),
                 Map.entry(F6, new BlackPawn()),
                 Map.entry(C5, new Rook(Side.BLACK)),
-                Map.entry(F4, new Knight(Side.WHITE)),
                 Map.entry(G4, new Queen(Side.WHITE)),
                 Map.entry(F3, new WhitePawn()),
                 Map.entry(H3, new WhitePawn()),

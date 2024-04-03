@@ -1,8 +1,9 @@
 package chess.model.piece;
 
 import static chess.model.Fixture.A3;
+import static chess.model.Fixture.A4;
+import static chess.model.Fixture.A5;
 import static chess.model.Fixture.A7;
-import static chess.model.Fixture.A8;
 import static chess.model.Fixture.B2;
 import static chess.model.Fixture.B3;
 import static chess.model.Fixture.B4;
@@ -92,8 +93,8 @@ class WhitePawnTest {
 
         //when //then
         assertAll(
-                () -> assertThat(whitePawn.canMove(A7, A8, chessBoard)).isTrue(),
-                () -> assertThat(whitePawn.canMove(A7, A3, chessBoard)).isFalse()
+                () -> assertThat(whitePawn.canMove(A3, A4, chessBoard)).isTrue(),
+                () -> assertThat(whitePawn.canMove(A3, A5, chessBoard)).isFalse()
         );
     }
 
