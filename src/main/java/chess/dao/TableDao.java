@@ -1,6 +1,8 @@
 package chess.dao;
 
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class TableDao {
     private TableDao() {
@@ -15,11 +17,9 @@ public class TableDao {
                     `turn` VARCHAR(50)
                 );
                 """;
-        try (final var connection = CommonDao.getConnection()) {
-            assert connection != null;
-            try (final var statement = connection.createStatement()) {
-                statement.execute(query);
-            }
+        try (final Connection connection = CommonDao.getConnection();
+             final Statement statement = connection.createStatement()) {
+            statement.execute(query);
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
