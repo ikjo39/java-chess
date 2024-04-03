@@ -33,7 +33,8 @@ public class ChessController {
             final ChessBoard chessBoard = getChessBoard(boardRepository);
             updateBoardChange(boardRepository, chessBoard);
             outputView.printChessBoard(chessBoard);
-            retryOnException(() -> playChess(boardRepository, gameCommand));
+            final ChessBoard movedChessBoard = retryOnException(() -> playChess(boardRepository, gameCommand));
+            printScoreWhenEnd(movedChessBoard, chessBoard);
         }
     }
 
@@ -51,22 +52,26 @@ public class ChessController {
 
     private ChessBoard playChess(final BoardRepository boardRepository, GameCommand gameCommand) {
         ChessBoard chessBoard = getAllDataFrom(boardRepository);
-        while (!gameCommand.isEnd()) {
+        while (!chessBoard.checkChessEnd() && !gameCommand.isEnd()) {
             final GameArguments gameArguments = inputView.readGameArguments();
             gameCommand = gameArguments.gameCommand();
-            if (chessBoard.checkChessEnd()) {
-                outputView.printPoints(chessBoard.calculate());
-                break;
-            }
-            if (gameCommand.isStatus()) {
-                outputView.printPoints(chessBoard.calculate());
-            }
-            if (gameCommand.isMove()) {
-                final MoveArguments moveArguments = gameArguments.moveArguments();
-                chessBoard = move(chessBoard, moveArguments);
-                outputView.printChessBoard(chessBoard);
-                updateBoardChange(boardRepository, chessBoard);
-            }
+            chessBoard = runWithGameCommand(boardRepository, gameCommand, gameArguments, chessBoard);
+        }
+        return chessBoard;
+    }
+
+    private ChessBoard runWithGameCommand(final BoardRepository boardRepository,
+                                          final GameCommand gameCommand,
+                                          final GameArguments gameArguments,
+                                          ChessBoard chessBoard) {
+        if (gameCommand.isStatus()) {
+            outputView.printPoints(chessBoard.calculate());
+        }
+        if (gameCommand.isMove()) {
+            final MoveArguments moveArguments = gameArguments.moveArguments();
+            chessBoard = move(chessBoard, moveArguments);
+            outputView.printChessBoard(chessBoard);
+            updateBoardChange(boardRepository, chessBoard);
         }
         return chessBoard;
     }
@@ -77,10 +82,16 @@ public class ChessController {
         return chessBoard.move(source, target);
     }
 
-    private void updateBoardChange(final BoardRepository boardRepository, final ChessBoard finalChessBoard) {
+    private void updateBoardChange(final BoardRepository boardRepository, final ChessBoard chessBoard) {
         boardRepository.deleteAll();
-        if (finalChessBoard.checkChessEnd()) {
-            boardRepository.add(finalChessBoard.convertDto());
+        if (!chessBoard.checkChessEnd()) {
+            boardRepository.add(chessBoard.convertDto());
+        }
+    }
+
+    private void printScoreWhenEnd(final ChessBoard movedChessBoard, final ChessBoard chessBoard) {
+        if (movedChessBoard.checkChessEnd()) {
+            outputView.printPoints(chessBoard.calculate());
         }
     }
 

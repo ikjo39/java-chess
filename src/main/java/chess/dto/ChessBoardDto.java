@@ -27,8 +27,8 @@ public final class ChessBoardDto {
         return pieces.stream()
                 .collect(collectingAndThen(
                         toMap(PieceDto::convertPosition, PieceDto::convertPiece),
-                        board -> new ChessBoard(board, Side.from(turn))
-                ));
+                        board -> new ChessBoard(board, Side.from(turn)))
+                );
     }
 
     public Set<PieceDto> pieces() {
