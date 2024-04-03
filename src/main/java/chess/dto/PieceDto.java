@@ -39,7 +39,7 @@ public final class PieceDto {
                 .getPiece();
     }
 
-    private String convertRankText(String[] positionTexts) {
+    private String convertRankText(final String[] positionTexts) {
         return Arrays.stream(positionTexts)
                 .skip(1)
                 .collect(Collectors.joining(""));

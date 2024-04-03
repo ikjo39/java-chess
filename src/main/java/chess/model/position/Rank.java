@@ -15,7 +15,7 @@ public enum Rank {
     private final int coordinate;
     private final String name;
 
-    Rank(final int coordinate, String name) {
+    Rank(final int coordinate, final String name) {
         this.coordinate = coordinate;
         this.name = name;
     }
