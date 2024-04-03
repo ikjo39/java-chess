@@ -40,8 +40,7 @@ public abstract class Pawn extends Piece {
                                     final Set<ChessPosition> paths,
                                     final Set<Direction> directions) {
         directions.stream()
-                .filter(direction -> isPawnInitialPosition(source)
-                        || !direction.isDoubleForward())
+                .filter(direction -> isValidPawn(source, direction))
                 .forEach(direction -> addPossiblePaths(source, chessBoard, paths, direction));
     }
 
@@ -62,6 +61,11 @@ public abstract class Pawn extends Piece {
                 && !chessBoard.isNotEmpty(source.moveVertical(step));
     }
 
+    private boolean isValidPawn(final ChessPosition source, final Direction direction) {
+        return isPawnInitialPosition(source)
+                || !direction.isDoubleForward();
+    }
+
     private boolean canMove(final ChessPosition source,
                             final ChessBoard chessBoard,
                             final Direction direction) {
@@ -80,9 +84,7 @@ public abstract class Pawn extends Piece {
     private boolean canMoveVertical(final Direction direction,
                                     final ChessBoard chessBoard,
                                     final ChessPosition source) {
-        if (!direction.isVertical()) {
-            return false;
-        }
-        return canMoveVerticalPaths(source, chessBoard, direction);
+        return direction.isVertical()
+                && canMoveVerticalPaths(source, chessBoard, direction);
     }
 }
