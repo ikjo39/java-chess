@@ -55,6 +55,13 @@ public abstract class Pawn extends Piece {
         }
     }
 
+    protected boolean canMoveVertical(final ChessPosition source,
+                                      final ChessBoard chessBoard,
+                                      final int step) {
+        return source.canMoveVertical(step)
+                && !chessBoard.isNotEmpty(source.moveVertical(step));
+    }
+
     private boolean canMove(final ChessPosition source,
                             final ChessBoard chessBoard,
                             final Direction direction) {

@@ -13,8 +13,10 @@ import chess.model.position.Rank;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 public class WhitePawn extends Pawn {
+    private static final int MINIMUM_WHITE_PAWN_MOVING_STEP = -1;
     private static final List<ChessPosition> INITIAL_WHITE_POSITION = Arrays.stream(File.values())
             .map(file -> new ChessPosition(file, Rank.TWO))
             .toList();
@@ -32,12 +34,8 @@ public class WhitePawn extends Pawn {
     protected boolean canMoveVerticalPaths(final ChessPosition source,
                                            final ChessBoard chessBoard,
                                            final Direction direction) {
-        for (int i = direction.getY(); i <= -1; i++) {
-            if (!source.canMoveVertical(i) || chessBoard.isNotEmpty(source.moveVertical(i))) {
-                return false;
-            }
-        }
-        return true;
+        return IntStream.rangeClosed(direction.getY(), MINIMUM_WHITE_PAWN_MOVING_STEP)
+                .allMatch(step -> canMoveVertical(source, chessBoard, step));
     }
 
     @Override
