@@ -6,40 +6,35 @@ import chess.model.position.Rank;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MoveArguments {
     private static final int ARGUMENTS_SIZE = 4;
-    private static final String MOVE_REGEX = "([a-zA-Z])(\\d)";
-    private static final Pattern MOVE_PATTERN = Pattern.compile(MOVE_REGEX);
 
     private final String sourceRank;
     private final String targetRank;
     private final String sourceFile;
     private final String targetFile;
 
-    private MoveArguments(final String sourceFile,
-                          final String sourceRank,
-                          final String targetFile,
-                          final String targetRank) {
-        this.sourceFile = sourceFile;
+    private MoveArguments(final String sourceRank,
+                          final String targetRank,
+                          final String sourceFile,
+                          final String targetFile) {
         this.sourceRank = sourceRank;
-        this.targetFile = targetFile;
         this.targetRank = targetRank;
+        this.sourceFile = sourceFile;
+        this.targetFile = targetFile;
     }
 
-    public static MoveArguments from(final List<String> inputs) {
-        final List<String> arguments = convertArguments(inputs);
+    public static MoveArguments from(final String input) {
+        final List<String> arguments = convertArguments(input);
         validateArgumentsSize(arguments);
         return new MoveArguments(arguments.get(0), arguments.get(1),
                 arguments.get(2), arguments.get(3));
     }
 
-    private static List<String> convertArguments(final List<String> arguments) {
-        return arguments.stream()
+    private static List<String> convertArguments(final String arguments) {
+        return Arrays.stream(arguments.split(" "))
                 .skip(1)
-                .filter(MoveArguments::validateMoveArgument)
                 .flatMap(s -> Arrays.stream(s.split("")))
                 .toList();
     }
@@ -48,11 +43,6 @@ public class MoveArguments {
         if (results.size() != ARGUMENTS_SIZE) {
             throw new IllegalArgumentException("Source 위치와 Target 위치가 정확하지 않습니다.");
         }
-    }
-
-    private static boolean validateMoveArgument(final String argument) {
-        final Matcher matcher = MOVE_PATTERN.matcher(argument);
-        return matcher.matches();
     }
 
     public ChessPosition createSourcePosition() {

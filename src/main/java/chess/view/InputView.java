@@ -1,14 +1,12 @@
 package chess.view;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class InputView {
     private final Scanner scanner = new Scanner(System.in);
 
-    public String readGameCommand() {
+    public GameCommand readGameCommand() {
         final String introductionText = """
                 > 체스 게임을 시작합니다.
                 > 게임 시작 : start
@@ -17,18 +15,16 @@ public class InputView {
         System.out.println(introductionText);
         final String input = scanner.nextLine();
         validateInput(input);
-        return input;
+        return GameCommand.createFirstGameCommand(input);
     }
 
     public GameArguments readGameArguments() {
         final String input = scanner.nextLine();
-        final List<String> inputs = Arrays.stream(input.split(" "))
-                .toList();
-        final GameCommand moveCommand = GameCommand.createMoveCommand(inputs.get(0));
-        if (moveCommand.isEnd() || moveCommand.isStatus()) {
+        final GameCommand moveCommand = GameCommand.createMoveCommand(input);
+        if (!moveCommand.isMove()) {
             return new GameArguments(moveCommand, null);
         }
-        return new GameArguments(moveCommand, MoveArguments.from(inputs));
+        return new GameArguments(moveCommand, MoveArguments.from(input));
     }
 
     private void validateInput(final String command) {

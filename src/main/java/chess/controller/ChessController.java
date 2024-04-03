@@ -28,15 +28,13 @@ public class ChessController {
 
     public void run() {
         TableDao.createChessBoardIfNotExist();
-        final GameCommand gameCommand = retryOnException(
-                () -> GameCommand.createFirstGameCommand(inputView.readGameCommand()));
-        if (gameCommand.isEnd()) {
-            return;
+        final GameCommand gameCommand = retryOnException(inputView::readGameCommand);
+        if (!gameCommand.isEnd()) {
+            final ChessBoard chessBoard = getChessBoard(boardRepository);
+            updateBoardChange(boardRepository, chessBoard);
+            outputView.printChessBoard(chessBoard);
+            retryOnException(() -> playChess(boardRepository, gameCommand));
         }
-        final ChessBoard chessBoard = getChessBoard(boardRepository);
-        updateBoardChange(boardRepository, chessBoard);
-        outputView.printChessBoard(chessBoard);
-        printPoints(retryOnException(() -> playChess(boardRepository)));
     }
 
     private ChessBoard getChessBoard(final BoardRepository boardRepository) {
@@ -51,22 +49,24 @@ public class ChessController {
                 .convert();
     }
 
-    private ChessBoard playChess(final BoardRepository boardRepository) {
+    private ChessBoard playChess(final BoardRepository boardRepository, GameCommand gameCommand) {
         ChessBoard chessBoard = getAllDataFrom(boardRepository);
-        while (!chessBoard.checkChessEnd()) {
+        while (!gameCommand.isEnd()) {
             final GameArguments gameArguments = inputView.readGameArguments();
-            final GameCommand gameCommand = gameArguments.gameCommand();
-            if (gameCommand.isEnd()) {
+            gameCommand = gameArguments.gameCommand();
+            if (chessBoard.checkChessEnd()) {
+                outputView.printPoints(chessBoard.calculate());
                 break;
             }
             if (gameCommand.isStatus()) {
-                printPoints(chessBoard);
-                continue;
+                outputView.printPoints(chessBoard.calculate());
             }
-            final MoveArguments moveArguments = gameArguments.moveArguments();
-            chessBoard = move(chessBoard, moveArguments);
-            outputView.printChessBoard(chessBoard);
-            updateBoardChange(boardRepository, chessBoard);
+            if (gameCommand.isMove()) {
+                final MoveArguments moveArguments = gameArguments.moveArguments();
+                chessBoard = move(chessBoard, moveArguments);
+                outputView.printChessBoard(chessBoard);
+                updateBoardChange(boardRepository, chessBoard);
+            }
         }
         return chessBoard;
     }
@@ -77,16 +77,11 @@ public class ChessController {
         return chessBoard.move(source, target);
     }
 
-    private void printPoints(final ChessBoard chessBoard) {
-        outputView.printPoints(chessBoard.calculate());
-    }
-
     private void updateBoardChange(final BoardRepository boardRepository, final ChessBoard finalChessBoard) {
         boardRepository.deleteAll();
         if (finalChessBoard.checkChessEnd()) {
-            return;
+            boardRepository.add(finalChessBoard.convertDto());
         }
-        boardRepository.add(finalChessBoard.convertDto());
     }
 
     private <T> T retryOnException(final Supplier<T> retryOperation) {
