@@ -12,7 +12,9 @@ public class Empty extends Piece {
     }
 
     @Override
-    public boolean canMove(final ChessPosition source, final ChessPosition target, final ChessBoard chessBoard) {
+    public boolean canMove(final ChessPosition source,
+                           final ChessPosition target,
+                           final ChessBoard chessBoard) {
         return false;
     }
 
@@ -37,14 +39,18 @@ public class Empty extends Piece {
     }
 
     @Override
-    protected void addPossiblePaths(final ChessPosition source, final ChessBoard chessBoard,
-                                    final Set<ChessPosition> paths, final Set<Direction> directions) {
+    protected void addPossiblePaths(final ChessPosition source,
+                                    final ChessBoard chessBoard,
+                                    final Set<ChessPosition> paths,
+                                    final Set<Direction> directions) {
         throw new UnsupportedOperationException("빈 기물은 경로를 탐색할 수 없습니다.");
     }
 
     @Override
-    protected void addPossiblePaths(final ChessPosition source, final ChessBoard chessBoard,
-                                    final Set<ChessPosition> paths, final Direction direction) {
+    protected void addPossiblePaths(final ChessPosition source,
+                                    final ChessBoard chessBoard,
+                                    final Set<ChessPosition> paths,
+                                    final Direction direction) {
         throw new UnsupportedOperationException("빈 기물은 경로를 탐색할 수 없습니다.");
     }
 }

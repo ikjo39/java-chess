@@ -12,7 +12,8 @@ public class ChessPosition {
     }
 
     public boolean canMove(final Direction direction) {
-        return file.canMove(direction.getX()) && rank.canMove(direction.getY());
+        return file.canMove(direction.getX())
+                && rank.canMove(direction.getY());
     }
 
     public boolean canMoveVertical(final int step) {
@@ -25,14 +26,17 @@ public class ChessPosition {
 
     public ChessPosition move(final Direction direction) {
         if (canMove(direction)) {
-            return new ChessPosition(file.findNextFile(direction.getX()), rank.findNextRank(direction.getY()));
+            final File nextFile = file.findNextFile(direction.getX());
+            final Rank nextRank = rank.findNextRank(direction.getY());
+            return new ChessPosition(nextFile, nextRank);
         }
         throw new IllegalArgumentException("해당 방향으로 움직일 수 없습니다");
     }
 
     public ChessPosition moveVertical(final int step) {
         if (canMoveVertical(step)) {
-            return new ChessPosition(file, rank.findNextRank(step));
+            final Rank nextRank = rank.findNextRank(step);
+            return new ChessPosition(file, nextRank);
         }
         throw new IllegalArgumentException("해당 방향으로 움직일 수 없습니다");
     }
@@ -42,7 +46,7 @@ public class ChessPosition {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }

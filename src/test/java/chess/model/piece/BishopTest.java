@@ -74,7 +74,7 @@ class BishopTest {
     @DisplayName("비숍이 이동할 수 있는지 판단한다.")
     void canMove() {
         //given
-        Bishop bishop = new Bishop(Side.BLACK);
+        final Bishop bishop = new Bishop(Side.BLACK);
 
         //when //then
         assertAll(
@@ -89,10 +89,10 @@ class BishopTest {
     @DisplayName("비숍이 갈 수 있는 위치에 적 기물이 있으면 이동할 수 있다.")
     void canMoveWhenEnemy() {
         //given
-        Bishop bishop = new Bishop(Side.BLACK);
+        final Bishop bishop = new Bishop(Side.BLACK);
 
         //when
-        boolean result = bishop.canMove(D7, C6, chessBoard);
+        final boolean result = bishop.canMove(D7, C6, chessBoard);
 
         //then
         assertThat(result).isTrue();
@@ -102,10 +102,10 @@ class BishopTest {
     @DisplayName("아군 기물이 있다면 이동할 수 없다.")
     void canNotMove() {
         //given
-        Bishop bishop = new Bishop(Side.BLACK);
+        final Bishop bishop = new Bishop(Side.BLACK);
 
         //when
-        boolean result = bishop.canMove(D7, F5, chessBoard);
+        final boolean result = bishop.canMove(D7, F5, chessBoard);
 
         //then
         assertThat(result).isFalse();
@@ -115,7 +115,7 @@ class BishopTest {
     @DisplayName("비숍 움직임으로 갈 수 없다면 움직일 수 없다.")
     void canNotMoveInvalidPosition() {
         //given
-        Bishop bishop = new Bishop(Side.BLACK);
+        final Bishop bishop = new Bishop(Side.BLACK);
 
         //when //then
         assertThat(bishop.canMove(D7, D6, chessBoard)).isFalse();
@@ -125,7 +125,7 @@ class BishopTest {
     @ParameterizedTest
     @CsvSource(value = {"BLACK", "WHITE"})
     @DisplayName("왕인지 판단한다.")
-    void isKing(Side side) {
+    void isKing(final Side side) {
         //given
         final Bishop bishop = new Bishop(side);
 
@@ -139,7 +139,7 @@ class BishopTest {
     @ParameterizedTest
     @CsvSource(value = {"BLACK", "WHITE"})
     @DisplayName("폰인지 판단한다.")
-    void isPawn(Side side) {
+    void isPawn(final Side side) {
         //given
         final Bishop bishop = new Bishop(side);
 
@@ -153,7 +153,7 @@ class BishopTest {
     @ParameterizedTest
     @CsvSource(value = {"BLACK", "WHITE"})
     @DisplayName("점수를 반환한다.")
-    void getPoint(Side side) {
+    void getPoint(final Side side) {
         //given
         final Bishop bishop = new Bishop(side);
 

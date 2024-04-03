@@ -73,7 +73,7 @@ class KnightTest {
     @DisplayName("나이트가 이동할 수 있는지 판단한다.")
     void canMove() {
         //given
-        Knight knight = new Knight(Side.WHITE);
+        final Knight knight = new Knight(Side.WHITE);
 
         //when //then
         assertAll(
@@ -88,10 +88,10 @@ class KnightTest {
     @DisplayName("나이트가 갈 수 있는 위치에 적 기물이 있으면 이동할 수 있다.")
     void canMoveWhenEnemy() {
         //given
-        Knight knight = new Knight(Side.WHITE);
+        final Knight knight = new Knight(Side.WHITE);
 
         //when
-        boolean result = knight.canMove(F4, E6, chessBoard);
+        final boolean result = knight.canMove(F4, E6, chessBoard);
 
         //then
         assertThat(result).isTrue();
@@ -105,7 +105,7 @@ class KnightTest {
         final ChessBoard chessBoardKnightWithSameSide = chessBoard;
 
         //when
-        boolean result = knight.canMove(F4, D5, chessBoardKnightWithSameSide);
+        final boolean result = knight.canMove(F4, D5, chessBoardKnightWithSameSide);
 
         //then
         assertThat(result).isFalse();
@@ -115,10 +115,10 @@ class KnightTest {
     @DisplayName("나이트의 움직임으로 갈 수 없다면 움직일 수 없다.")
     void canNotMoveWithInvalidMove() {
         //given
-        Knight knight = new Knight(Side.WHITE);
+        final Knight knight = new Knight(Side.WHITE);
 
         //when
-        boolean result = knight.canMove(F4, A1, chessBoard);
+        final boolean result = knight.canMove(F4, A1, chessBoard);
 
         //then
         assertThat(result).isFalse();
@@ -127,7 +127,7 @@ class KnightTest {
     @ParameterizedTest
     @CsvSource(value = {"BLACK", "WHITE"})
     @DisplayName("왕인지 판단한다.")
-    void isKing(Side side) {
+    void isKing(final Side side) {
         //given
         final Knight knight = new Knight(side);
 
@@ -141,7 +141,7 @@ class KnightTest {
     @ParameterizedTest
     @CsvSource(value = {"BLACK", "WHITE"})
     @DisplayName("폰인지 판단한다.")
-    void isPawn(Side side) {
+    void isPawn(final Side side) {
         //given
         final Knight knight = new Knight(side);
 
@@ -155,7 +155,7 @@ class KnightTest {
     @ParameterizedTest
     @CsvSource(value = {"BLACK", "WHITE"})
     @DisplayName("점수를 반환한다.")
-    void getPoint(Side side) {
+    void getPoint(final Side side) {
         //given
         final Knight knight = new Knight(side);
 

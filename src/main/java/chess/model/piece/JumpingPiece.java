@@ -21,14 +21,18 @@ public abstract class JumpingPiece extends Piece {
     }
 
     @Override
-    protected void addPossiblePaths(final ChessPosition source, final ChessBoard chessBoard,
-                                    final Set<ChessPosition> paths, final Set<Direction> directions) {
+    protected void addPossiblePaths(final ChessPosition source,
+                                    final ChessBoard chessBoard,
+                                    final Set<ChessPosition> paths,
+                                    final Set<Direction> directions) {
         directions.forEach(direction -> addPossiblePaths(source, chessBoard, paths, direction));
     }
 
     @Override
-    protected void addPossiblePaths(final ChessPosition source, final ChessBoard chessBoard,
-                                    final Set<ChessPosition> paths, final Direction direction) {
+    protected void addPossiblePaths(final ChessPosition source,
+                                    final ChessBoard chessBoard,
+                                    final Set<ChessPosition> paths,
+                                    final Direction direction) {
         ChessPosition current = source;
         while (current.canMove(direction)) {
             current = current.move(direction);

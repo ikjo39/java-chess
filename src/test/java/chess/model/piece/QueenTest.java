@@ -75,7 +75,7 @@ class QueenTest {
     @DisplayName("퀸가 이동할 수 있는지 판단한다.")
     void canMove() {
         //given
-        Queen queen = new Queen(Side.BLACK);
+        final Queen queen = new Queen(Side.BLACK);
 
         //when //then
         assertAll(
@@ -91,10 +91,10 @@ class QueenTest {
     @DisplayName("퀸가 갈 수 있는 위치에 적 기물이 있으면 이동할 수 있다.")
     void canMoveWhenEnemy() {
         //given
-        Queen queen = new Queen(Side.BLACK);
+        final Queen queen = new Queen(Side.BLACK);
 
         //when
-        boolean result = queen.canMove(E6, D5, chessBoard);
+        final boolean result = queen.canMove(E6, D5, chessBoard);
 
         //then
         assertThat(result).isTrue();
@@ -108,7 +108,7 @@ class QueenTest {
         final ChessBoard chessBoardQueenWithSameSide = chessBoard;
 
         //when
-        boolean result = queen.canMove(E6, D7, chessBoardQueenWithSameSide);
+        final boolean result = queen.canMove(E6, D7, chessBoardQueenWithSameSide);
 
         //then
         assertThat(result).isFalse();
@@ -118,10 +118,10 @@ class QueenTest {
     @DisplayName("퀸의 움직임으로 갈 수 없다면 움직일 수 없다.")
     void canNotMoveWithInvalidMove() {
         //given
-        Queen queen = new Queen(Side.BLACK);
+        final Queen queen = new Queen(Side.BLACK);
 
         //when
-        boolean result = queen.canMove(E6, A1, chessBoard);
+        final boolean result = queen.canMove(E6, A1, chessBoard);
 
         //then
         assertThat(result).isFalse();
@@ -130,7 +130,7 @@ class QueenTest {
     @ParameterizedTest
     @CsvSource(value = {"BLACK", "WHITE"})
     @DisplayName("왕인지 판단한다.")
-    void isKing(Side side) {
+    void isKing(final Side side) {
         //given
         final Queen queen = new Queen(side);
 
@@ -144,7 +144,7 @@ class QueenTest {
     @ParameterizedTest
     @CsvSource(value = {"BLACK", "WHITE"})
     @DisplayName("폰인지 판단한다.")
-    void isPawn(Side side) {
+    void isPawn(final Side side) {
         //given
         final Queen queen = new Queen(side);
 
@@ -158,7 +158,7 @@ class QueenTest {
     @ParameterizedTest
     @CsvSource(value = {"BLACK", "WHITE"})
     @DisplayName("점수를 반환한다.")
-    void getPoint(Side side) {
+    void getPoint(final Side side) {
         //given
         final Queen queen = new Queen(side);
 

@@ -71,7 +71,7 @@ class KingTest {
     @DisplayName("킹이 이동할 수 있는지 판단한다.")
     void canMove() {
         //given
-        King king = new King(Side.BLACK);
+        final King king = new King(Side.BLACK);
 
         //when //then
         assertAll(
@@ -84,10 +84,10 @@ class KingTest {
     @DisplayName("킹이 갈 수 있는 위치에 적 기물이 있으면 이동할 수 있다.")
     void canMoveWhenEnemy() {
         //given
-        King king = new King(Side.WHITE);
+        final King king = new King(Side.WHITE);
 
         //when
-        boolean result = king.canMove(B8, C8, chessBoard);
+        final boolean result = king.canMove(B8, C8, chessBoard);
 
         //then
         assertThat(result).isTrue();
@@ -100,7 +100,7 @@ class KingTest {
         final King king = new King(Side.BLACK);
 
         //when
-        boolean result = king.canMove(B8, C8, chessBoard);
+        final boolean result = king.canMove(B8, C8, chessBoard);
 
         //then
         assertThat(result).isFalse();
@@ -110,10 +110,10 @@ class KingTest {
     @DisplayName("킹의 움직임으로 갈 수 없다면 움직일 수 없다.")
     void canNotMoveWithInvalidMove() {
         //given
-        King king = new King(Side.WHITE);
+        final King king = new King(Side.WHITE);
 
         //when
-        boolean result = king.canMove(B8, A4, chessBoard);
+        final boolean result = king.canMove(B8, A4, chessBoard);
 
         //then
         assertThat(result).isFalse();
@@ -122,7 +122,7 @@ class KingTest {
     @ParameterizedTest
     @CsvSource(value = {"BLACK", "WHITE"})
     @DisplayName("왕인지 판단한다.")
-    void isKing(Side side) {
+    void isKing(final Side side) {
         //given
         final King king = new King(side);
 
@@ -136,7 +136,7 @@ class KingTest {
     @ParameterizedTest
     @CsvSource(value = {"BLACK", "WHITE"})
     @DisplayName("폰인지 판단한다.")
-    void isPawn(Side side) {
+    void isPawn(final Side side) {
         //given
         final King king = new King(side);
 
@@ -150,7 +150,7 @@ class KingTest {
     @ParameterizedTest
     @CsvSource(value = {"BLACK", "WHITE"})
     @DisplayName("점수를 반환한다.")
-    void getPoint(Side side) {
+    void getPoint(final Side side) {
         //given
         final King king = new King(side);
 

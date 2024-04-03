@@ -12,9 +12,9 @@ class SideTest {
     @ParameterizedTest
     @CsvSource(value = {"EMPTY,true", "WHITE,false", "BLACK,false"})
     @DisplayName("흰색 진영인지 판단한다.")
-    void isEmpty(Side given, boolean expected) {
+    void isEmpty(final Side given, final boolean expected) {
         //when
-        boolean result = given.isEmpty();
+        final boolean result = given.isEmpty();
 
         //then
         assertThat(result).isEqualTo(expected);
@@ -27,9 +27,11 @@ class SideTest {
             "EMPTY,WHITE,false", "EMPTY,BLACK,false", "EMPTY,EMPTY,false",
     })
     @DisplayName("적 기물인지 판단한다.")
-    void isEnemy(Side now, Side other, boolean expected) {
+    void isEnemy(final Side now,
+                 final Side other,
+                 final boolean expected) {
         //when
-        boolean result = now.isEnemy(other);
+        final boolean result = now.isEnemy(other);
 
         //then
         assertThat(result).isEqualTo(expected);
@@ -38,9 +40,9 @@ class SideTest {
     @ParameterizedTest
     @CsvSource(value = {"WHITE,BLACK", "BLACK,WHITE"})
     @DisplayName("적 진영을 반환한다.")
-    void getEnemy(Side given, Side expected) {
+    void getEnemy(final Side given, final Side expected) {
         //when
-        Side result = given.getEnemy();
+        final Side result = given.getEnemy();
 
         //then
         assertThat(result).isEqualTo(expected);
@@ -50,7 +52,7 @@ class SideTest {
     @DisplayName("빈 진영의 적을 반환하려하면 예외가 발생한다.")
     void getEnemy() {
         //given
-        Side given = Side.EMPTY;
+        final Side given = Side.EMPTY;
 
         //when         //then
         assertThatThrownBy(given::getEnemy)

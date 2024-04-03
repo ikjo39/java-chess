@@ -88,7 +88,8 @@ public class ChessBoard {
         }
     }
 
-    private void changePositions(final ChessPosition sourcePosition, final ChessPosition targetPosition,
+    private void changePositions(final ChessPosition sourcePosition,
+                                 final ChessPosition targetPosition,
                                  final Piece sourcePiece) {
         board.put(targetPosition, sourcePiece);
         board.put(sourcePosition, new Empty());

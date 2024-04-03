@@ -10,12 +10,12 @@ public enum SideText {
     private final Side side;
     private final String text;
 
-    SideText(Side side, String text) {
+    SideText(final Side side, final String text) {
         this.side = side;
         this.text = text;
     }
 
-    public static SideText from(Side given) {
+    public static SideText from(final Side given) {
         return Arrays.stream(values())
                 .filter(sidePoint -> sidePoint.side.equals(given))
                 .findFirst()

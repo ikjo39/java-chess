@@ -25,7 +25,7 @@ class PieceTextTest {
     @ParameterizedTest
     @MethodSource("createPieceAndPieceText")
     @DisplayName("기물로 기물텍스트를 생성한다.")
-    void fromPiece(final Piece given, PieceText expected) {
+    void fromPiece(final Piece given, final PieceText expected) {
         //when
         final PieceText result = PieceText.from(given);
 

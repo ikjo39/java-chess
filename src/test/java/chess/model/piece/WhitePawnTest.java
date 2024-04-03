@@ -101,10 +101,10 @@ class WhitePawnTest {
     @DisplayName("적 기물이 대각선 앞에 있다면 이동할 수 있다.")
     void canMoveDiagonal() {
         //given
-        WhitePawn whitePawn = new WhitePawn();
+        final WhitePawn whitePawn = new WhitePawn();
 
         //when
-        boolean result = whitePawn.canMove(F3, E4, chessBoard);
+        final boolean result = whitePawn.canMove(F3, E4, chessBoard);
 
         //then
         assertThat(result).isTrue();
@@ -114,10 +114,10 @@ class WhitePawnTest {
     @DisplayName("아군 기물이 있다면 이동할 수 없다.")
     void canNotMove() {
         //given
-        WhitePawn whitePawn = new WhitePawn();
+        final WhitePawn whitePawn = new WhitePawn();
 
         //when
-        boolean result = whitePawn.canMove(F3, F2, chessBoard);
+        final boolean result = whitePawn.canMove(F3, F2, chessBoard);
 
         //then
         assertThat(result).isFalse();
@@ -127,10 +127,10 @@ class WhitePawnTest {
     @DisplayName("폰의 움직임으로 갈 수 없다면 이동할 수 없다.")
     void canNotMoveInvalidDirection() {
         //given
-        WhitePawn whitePawn = new WhitePawn();
+        final WhitePawn whitePawn = new WhitePawn();
 
         //when
-        boolean result = whitePawn.canMove(F3, B5, chessBoard);
+        final boolean result = whitePawn.canMove(F3, B5, chessBoard);
 
         //then
         assertThat(result).isFalse();

@@ -14,7 +14,9 @@ class PieceTest {
             "WHITE,EMPTY,false", "BLACK,EMPTY,false",
     })
     @DisplayName("같은 진영인지 판단한다.")
-    void isSameSide(Side sourceSide, Side targetSide, boolean expected) {
+    void isSameSide(final Side sourceSide,
+                    final Side targetSide,
+                    final boolean expected) {
         //given
         final Piece source = new Bishop(sourceSide);
         //when
@@ -27,12 +29,12 @@ class PieceTest {
     @ParameterizedTest
     @CsvSource(value = {"WHITE,BLACK", "BLACK,WHITE",})
     @DisplayName("같은 진영인지 판단한다.")
-    void getEnemy(Side given, Side expected) {
+    void getEnemy(final Side given, final Side expected) {
         //given
         final Piece source = new Bishop(given);
 
         //when
-        Side result = source.getEnemy();
+        final Side result = source.getEnemy();
 
         //then
         assertThat(result).isEqualTo(expected);

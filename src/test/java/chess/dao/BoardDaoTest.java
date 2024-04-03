@@ -18,7 +18,7 @@ class BoardDaoTest {
     @BeforeEach
     void setUp() {
         boardRepository = new TestBoardDao();
-        Set<PieceDto> pieces = Set.of(
+        final Set<PieceDto> pieces = Set.of(
                 PieceDto.from("a8", "R"),
                 PieceDto.from("b7", "N"),
                 PieceDto.from("d5", "q")
@@ -35,7 +35,7 @@ class BoardDaoTest {
     @DisplayName("체스보드 테이블에 데이터를 추가한다.")
     void add() {
         //given
-        Set<PieceDto> pieces = Set.of(
+        final  Set<PieceDto> pieces = Set.of(
                 PieceDto.from("a1", "r"),
                 PieceDto.from("b1", "k"),
                 PieceDto.from("c7", "K")
@@ -53,10 +53,10 @@ class BoardDaoTest {
     @DisplayName("위치로 테이블 정보를 조회힌다.")
     void findByPosition() {
         //given
-        String position = "a8";
+        final String position = "a8";
 
         //when
-        PieceDto piece = boardRepository.findByPosition(position);
+        final PieceDto piece = boardRepository.findByPosition(position);
 
         //then
         assertAll(
@@ -69,7 +69,7 @@ class BoardDaoTest {
     @DisplayName("모든 정보를 가져온다.")
     void findAll() {
         //when
-        ChessBoardDto board = boardRepository.findAll();
+        final ChessBoardDto board = boardRepository.findAll();
 
         //then
         assertThat(board.pieces()).hasSize(3);
@@ -79,7 +79,7 @@ class BoardDaoTest {
     @DisplayName("데이터 개수를 반환한다.")
     void count() {
         //when
-        int count = boardRepository.count();
+        final int count = boardRepository.count();
 
         //then
         assertThat(count).isEqualTo(3);

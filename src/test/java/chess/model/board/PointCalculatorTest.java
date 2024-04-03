@@ -40,7 +40,7 @@ class PointCalculatorTest {
     @DisplayName("체스판 위 진영 별 점수를 계산한다.")
     void calculatePointsDynamicPieces(PointCalculator pointCalculator, double whiteExpected, double blackExpected) {
         // when
-        Points points = pointCalculator.calculate();
+        final Points points = pointCalculator.calculate();
         final double whitePoint = points.getPoints().get(Side.WHITE).getValue();
         final double blackPoint = points.getPoints().get(Side.BLACK).getValue();
 

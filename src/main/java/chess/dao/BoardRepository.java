@@ -4,9 +4,9 @@ import chess.dto.ChessBoardDto;
 import chess.dto.PieceDto;
 
 public interface BoardRepository {
-    void add(ChessBoardDto chessBoardDto);
+    void add(final ChessBoardDto chessBoardDto);
 
-    PieceDto findByPosition(String data);
+    PieceDto findByPosition(final String data);
 
     ChessBoardDto findAll();
 

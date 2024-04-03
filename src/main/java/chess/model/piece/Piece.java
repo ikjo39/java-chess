@@ -22,13 +22,19 @@ public abstract class Piece {
 
     protected abstract Set<Direction> availableDirections();
 
-    protected abstract void addPossiblePaths(final ChessPosition source, final ChessBoard chessBoard,
-                                             final Set<ChessPosition> paths, final Set<Direction> directions);
+    protected abstract void addPossiblePaths(final ChessPosition source,
+                                             final ChessBoard chessBoard,
+                                             final Set<ChessPosition> paths,
+                                             final Set<Direction> directions);
 
-    protected abstract void addPossiblePaths(final ChessPosition source, final ChessBoard chessBoard,
-                                             final Set<ChessPosition> paths, final Direction direction);
+    protected abstract void addPossiblePaths(final ChessPosition source,
+                                             final ChessBoard chessBoard,
+                                             final Set<ChessPosition> paths,
+                                             final Direction direction);
 
-    public boolean canMove(final ChessPosition source, final ChessPosition target, final ChessBoard chessBoard) {
+    public boolean canMove(final ChessPosition source,
+                           final ChessPosition target,
+                           final ChessBoard chessBoard) {
         return calculatePaths(source, chessBoard).contains(target);
     }
 

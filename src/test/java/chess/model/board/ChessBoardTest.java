@@ -36,14 +36,14 @@ class ChessBoardTest {
     void move() {
         //given
         final ChessBoard chessBoard = createInitializedChessBoard(Side.WHITE);
-        ChessPosition source = B2;
-        ChessPosition target = B4;
+        final ChessPosition source = B2;
+        final ChessPosition target = B4;
 
         //when
-        ChessBoard movedBoard = chessBoard.move(source, target);
-        Map<ChessPosition, Piece> board = movedBoard.getBoard();
-        Piece sourcePiece = board.get(source);
-        Piece targetPiece = board.get(target);
+        final ChessBoard movedBoard = chessBoard.move(source, target);
+        final Map<ChessPosition, Piece> board = movedBoard.getBoard();
+        final Piece sourcePiece = board.get(source);
+        final Piece targetPiece = board.get(target);
 
         //then
         assertAll(
@@ -123,28 +123,28 @@ class ChessBoardTest {
     private static Stream<Arguments> createChessBoardWithDynamicKingCount() {
         return Stream.of(
                 Arguments.of(
-                        new ChessBoard(Map.of(
-                                F2, new King(Side.BLACK))
+                        new ChessBoard(
+                                Map.of(F2, new King(Side.BLACK))
                         ),
                         true
                 ),
                 Arguments.of(
-                        new ChessBoard(Map.of(
-                                F2, new King(Side.BLACK),
-                                F7, new King(Side.BLACK))
+                        new ChessBoard(
+                                Map.of(F2, new King(Side.BLACK),
+                                        F7, new King(Side.BLACK))
                         ),
                         false
                 ),
                 Arguments.of(
-                        new ChessBoard(Map.of(
-                                F2, new BlackPawn(),
-                                G2, new WhitePawn())),
+                        new ChessBoard(
+                                Map.of(F2, new BlackPawn(),
+                                        G2, new WhitePawn())),
                         true
                 )
         );
     }
 
-    private ChessBoard createInitializedChessBoard(Side side) {
+    private ChessBoard createInitializedChessBoard(final Side side) {
         return new ChessBoard(ChessBoardInitializer.create(), side);
     }
 }

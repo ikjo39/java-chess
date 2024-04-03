@@ -38,7 +38,7 @@ public enum File {
                 .orElseThrow(() -> new IllegalStateException("File 범위를 벗어났습니다."));
     }
 
-    private boolean hasSameCoordinate(int offset, File file) {
+    private boolean hasSameCoordinate(final int offset, final File file) {
         return file.coordinate == offset + coordinate;
     }
 

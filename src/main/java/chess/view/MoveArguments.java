@@ -19,9 +19,10 @@ public class MoveArguments {
     private final String sourceFile;
     private final String targetFile;
 
-    private MoveArguments(
-            final String sourceFile, final String sourceRank, final String targetFile, final String targetRank
-    ) {
+    private MoveArguments(final String sourceFile,
+                          final String sourceRank,
+                          final String targetFile,
+                          final String targetRank) {
         this.sourceFile = sourceFile;
         this.sourceRank = sourceRank;
         this.targetFile = targetFile;
@@ -29,7 +30,7 @@ public class MoveArguments {
     }
 
     public static MoveArguments from(final List<String> inputs) {
-        List<String> arguments = convertArguments(inputs);
+        final List<String> arguments = convertArguments(inputs);
         validateArgumentsSize(arguments);
         return new MoveArguments(arguments.get(0), arguments.get(1),
                 arguments.get(2), arguments.get(3));

@@ -15,7 +15,8 @@ public abstract class Pawn extends Piece {
 
     protected abstract boolean isPawnInitialPosition(final ChessPosition source);
 
-    protected abstract boolean canMoveVerticalPaths(final ChessPosition source, final ChessBoard chessBoard,
+    protected abstract boolean canMoveVerticalPaths(final ChessPosition source,
+                                                    final ChessBoard chessBoard,
                                                     final Direction direction);
 
     @Override
@@ -34,29 +35,43 @@ public abstract class Pawn extends Piece {
     }
 
     @Override
-    protected void addPossiblePaths(final ChessPosition source, final ChessBoard chessBoard,
-                                    final Set<ChessPosition> paths, final Set<Direction> directions) {
+    protected void addPossiblePaths(final ChessPosition source,
+                                    final ChessBoard chessBoard,
+                                    final Set<ChessPosition> paths,
+                                    final Set<Direction> directions) {
         directions.stream()
-                .filter(direction -> isPawnInitialPosition(source) || !direction.isDoubleForward())
+                .filter(direction -> isPawnInitialPosition(source)
+                        || !direction.isDoubleForward())
                 .forEach(direction -> addPossiblePaths(source, chessBoard, paths, direction));
     }
 
     @Override
-    protected void addPossiblePaths(final ChessPosition source, final ChessBoard chessBoard,
-                                    final Set<ChessPosition> paths, final Direction direction) {
-        if (canMoveDiagonal(chessBoard, direction, source) || canMoveVertical(direction, chessBoard, source)) {
+    protected void addPossiblePaths(final ChessPosition source,
+                                    final ChessBoard chessBoard,
+                                    final Set<ChessPosition> paths,
+                                    final Direction direction) {
+        if (canMove(source, chessBoard, direction)) {
             paths.add(source.move(direction));
         }
     }
 
-    private boolean canMoveDiagonal(final ChessBoard chessBoard, final Direction direction,
+    private boolean canMove(final ChessPosition source,
+                            final ChessBoard chessBoard,
+                            final Direction direction) {
+        return canMoveDiagonal(chessBoard, direction, source)
+                || canMoveVertical(direction, chessBoard, source);
+    }
+
+    private boolean canMoveDiagonal(final ChessBoard chessBoard,
+                                    final Direction direction,
                                     final ChessPosition current) {
         return direction.isDiagonal()
                 && current.canMove(direction)
                 && chessBoard.isEnemy(current.move(direction), side);
     }
 
-    private boolean canMoveVertical(final Direction direction, final ChessBoard chessBoard,
+    private boolean canMoveVertical(final Direction direction,
+                                    final ChessBoard chessBoard,
                                     final ChessPosition source) {
         if (!direction.isVertical()) {
             return false;

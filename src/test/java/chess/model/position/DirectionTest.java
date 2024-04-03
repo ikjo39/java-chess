@@ -13,9 +13,9 @@ class DirectionTest {
             "UP,false", "DOWN,false", "LEFT,false",
             "UP_LEFT,true", "UP_RIGHT,true", "DOWN_LEFT,true", "DOWN_RIGHT,true"})
     @DisplayName("대각선 움직임인지 판단한다.")
-    void isDiagonal(Direction given, boolean expected) {
+    void isDiagonal(final Direction given, final boolean expected) {
         //when
-        boolean result = given.isDiagonal();
+        final boolean result = given.isDiagonal();
 
         //then
         assertThat(result).isEqualTo(expected);
@@ -26,9 +26,9 @@ class DirectionTest {
             "UP,true", "DOWN,true",
             "UP_LEFT,false", "UP_RIGHT,false", "DOWN_RIGHT,false"})
     @DisplayName("수직 움직임인지 판단한다.")
-    void isVertical(Direction given, boolean expected) {
+    void isVertical(final Direction given, final boolean expected) {
         //when
-        boolean result = given.isVertical();
+        final boolean result = given.isVertical();
 
         //then
         assertThat(result).isEqualTo(expected);

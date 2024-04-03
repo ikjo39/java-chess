@@ -38,7 +38,7 @@ public enum Rank {
                 .orElseThrow(() -> new IllegalStateException("Rank 범위를 벗어났습니다."));
     }
 
-    private boolean hasSameCoordinate(int offset, Rank rank) {
+    private boolean hasSameCoordinate(final int offset, final Rank rank) {
         return rank.coordinate == offset + coordinate;
     }
 

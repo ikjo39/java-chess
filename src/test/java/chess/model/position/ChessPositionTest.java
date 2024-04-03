@@ -63,12 +63,12 @@ class ChessPositionTest {
     @ParameterizedTest
     @CsvSource(value = {"UP,true", "LEFT,true", "DOWN,false", "DOWN_LEFT,false"})
     @DisplayName("방향으로 지정한 위치를 갈 수 있는지 판단한다.")
-    void canMove_C1(Direction direction, boolean expected) {
+    void canMove_C1(final Direction direction, final boolean expected) {
         // given
-        ChessPosition now = C1;
+        final ChessPosition now = C1;
 
         // when
-        boolean result = now.canMove(direction);
+        final boolean result = now.canMove(direction);
 
         // then
         assertThat(result).isEqualTo(expected);
@@ -78,7 +78,7 @@ class ChessPositionTest {
     @DisplayName("방향으로 이동한다.")
     void move_F5() {
         // given
-        ChessPosition now = F5;
+        final ChessPosition now = F5;
 
         // when //then
         assertAll(
@@ -107,7 +107,7 @@ class ChessPositionTest {
     @DisplayName("방향으로 갈 수 없으면 예외가 발생한다.")
     void move_C1_Exception() {
         // given
-        Direction direction = Direction.DOWN;
+        final Direction direction = Direction.DOWN;
 
         // when // then
         assertThatThrownBy(() -> C1.move(direction))
@@ -117,9 +117,9 @@ class ChessPositionTest {
     @ParameterizedTest
     @CsvSource(value = {"-7,false", "-6,true", "0,true", "1,true", "2,false", "3,false"})
     @DisplayName("수직 방향으로 움직일 수 있는지 판단한다.")
-    void canMoveVertical_C2(int given, boolean expected) {
+    void canMoveVertical_C2(final int given, final boolean expected) {
         //when
-        boolean result = C2.canMoveVertical(given);
+        final boolean result = C2.canMoveVertical(given);
 
         //then
         assertThat(result).isEqualTo(expected);
@@ -129,10 +129,10 @@ class ChessPositionTest {
     @DisplayName("수직 방향으로 이동한다.")
     void moveVertical_C1() {
         // given
-        int step = -1;
+        final int step = -1;
 
         // when
-        ChessPosition result = C1.moveVertical(step);
+        final ChessPosition result = C1.moveVertical(step);
 
         // then
         assertThat(result).isEqualTo(C2);
@@ -142,7 +142,7 @@ class ChessPositionTest {
     @DisplayName("수직 방향으로 갈 수 없으면 예외가 발생한다.")
     void moveVertical_C1_Exception() {
         // given
-        int step = 1;
+        final int step = 1;
 
         // when // then
         assertThatThrownBy(() -> C1.moveVertical(step))

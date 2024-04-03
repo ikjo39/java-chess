@@ -16,23 +16,23 @@ class TestBoardDao implements BoardRepository {
     private static int count = 0;
 
     @Override
-    public void add(ChessBoardDto chessBoardDto) {
-        List<ChessBoards> chessBoards = convertChessBoards(chessBoardDto);
+    public void add(final ChessBoardDto chessBoardDto) {
+        final List<ChessBoards> chessBoards = convertChessBoards(chessBoardDto);
         chessBoards.forEach(chessBoard ->
                 BOARDS_CACHE.put(++count, chessBoard)
         );
     }
 
-    private List<ChessBoards> convertChessBoards(ChessBoardDto chessBoardDto) {
-        Set<PieceDto> pieces = chessBoardDto.pieces();
-        String turn = chessBoardDto.turn();
+    private List<ChessBoards> convertChessBoards(final ChessBoardDto chessBoardDto) {
+        final Set<PieceDto> pieces = chessBoardDto.pieces();
+        final String turn = chessBoardDto.turn();
         return pieces.stream()
                 .map(pieceDto -> new ChessBoards(pieceDto.position(), pieceDto.type(), turn))
                 .toList();
     }
 
     @Override
-    public PieceDto findByPosition(String data) {
+    public PieceDto findByPosition(final String data) {
         return BOARDS_CACHE.values()
                 .stream()
                 .filter(chessBoards -> chessBoards.position().equals(data))
@@ -43,7 +43,7 @@ class TestBoardDao implements BoardRepository {
 
     @Override
     public ChessBoardDto findAll() {
-        String turn = BOARDS_CACHE.get(1).turn();
+        final String turn = BOARDS_CACHE.get(1).turn();
         return BOARDS_CACHE.values()
                 .stream()
                 .map(chessBoard -> PieceDto.from(chessBoard.position(), chessBoard.type()))

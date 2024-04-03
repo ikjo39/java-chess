@@ -29,7 +29,8 @@ public class BlackPawn extends Pawn {
     }
 
     @Override
-    protected boolean canMoveVerticalPaths(final ChessPosition source, final ChessBoard chessBoard,
+    protected boolean canMoveVerticalPaths(final ChessPosition source,
+                                           final ChessBoard chessBoard,
                                            final Direction direction) {
         for (int i = 1; i <= direction.getY(); i++) {
             if (!source.canMoveVertical(i) || chessBoard.isNotEmpty(source.moveVertical(i))) {

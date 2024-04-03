@@ -5,11 +5,11 @@ import java.util.Objects;
 public final class Point {
     private final double value;
 
-    private Point(double value) {
+    private Point(final double value) {
         this.value = value;
     }
 
-    public static Point from(double value) {
+    public static Point from(final double value) {
         return new Point(value);
     }
 
@@ -17,7 +17,7 @@ public final class Point {
         return new Point(0);
     }
 
-    public Point sum(Point other) {
+    public Point sum(final Point other) {
         return new Point(this.value + other.value);
     }
 

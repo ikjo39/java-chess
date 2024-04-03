@@ -25,7 +25,7 @@ class EmptyTest {
         //given
         final ChessPosition now = C2;
         final Empty empty = new Empty();
-        ChessBoard chessBoard = new ChessBoard(ChessBoardInitializer.create());
+        final ChessBoard chessBoard = new ChessBoard(ChessBoardInitializer.create());
 
         //when //then
         assertAll(

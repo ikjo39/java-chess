@@ -20,7 +20,9 @@ public class ChessController {
     private final OutputView outputView;
     private final BoardRepository boardRepository;
 
-    public ChessController(final InputView inputView, final OutputView outputView, BoardRepository boardRepository) {
+    public ChessController(final InputView inputView,
+                           final OutputView outputView,
+                           final BoardRepository boardRepository) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.boardRepository = boardRepository;
@@ -71,7 +73,7 @@ public class ChessController {
         return chessBoard;
     }
 
-    private ChessBoard move(ChessBoard chessBoard, final MoveArguments moveArguments) {
+    private ChessBoard move(final ChessBoard chessBoard, final MoveArguments moveArguments) {
         final ChessPosition source = moveArguments.createSourcePosition();
         final ChessPosition target = moveArguments.createTargetPosition();
         return chessBoard.move(source, target);
@@ -83,7 +85,7 @@ public class ChessController {
         outputView.printPoints(points);
     }
 
-    private void updateBoardChange(BoardRepository boardRepository, ChessBoard finalChessBoard) {
+    private void updateBoardChange(final BoardRepository boardRepository, final ChessBoard finalChessBoard) {
         boardRepository.deleteAll();
         if (finalChessBoard.checkChessEnd()) {
             return;

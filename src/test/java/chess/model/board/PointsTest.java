@@ -15,16 +15,16 @@ class PointsTest {
     @ParameterizedTest
     @CsvSource(value = {"10,30,BLACK", "30,10,WHITE"})
     @DisplayName("우승 진영을 반환한다.")
-    void calculateWinner(int white, int black, Side expected) {
+    void calculateWinner(final int white, final int black, final Side expected) {
         //given
-        Map<Side, Point> sidePoints = Map.of(
+        final Map<Side, Point> sidePoints = Map.of(
                 Side.WHITE, Point.from(white),
                 Side.BLACK, Point.from(black)
         );
 
         //when
-        Points points = new Points(sidePoints);
-        List<Side> sides = points.calculateWinner();
+        final Points points = new Points(sidePoints);
+        final List<Side> sides = points.calculateWinner();
 
         //then
         assertThat(sides).containsExactly(expected);
@@ -34,14 +34,14 @@ class PointsTest {
     @DisplayName("우승 진영을 반환하되 동점이면 두 팀 모두 반환한다.")
     void calculateWinnerTie() {
         //given
-        Map<Side, Point> sidePoints = Map.of(
+        final Map<Side, Point> sidePoints = Map.of(
                 Side.BLACK, Point.from(10),
                 Side.WHITE, Point.from(10)
         );
 
         //when
-        Points points = new Points(sidePoints);
-        List<Side> sides = points.calculateWinner();
+        final Points points = new Points(sidePoints);
+        final List<Side> sides = points.calculateWinner();
 
         //then
         assertThat(sides).containsExactlyInAnyOrder(Side.BLACK, Side.WHITE);

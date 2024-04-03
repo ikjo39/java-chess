@@ -102,10 +102,10 @@ class BlackPawnTest {
     @DisplayName("적 기물이 대각선 앞에 있다면 이동할 수 있다.")
     void canMoveDiagonal() {
         //given
-        BlackPawn blackPawn = new BlackPawn();
+        final BlackPawn blackPawn = new BlackPawn();
 
         //when
-        boolean result = blackPawn.canMove(C7, B6, chessBoard);
+        final boolean result = blackPawn.canMove(C7, B6, chessBoard);
 
         //then
         assertThat(result).isTrue();
@@ -115,10 +115,10 @@ class BlackPawnTest {
     @DisplayName("아군 기물이 있다면 이동할 수 없다.")
     void canNotMove() {
         //given
-        BlackPawn blackPawn = new BlackPawn();
+        final BlackPawn blackPawn = new BlackPawn();
 
         //when
-        boolean result = blackPawn.canMove(C7, C5, chessBoard);
+        final boolean result = blackPawn.canMove(C7, C5, chessBoard);
 
         //then
         assertThat(result).isFalse();
@@ -128,10 +128,10 @@ class BlackPawnTest {
     @DisplayName("폰이 갈 수 없는 방향이면 이동할 수 없다.")
     void canNotMoveInvalidDirection() {
         //given
-        BlackPawn blackPawn = new BlackPawn();
+        final BlackPawn blackPawn = new BlackPawn();
 
         //when
-        boolean result = blackPawn.canMove(C7, A1, chessBoard);
+        final boolean result = blackPawn.canMove(C7, A1, chessBoard);
 
         //then
         assertThat(result).isFalse();

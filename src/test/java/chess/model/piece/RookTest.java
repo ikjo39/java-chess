@@ -74,7 +74,7 @@ class RookTest {
     @DisplayName("룩이 이동할 수 있는지 판단한다.")
     void canMove() {
         //given
-        Rook rook = new Rook(Side.BLACK);
+        final Rook rook = new Rook(Side.BLACK);
 
         //when //then
         assertAll(
@@ -90,10 +90,10 @@ class RookTest {
     @DisplayName("룩이 갈 수 있는 위치에 적 기물이 있으면 이동할 수 있다.")
     void canMoveWhenEnemy() {
         //given
-        Rook rook = new Rook(Side.BLACK);
+        final Rook rook = new Rook(Side.BLACK);
 
         //when
-        boolean result = rook.canMove(G7, G4, chessBoard);
+        final boolean result = rook.canMove(G7, G4, chessBoard);
 
         //then
         assertThat(result).isTrue();
@@ -107,7 +107,7 @@ class RookTest {
         final ChessBoard chessBoardRookWithSameSide = chessBoard;
 
         //when
-        boolean result = rook.canMove(G7, D7, chessBoardRookWithSameSide);
+        final boolean result = rook.canMove(G7, D7, chessBoardRookWithSameSide);
 
         //then
         assertThat(result).isFalse();
@@ -117,10 +117,10 @@ class RookTest {
     @DisplayName("룩의 움직임으로 갈 수 없다면 움직일 수 없다.")
     void canNotMoveWithInvalidMove() {
         //given
-        Rook rook = new Rook(Side.BLACK);
+        final Rook rook = new Rook(Side.BLACK);
 
         //when
-        boolean result = rook.canMove(E6, A1, chessBoard);
+        final boolean result = rook.canMove(E6, A1, chessBoard);
 
         //then
         assertThat(result).isFalse();
@@ -129,7 +129,7 @@ class RookTest {
     @ParameterizedTest
     @CsvSource(value = {"BLACK", "WHITE"})
     @DisplayName("왕인지 판단한다.")
-    void isKing(Side side) {
+    void isKing(final Side side) {
         //given
         final Rook rook = new Rook(side);
 
@@ -143,7 +143,7 @@ class RookTest {
     @ParameterizedTest
     @CsvSource(value = {"BLACK", "WHITE"})
     @DisplayName("폰인지 판단한다.")
-    void isPawn(Side side) {
+    void isPawn(final Side side) {
         //given
         final Rook rook = new Rook(side);
 
@@ -157,7 +157,7 @@ class RookTest {
     @ParameterizedTest
     @CsvSource(value = {"BLACK", "WHITE"})
     @DisplayName("점수를 반환한다.")
-    void getPoint(Side side) {
+    void getPoint(final Side side) {
         //given
         final Rook rook = new Rook(side);
 
