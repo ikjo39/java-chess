@@ -2,7 +2,7 @@ package chess.model.position;
 
 import java.util.Objects;
 
-public class ChessPosition {
+public final class ChessPosition {
     private final File file;
     private final Rank rank;
 
