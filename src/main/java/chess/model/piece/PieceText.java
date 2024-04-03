@@ -6,63 +6,63 @@ import java.util.function.Predicate;
 public enum PieceText {
     WHITE_PAWN(
             "p",
-            piece -> piece instanceof Pawn && piece.isSameSide(Side.WHITE),
+            type -> type instanceof Pawn && type.isSameSide(Side.WHITE),
             new WhitePawn()
     ),
     WHITE_ROOK(
             "r",
-            piece -> piece instanceof Rook && piece.isSameSide(Side.WHITE),
+            type -> type instanceof Rook && type.isSameSide(Side.WHITE),
             new Rook(Side.WHITE)
     ),
     WHITE_KNIGHT(
             "n",
-            piece -> piece instanceof Knight && piece.isSameSide(Side.WHITE),
+            type -> type instanceof Knight && type.isSameSide(Side.WHITE),
             new Knight(Side.WHITE)
     ),
     WHITE_BISHOP(
             "b",
-            piece -> piece instanceof Bishop && piece.isSameSide(Side.WHITE),
+            type -> type instanceof Bishop && type.isSameSide(Side.WHITE),
             new Bishop(Side.WHITE)
     ),
     WHITE_QUEEN(
             "q",
-            piece -> piece instanceof Queen && piece.isSameSide(Side.WHITE),
+            type -> type instanceof Queen && type.isSameSide(Side.WHITE),
             new Queen(Side.WHITE)
     ),
     WHITE_KING(
             "k",
-            piece -> piece instanceof King && piece.isSameSide(Side.WHITE),
+            type -> type instanceof King && type.isSameSide(Side.WHITE),
             new King(Side.WHITE)
     ),
 
     BLACK_PAWN(
             "P",
-            piece -> piece instanceof Pawn && piece.isSameSide(Side.BLACK),
+            type -> type instanceof Pawn && type.isSameSide(Side.BLACK),
             new BlackPawn()
     ),
     BLACK_ROOK(
             "R",
-            piece -> piece instanceof Rook && piece.isSameSide(Side.BLACK),
+            type -> type instanceof Rook && type.isSameSide(Side.BLACK),
             new Rook(Side.BLACK)
     ),
     BLACK_KNIGHT(
             "N",
-            piece -> piece instanceof Knight && piece.isSameSide(Side.BLACK),
+            type -> type instanceof Knight && type.isSameSide(Side.BLACK),
             new Knight(Side.BLACK)
     ),
     BLACK_BISHOP(
             "B",
-            piece -> piece instanceof Bishop && piece.isSameSide(Side.BLACK),
+            type -> type instanceof Bishop && type.isSameSide(Side.BLACK),
             new Bishop(Side.BLACK)
     ),
     BLACK_QUEEN(
             "Q",
-            piece -> piece instanceof Queen && piece.isSameSide(Side.BLACK),
+            type -> type instanceof Queen && type.isSameSide(Side.BLACK),
             new Queen(Side.BLACK)
     ),
     BLACK_KING(
             "K",
-            piece -> piece instanceof King && piece.isSameSide(Side.BLACK),
+            type -> type instanceof King && type.isSameSide(Side.BLACK),
             new King(Side.BLACK)
     ),
 
