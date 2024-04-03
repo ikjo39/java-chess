@@ -39,11 +39,9 @@ public class ChessBoard {
         final Piece sourcePiece = findPiece(sourcePosition);
         final Piece targetPiece = findPiece(targetPosition);
         validatePieces(sourcePiece, targetPiece);
-        if (sourcePiece.canMove(sourcePosition, targetPosition, this)) {
-            changePositions(sourcePosition, targetPosition, sourcePiece);
-            return new ChessBoard(board, turn.getEnemy());
-        }
-        throw new IllegalArgumentException("Target 위치로 움직일 수 없습니다.");
+        validateCanNotMoveTarget(sourcePosition, targetPosition, sourcePiece);
+        changePositions(sourcePosition, targetPosition, sourcePiece);
+        return new ChessBoard(board, turn.getEnemy());
     }
 
     public boolean checkChessEnd() {
@@ -63,10 +61,7 @@ public class ChessBoard {
     }
 
     public ChessBoardDto convertDto() {
-        return ChessBoardDto.from(board.entrySet()
-                .stream()
-                .map(entry -> PieceDto.from(entry.getKey(), entry.getValue()))
-                .collect(Collectors.toSet()), turn.name());
+        return ChessBoardDto.from(convertPieceDtos(), turn.name());
     }
 
     public Points calculate() {
@@ -103,6 +98,14 @@ public class ChessBoard {
         validateSourcePiece(sourcePiece);
         validateTurn(sourcePiece);
         validateSameSide(sourcePiece, targetPiece);
+    }
+
+    private void validateCanNotMoveTarget(final ChessPosition sourcePosition,
+                                          final ChessPosition targetPosition,
+                                          final Piece sourcePiece) {
+        if (!sourcePiece.canMove(sourcePosition, targetPosition, this)) {
+            throw new IllegalArgumentException("Target 위치로 움직일 수 없습니다.");
+        }
     }
 
     private void validateTurn(final Piece sourcePiece) {
@@ -159,6 +162,13 @@ public class ChessBoard {
                 .filter(entry -> entry.getValue().isSameSide(side))
                 .filter(entry -> entry.getValue().isPawn())
                 .map(Entry::getKey)
+                .collect(Collectors.toSet());
+    }
+
+    private Set<PieceDto> convertPieceDtos() {
+        return board.entrySet()
+                .stream()
+                .map(entry -> PieceDto.from(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toSet());
     }
 
