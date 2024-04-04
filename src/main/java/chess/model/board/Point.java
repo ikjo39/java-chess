@@ -3,6 +3,8 @@ package chess.model.board;
 import java.util.Objects;
 
 public final class Point {
+    private static final Point DEFAULT_POINT = new Point(0);
+
     private final double value;
 
     private Point(final double value) {
@@ -14,7 +16,7 @@ public final class Point {
     }
 
     public static Point getDefaults() {
-        return new Point(0);
+        return DEFAULT_POINT;
     }
 
     public Point sum(final Point other) {
