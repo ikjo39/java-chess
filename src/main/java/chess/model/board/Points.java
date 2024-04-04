@@ -3,7 +3,7 @@ package chess.model.board;
 import chess.model.piece.Side;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +11,7 @@ public final class Points {
     private final Map<Side, Point> points;
 
     public Points(final Map<Side, Point> points) {
-        this.points = new HashMap<>(points);
+        this.points = new EnumMap<>(points);
     }
 
     public List<Side> calculateWinner() {

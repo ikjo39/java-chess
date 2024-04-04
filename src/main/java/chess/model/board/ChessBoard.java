@@ -11,6 +11,7 @@ import chess.model.piece.Side;
 import chess.model.position.ChessPosition;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -67,7 +68,16 @@ public class ChessBoard {
     public Points calculate() {
         return Arrays.stream(Side.values())
                 .filter(side -> !side.isEmpty())
-                .collect(collectingAndThen(toMap(Function.identity(), this::calculatePiecePoints), Points::new));
+                .collect(collectingAndThen(
+                        toMap(
+                                Function.identity(),
+                                this::calculatePiecePoints,
+                                (key1, key2) -> {
+                                    throw new IllegalArgumentException("Duplicated Keys");
+                                },
+                                () -> new EnumMap<>(Side.class)
+                        ),
+                        Points::new));
     }
 
     private boolean hasSameFilePawn(final ChessPosition position, final Set<ChessPosition> positions) {
