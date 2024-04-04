@@ -7,7 +7,7 @@ public interface ChessGameDao {
 
     ChessBoardDto findAll();
 
-    int count();
+    boolean hasAnyData();
 
     void deleteAll();
 }

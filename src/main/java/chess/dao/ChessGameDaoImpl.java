@@ -38,15 +38,15 @@ public class ChessGameDaoImpl implements ChessGameDao {
     }
 
     @Override
-    public int count() {
-        final String query = "SELECT COUNT(*) AS `count` FROM chess_game;";
+    public boolean hasAnyData() {
+        final String query = "SELECT CASE WHEN COUNT(*) > 0 THEN TRUE ELSE FALSE END AS has_any_data FROM chess_game;";
         try (final Connection connection = CommonDao.getConnection();
              final Statement statement = connection.createStatement()) {
             final ResultSet resultSet = statement.executeQuery(query);
             validateResultSet(resultSet);
-            return resultSet.getInt("count");
+            return resultSet.getBoolean("has_any_data");
         } catch (final SQLException e) {
-            throw new RuntimeException("데이터 개수 조회 과정에서 오류가 생겨 해당 명령을 수행할 수 없습니다.");
+            throw new RuntimeException("데이터 존재 여부 조회 과정에서 오류가 생겨 해당 명령을 수행할 수 없습니다.");
         }
     }
 

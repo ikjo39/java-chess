@@ -62,13 +62,13 @@ class ChessGameDaoImplTest {
     }
 
     @Test
-    @DisplayName("데이터 개수를 반환한다.")
+    @DisplayName("데이터가 존재하는지 판단한다.")
     void count() {
         //when
-        final int count = boardDao.count();
+        final boolean count = boardDao.hasAnyData();
 
         //then
-        assertThat(count).isEqualTo(3);
+        assertThat(count).isTrue();
     }
 
     @Test
@@ -78,6 +78,6 @@ class ChessGameDaoImplTest {
         boardDao.deleteAll();
 
         //then
-        assertThat(boardDao.count()).isEqualTo(0);
+        assertThat(boardDao.hasAnyData()).isFalse();
     }
 }

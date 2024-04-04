@@ -41,8 +41,8 @@ class TestBoardDao implements ChessGameDao {
     }
 
     @Override
-    public int count() {
-        return BOARDS_CACHE.values().size();
+    public boolean hasAnyData() {
+        return !BOARDS_CACHE.values().isEmpty();
     }
 
     @Override

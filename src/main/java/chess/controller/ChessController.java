@@ -17,51 +17,51 @@ import java.util.function.Supplier;
 public class ChessController {
     private final InputView inputView;
     private final OutputView outputView;
-    private final ChessGameDao boardDao;
+    private final ChessGameDao chessGameDao;
 
     public ChessController(final InputView inputView,
                            final OutputView outputView,
-                           final ChessGameDao boardDao) {
+                           final ChessGameDao chessGameDao) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.boardDao = boardDao;
+        this.chessGameDao = chessGameDao;
     }
 
     public void run() {
         TableDao.createChessGameIfNotExist();
         final GameCommand gameCommand = retryOnException(inputView::readGameCommand);
         if (!gameCommand.isEnd()) {
-            final ChessBoard chessBoard = getChessBoard(boardDao);
-            updateBoardChange(boardDao, chessBoard);
+            final ChessBoard chessBoard = getChessBoard(chessGameDao);
+            updateBoardChange(chessGameDao, chessBoard);
             outputView.printChessBoard(chessBoard);
-            final ChessBoard movedChessBoard = retryOnException(() -> playChess(boardDao, gameCommand));
+            final ChessBoard movedChessBoard = retryOnException(() -> playChess(chessGameDao, gameCommand));
             printScoreWhenEnd(movedChessBoard, chessBoard);
         }
     }
 
-    private ChessBoard getChessBoard(final ChessGameDao boardDao) {
-        if (boardDao.count() != 0) {
-            return getAllDataFrom(boardDao);
+    private ChessBoard getChessBoard(final ChessGameDao chessGameDao) {
+        if (chessGameDao.hasAnyData()) {
+            return getAllDataFrom(chessGameDao);
         }
         return new ChessBoard(ChessBoardInitializer.create());
     }
 
-    private ChessBoard getAllDataFrom(final ChessGameDao boardDao) {
-        final ChessBoardDto chessBoardDto = boardDao.findAll();
+    private ChessBoard getAllDataFrom(final ChessGameDao chessGameDao) {
+        final ChessBoardDto chessBoardDto = chessGameDao.findAll();
         return chessBoardDto.convert();
     }
 
-    private ChessBoard playChess(final ChessGameDao boardDao, GameCommand gameCommand) {
-        ChessBoard chessBoard = getAllDataFrom(boardDao);
+    private ChessBoard playChess(final ChessGameDao chessGameDao, GameCommand gameCommand) {
+        ChessBoard chessBoard = getAllDataFrom(chessGameDao);
         while (!chessBoard.checkChessEnd() && !gameCommand.isEnd()) {
             final GameArguments gameArguments = inputView.readGameArguments();
             gameCommand = gameArguments.gameCommand();
-            chessBoard = runWithGameCommand(boardDao, gameCommand, gameArguments, chessBoard);
+            chessBoard = runWithGameCommand(chessGameDao, gameCommand, gameArguments, chessBoard);
         }
         return chessBoard;
     }
 
-    private ChessBoard runWithGameCommand(final ChessGameDao boardDao,
+    private ChessBoard runWithGameCommand(final ChessGameDao chessGameDao,
                                           final GameCommand gameCommand,
                                           final GameArguments gameArguments,
                                           ChessBoard chessBoard) {
@@ -72,7 +72,7 @@ public class ChessController {
             final MoveArguments moveArguments = gameArguments.moveArguments();
             chessBoard = move(chessBoard, moveArguments);
             outputView.printChessBoard(chessBoard);
-            updateBoardChange(boardDao, chessBoard);
+            updateBoardChange(chessGameDao, chessBoard);
         }
         return chessBoard;
     }
@@ -83,10 +83,10 @@ public class ChessController {
         return chessBoard.move(source, target);
     }
 
-    private void updateBoardChange(final ChessGameDao boardDao, final ChessBoard chessBoard) {
-        boardDao.deleteAll();
+    private void updateBoardChange(final ChessGameDao chessGameDao, final ChessBoard chessBoard) {
+        chessGameDao.deleteAll();
         if (!chessBoard.checkChessEnd()) {
-            boardDao.addAll(chessBoard.convertDto());
+            chessGameDao.addAll(chessBoard.convertDto());
         }
     }
 
