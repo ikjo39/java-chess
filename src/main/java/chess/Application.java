@@ -1,8 +1,8 @@
 package chess;
 
 import chess.controller.ChessController;
-import chess.dao.BoardDaoImpl;
 import chess.dao.BoardDao;
+import chess.dao.BoardDaoImpl;
 import chess.view.InputView;
 import chess.view.OutputView;
 
