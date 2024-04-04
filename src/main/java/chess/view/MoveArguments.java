@@ -3,6 +3,7 @@ package chess.view;
 import chess.model.position.ChessPosition;
 import chess.model.position.File;
 import chess.model.position.Rank;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -10,19 +11,19 @@ import java.util.Objects;
 public class MoveArguments {
     private static final int ARGUMENTS_SIZE = 4;
 
-    private final String sourceRank;
-    private final String targetRank;
     private final String sourceFile;
+    private final String sourceRank;
     private final String targetFile;
+    private final String targetRank;
 
-    private MoveArguments(final String sourceRank,
-                          final String targetRank,
-                          final String sourceFile,
-                          final String targetFile) {
-        this.sourceRank = sourceRank;
-        this.targetRank = targetRank;
+    private MoveArguments(final String sourceFile,
+                          final String sourceRank,
+                          final String targetFile,
+                          final String targetRank) {
         this.sourceFile = sourceFile;
+        this.sourceRank = sourceRank;
         this.targetFile = targetFile;
+        this.targetRank = targetRank;
     }
 
     public static MoveArguments from(final String input) {
