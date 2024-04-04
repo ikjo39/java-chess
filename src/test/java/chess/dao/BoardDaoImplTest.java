@@ -10,24 +10,24 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class BoardDaoTest {
+class BoardDaoImplTest {
 
-    private BoardRepository boardRepository;
+    private BoardDao boardDao;
 
     @BeforeEach
     void setUp() {
-        boardRepository = new TestBoardDao();
+        boardDao = new TestBoardDao();
         final Set<PieceDto> pieces = Set.of(
                 PieceDto.from("a8", "R"),
                 PieceDto.from("b7", "N"),
                 PieceDto.from("d5", "q")
         );
-        boardRepository.addAll(ChessBoardDto.from(pieces, "WHITE"));
+        boardDao.addAll(ChessBoardDto.from(pieces, "WHITE"));
     }
 
     @AfterEach
     void tearDown() {
-        boardRepository.deleteAll();
+        boardDao.deleteAll();
     }
 
     @Test
@@ -42,17 +42,17 @@ class BoardDaoTest {
         final ChessBoardDto given = ChessBoardDto.from(pieces, "WHITE");
 
         //when
-        boardRepository.addAll(given);
+        boardDao.addAll(given);
 
         //then
-        assertThat(boardRepository.findAll().pieces()).hasSize(6);
+        assertThat(boardDao.findAll().pieces()).hasSize(6);
     }
 
     @Test
     @DisplayName("모든 정보를 가져온다.")
     void findAll() {
         //when
-        final ChessBoardDto board = boardRepository.findAll();
+        final ChessBoardDto board = boardDao.findAll();
 
         //then
         assertThat(board.pieces()).hasSize(3);
@@ -62,7 +62,7 @@ class BoardDaoTest {
     @DisplayName("데이터 개수를 반환한다.")
     void count() {
         //when
-        final int count = boardRepository.count();
+        final int count = boardDao.count();
 
         //then
         assertThat(count).isEqualTo(3);
@@ -72,9 +72,9 @@ class BoardDaoTest {
     @DisplayName("모든 데이터를 삭제한다.")
     void deleteAll() {
         //when
-        boardRepository.deleteAll();
+        boardDao.deleteAll();
 
         //then
-        assertThat(boardRepository.count()).isEqualTo(0);
+        assertThat(boardDao.count()).isEqualTo(0);
     }
 }

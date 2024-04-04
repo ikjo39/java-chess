@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-class TestBoardDao implements BoardRepository {
+class TestBoardDao implements BoardDao {
 
     private static final Map<Integer, ChessBoards> BOARDS_CACHE = new HashMap<>();
     private static int count = 0;

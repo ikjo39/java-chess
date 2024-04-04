@@ -1,6 +1,6 @@
 package chess.controller;
 
-import chess.dao.BoardRepository;
+import chess.dao.BoardDao;
 import chess.dao.TableDao;
 import chess.model.board.ChessBoard;
 import chess.model.board.ChessBoardInitializer;
@@ -16,51 +16,51 @@ import java.util.function.Supplier;
 public class ChessController {
     private final InputView inputView;
     private final OutputView outputView;
-    private final BoardRepository boardRepository;
+    private final BoardDao boardDao;
 
     public ChessController(final InputView inputView,
                            final OutputView outputView,
-                           final BoardRepository boardRepository) {
+                           final BoardDao boardDao) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.boardRepository = boardRepository;
+        this.boardDao = boardDao;
     }
 
     public void run() {
         TableDao.createChessBoardIfNotExist();
         final GameCommand gameCommand = retryOnException(inputView::readGameCommand);
         if (!gameCommand.isEnd()) {
-            final ChessBoard chessBoard = getChessBoard(boardRepository);
-            updateBoardChange(boardRepository, chessBoard);
+            final ChessBoard chessBoard = getChessBoard(boardDao);
+            updateBoardChange(boardDao, chessBoard);
             outputView.printChessBoard(chessBoard);
-            final ChessBoard movedChessBoard = retryOnException(() -> playChess(boardRepository, gameCommand));
+            final ChessBoard movedChessBoard = retryOnException(() -> playChess(boardDao, gameCommand));
             printScoreWhenEnd(movedChessBoard, chessBoard);
         }
     }
 
-    private ChessBoard getChessBoard(final BoardRepository boardRepository) {
-        if (boardRepository.count() != 0) {
-            return getAllDataFrom(boardRepository);
+    private ChessBoard getChessBoard(final BoardDao boardDao) {
+        if (boardDao.count() != 0) {
+            return getAllDataFrom(boardDao);
         }
         return new ChessBoard(ChessBoardInitializer.create());
     }
 
-    private ChessBoard getAllDataFrom(final BoardRepository boardRepository) {
-        return boardRepository.findAll()
+    private ChessBoard getAllDataFrom(final BoardDao boardDao) {
+        return boardDao.findAll()
                 .convert();
     }
 
-    private ChessBoard playChess(final BoardRepository boardRepository, GameCommand gameCommand) {
-        ChessBoard chessBoard = getAllDataFrom(boardRepository);
+    private ChessBoard playChess(final BoardDao boardDao, GameCommand gameCommand) {
+        ChessBoard chessBoard = getAllDataFrom(boardDao);
         while (!chessBoard.checkChessEnd() && !gameCommand.isEnd()) {
             final GameArguments gameArguments = inputView.readGameArguments();
             gameCommand = gameArguments.gameCommand();
-            chessBoard = runWithGameCommand(boardRepository, gameCommand, gameArguments, chessBoard);
+            chessBoard = runWithGameCommand(boardDao, gameCommand, gameArguments, chessBoard);
         }
         return chessBoard;
     }
 
-    private ChessBoard runWithGameCommand(final BoardRepository boardRepository,
+    private ChessBoard runWithGameCommand(final BoardDao boardDao,
                                           final GameCommand gameCommand,
                                           final GameArguments gameArguments,
                                           ChessBoard chessBoard) {
@@ -71,7 +71,7 @@ public class ChessController {
             final MoveArguments moveArguments = gameArguments.moveArguments();
             chessBoard = move(chessBoard, moveArguments);
             outputView.printChessBoard(chessBoard);
-            updateBoardChange(boardRepository, chessBoard);
+            updateBoardChange(boardDao, chessBoard);
         }
         return chessBoard;
     }
@@ -82,10 +82,10 @@ public class ChessController {
         return chessBoard.move(source, target);
     }
 
-    private void updateBoardChange(final BoardRepository boardRepository, final ChessBoard chessBoard) {
-        boardRepository.deleteAll();
+    private void updateBoardChange(final BoardDao boardDao, final ChessBoard chessBoard) {
+        boardDao.deleteAll();
         if (!chessBoard.checkChessEnd()) {
-            boardRepository.addAll(chessBoard.convertDto());
+            boardDao.addAll(chessBoard.convertDto());
         }
     }
 
