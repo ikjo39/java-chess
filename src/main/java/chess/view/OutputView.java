@@ -19,6 +19,7 @@ public class OutputView {
 
     private static final String SIDE_POINTS_FORMAT = "%s 점수: %s";
     private static final String DOMINANT_FORMAT = "우세 진영: %s";
+    private static final String MULTIPLE_WINNER_DELIMITER = ", ";
     private static final DecimalFormat POINT_FORMAT = new DecimalFormat("#,###.#");
 
     public void printException(final String message) {
@@ -59,18 +60,18 @@ public class OutputView {
     }
 
     private String getSidePointFormat(final Side side, final Map<Side, Point> pointsWithSide) {
-        String pointFormat = POINT_FORMAT.format(pointsWithSide.get(side).getValue());
+        final String pointFormat = POINT_FORMAT.format(pointsWithSide.get(side).getValue());
         return String.format(SIDE_POINTS_FORMAT, side.name(), pointFormat);
     }
 
     private String getWinnerFormat(final List<Side> side) {
-        String result = getWinnerText(side);
+        final String result = getWinnerText(side);
         return String.format(DOMINANT_FORMAT, result);
     }
 
     private String getWinnerText(final List<Side> side) {
         return side.stream()
                 .map(Side::name)
-                .collect(Collectors.joining(", "));
+                .collect(Collectors.joining(MULTIPLE_WINNER_DELIMITER));
     }
 }
