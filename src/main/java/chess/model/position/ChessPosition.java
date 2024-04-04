@@ -46,15 +46,16 @@ public final class ChessPosition {
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        ChessPosition that = (ChessPosition) o;
-        return file == that.file && rank == that.rank;
+        final ChessPosition other = (ChessPosition) obj;
+        return this.file == other.file
+                && this.rank == other.rank;
     }
 
     @Override

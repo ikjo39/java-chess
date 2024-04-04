@@ -3,7 +3,6 @@ package chess.view;
 import chess.model.position.ChessPosition;
 import chess.model.position.File;
 import chess.model.position.Rank;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -55,21 +54,32 @@ public class MoveArguments {
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        MoveArguments that = (MoveArguments) o;
-        return Objects.equals(sourceRank, that.sourceRank) && Objects.equals(targetRank,
-                that.targetRank) && Objects.equals(sourceFile, that.sourceFile) && Objects.equals(
-                targetFile, that.targetFile);
+        final MoveArguments other = (MoveArguments) obj;
+        return Objects.equals(this.sourceFile, other.sourceFile)
+                && Objects.equals(this.sourceRank, other.sourceRank)
+                && Objects.equals(this.targetFile, other.targetFile)
+                && Objects.equals(this.targetRank, other.targetRank);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sourceRank, targetRank, sourceFile, targetFile);
+        return Objects.hash(sourceFile, sourceRank, targetFile, targetRank);
+    }
+
+    @Override
+    public String toString() {
+        return "MoveArguments{" +
+                "sourceFile='" + sourceFile + '\'' +
+                ", sourceRank='" + sourceRank + '\'' +
+                ", targetFile='" + targetFile + '\'' +
+                ", targetRank='" + targetRank + '\'' +
+                '}';
     }
 }

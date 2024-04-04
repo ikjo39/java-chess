@@ -61,9 +61,9 @@ public final class PieceDto {
         if (obj == null || obj.getClass() != this.getClass()) {
             return false;
         }
-        var that = (PieceDto) obj;
-        return Objects.equals(this.position, that.position) &&
-                Objects.equals(this.type, that.type);
+        final PieceDto other = (PieceDto) obj;
+        return Objects.equals(this.position, other.position)
+                && Objects.equals(this.type, other.type);
     }
 
     @Override

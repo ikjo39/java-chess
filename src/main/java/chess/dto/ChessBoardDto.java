@@ -47,8 +47,8 @@ public final class ChessBoardDto {
         if (obj == null || obj.getClass() != this.getClass()) {
             return false;
         }
-        var that = (ChessBoardDto) obj;
-        return Objects.equals(this.pieces, that.pieces);
+        final ChessBoardDto other = (ChessBoardDto) obj;
+        return Objects.equals(this.pieces, other.pieces);
     }
 
     @Override

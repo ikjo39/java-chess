@@ -26,15 +26,15 @@ public final class Point {
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        Point point = (Point) o;
-        return Double.compare(value, point.value) == 0;
+        final Point other = (Point) obj;
+        return Double.compare(value, other.value) == 0;
     }
 
     @Override
