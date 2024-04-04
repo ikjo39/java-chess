@@ -2,6 +2,7 @@ package chess.controller;
 
 import chess.dao.BoardDao;
 import chess.dao.TableDao;
+import chess.dto.ChessBoardDto;
 import chess.model.board.ChessBoard;
 import chess.model.board.ChessBoardInitializer;
 import chess.model.position.ChessPosition;
@@ -46,8 +47,8 @@ public class ChessController {
     }
 
     private ChessBoard getAllDataFrom(final BoardDao boardDao) {
-        return boardDao.findAll()
-                .convert();
+        final ChessBoardDto chessBoardDto = boardDao.findAll();
+        return chessBoardDto.convert();
     }
 
     private ChessBoard playChess(final BoardDao boardDao, GameCommand gameCommand) {
