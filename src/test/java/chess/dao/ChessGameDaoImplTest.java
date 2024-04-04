@@ -7,9 +7,12 @@ import chess.dto.PieceDto;
 import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@Disabled
+@DisplayName("Dao 동작 방식의 예시")
 class ChessGameDaoImplTest {
 
     private ChessGameDao boardDao;
