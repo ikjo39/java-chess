@@ -14,7 +14,6 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -82,6 +81,11 @@ public class ChessBoard {
 
     private boolean hasSameFilePawn(final ChessPosition position, final Set<ChessPosition> positions) {
         return calculatePawnCountSameFile(position, positions) != PAWN_COUNT_WHEN_SOLID_IN_FILE;
+    }
+
+    private boolean isSamePositionedPawn(final Side side, final ChessPosition chessPosition) {
+        final Piece piece = board.get(chessPosition);
+        return piece.isSameSide(side) && piece.isPawn();
     }
 
     private int calculateKingCount() {
@@ -167,11 +171,9 @@ public class ChessBoard {
     }
 
     private Set<ChessPosition> findAllSamSidePawns(final Side side) {
-        return board.entrySet()
+        return board.keySet()
                 .stream()
-                .filter(entry -> entry.getValue().isSameSide(side))
-                .filter(entry -> entry.getValue().isPawn())
-                .map(Entry::getKey)
+                .filter(chessPosition -> isSamePositionedPawn(side, chessPosition))
                 .collect(Collectors.toSet());
     }
 
