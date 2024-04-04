@@ -1,6 +1,6 @@
 package chess.controller;
 
-import chess.dao.BoardDao;
+import chess.dao.ChessGameDao;
 import chess.dao.TableDao;
 import chess.dto.ChessBoardDto;
 import chess.model.board.ChessBoard;
@@ -17,18 +17,18 @@ import java.util.function.Supplier;
 public class ChessController {
     private final InputView inputView;
     private final OutputView outputView;
-    private final BoardDao boardDao;
+    private final ChessGameDao boardDao;
 
     public ChessController(final InputView inputView,
                            final OutputView outputView,
-                           final BoardDao boardDao) {
+                           final ChessGameDao boardDao) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.boardDao = boardDao;
     }
 
     public void run() {
-        TableDao.createChessBoardIfNotExist();
+        TableDao.createChessGameIfNotExist();
         final GameCommand gameCommand = retryOnException(inputView::readGameCommand);
         if (!gameCommand.isEnd()) {
             final ChessBoard chessBoard = getChessBoard(boardDao);
@@ -39,19 +39,19 @@ public class ChessController {
         }
     }
 
-    private ChessBoard getChessBoard(final BoardDao boardDao) {
+    private ChessBoard getChessBoard(final ChessGameDao boardDao) {
         if (boardDao.count() != 0) {
             return getAllDataFrom(boardDao);
         }
         return new ChessBoard(ChessBoardInitializer.create());
     }
 
-    private ChessBoard getAllDataFrom(final BoardDao boardDao) {
+    private ChessBoard getAllDataFrom(final ChessGameDao boardDao) {
         final ChessBoardDto chessBoardDto = boardDao.findAll();
         return chessBoardDto.convert();
     }
 
-    private ChessBoard playChess(final BoardDao boardDao, GameCommand gameCommand) {
+    private ChessBoard playChess(final ChessGameDao boardDao, GameCommand gameCommand) {
         ChessBoard chessBoard = getAllDataFrom(boardDao);
         while (!chessBoard.checkChessEnd() && !gameCommand.isEnd()) {
             final GameArguments gameArguments = inputView.readGameArguments();
@@ -61,7 +61,7 @@ public class ChessController {
         return chessBoard;
     }
 
-    private ChessBoard runWithGameCommand(final BoardDao boardDao,
+    private ChessBoard runWithGameCommand(final ChessGameDao boardDao,
                                           final GameCommand gameCommand,
                                           final GameArguments gameArguments,
                                           ChessBoard chessBoard) {
@@ -83,7 +83,7 @@ public class ChessController {
         return chessBoard.move(source, target);
     }
 
-    private void updateBoardChange(final BoardDao boardDao, final ChessBoard chessBoard) {
+    private void updateBoardChange(final ChessGameDao boardDao, final ChessBoard chessBoard) {
         boardDao.deleteAll();
         if (!chessBoard.checkChessEnd()) {
             boardDao.addAll(chessBoard.convertDto());

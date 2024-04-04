@@ -8,12 +8,12 @@ public class TableDao {
     private TableDao() {
     }
 
-    public static void createChessBoardIfNotExist() {
+    public static void createChessGameIfNotExist() {
         final String query = """
-                CREATE TABLE IF NOT EXISTS chess_board (
+                CREATE TABLE IF NOT EXISTS chess_game (
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     `position` VARCHAR(2) UNIQUE,
-                    `type` VARCHAR(1),
+                    `piece_type` VARCHAR(1),
                     `turn` VARCHAR(50)
                 );
                 """;

@@ -10,24 +10,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-class TestBoardDao implements BoardDao {
+class TestBoardDao implements ChessGameDao {
 
-    private static final Map<Integer, ChessBoards> BOARDS_CACHE = new HashMap<>();
+    private static final Map<Integer, ChessGames> BOARDS_CACHE = new HashMap<>();
     private static int count = 0;
 
     @Override
     public void addAll(final ChessBoardDto chessBoardDto) {
-        final List<ChessBoards> chessBoards = convertChessBoards(chessBoardDto);
+        final List<ChessGames> chessBoards = convertChessBoards(chessBoardDto);
         chessBoards.forEach(chessBoard ->
                 BOARDS_CACHE.put(++count, chessBoard)
         );
     }
 
-    private List<ChessBoards> convertChessBoards(final ChessBoardDto chessBoardDto) {
+    private List<ChessGames> convertChessBoards(final ChessBoardDto chessBoardDto) {
         final Set<PieceDto> pieces = chessBoardDto.pieces();
         final String turn = chessBoardDto.turn();
         return pieces.stream()
-                .map(pieceDto -> new ChessBoards(pieceDto.position(), pieceDto.type(), turn))
+                .map(pieceDto -> new ChessGames(pieceDto.position(), pieceDto.type(), turn))
                 .toList();
     }
 

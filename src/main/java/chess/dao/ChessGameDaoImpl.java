@@ -10,10 +10,10 @@ import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
 
-public class BoardDaoImpl implements BoardDao {
+public class ChessGameDaoImpl implements ChessGameDao {
     @Override
     public void addAll(final ChessBoardDto chessBoardDto) {
-        final String chessBoardQuery = "INSERT INTO chess_board (position, type, turn) VALUES (?, ?, ?)";
+        final String chessBoardQuery = "INSERT INTO chess_game (position, piece_type, turn) VALUES (?, ?, ?)";
         try (final Connection connection = CommonDao.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(chessBoardQuery)) {
             final Set<PieceDto> pieces = chessBoardDto.pieces();
@@ -26,7 +26,7 @@ public class BoardDaoImpl implements BoardDao {
 
     @Override
     public ChessBoardDto findAll() {
-        final String query = "SELECT * FROM chess_board;";
+        final String query = "SELECT * FROM chess_game;";
         try (final Connection connection = CommonDao.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             final Set<PieceDto> pieces = new HashSet<>();
@@ -39,7 +39,7 @@ public class BoardDaoImpl implements BoardDao {
 
     @Override
     public int count() {
-        final String query = "SELECT COUNT(*) AS `count` FROM chess_board;";
+        final String query = "SELECT COUNT(*) AS `count` FROM chess_game;";
         try (final Connection connection = CommonDao.getConnection();
              final Statement statement = connection.createStatement()) {
             final ResultSet resultSet = statement.executeQuery(query);
@@ -52,7 +52,7 @@ public class BoardDaoImpl implements BoardDao {
 
     @Override
     public void deleteAll() {
-        final String boardQuery = "DELETE FROM chess_board;";
+        final String boardQuery = "DELETE FROM chess_game;";
         try (final Connection connection = CommonDao.getConnection();
              final Statement statement = connection.createStatement()) {
             statement.execute(boardQuery);
@@ -93,8 +93,8 @@ public class BoardDaoImpl implements BoardDao {
         while (resultSet.next()) {
             turn = getTurn(resultSet, turn);
             final String position = resultSet.getString("position");
-            final String type = resultSet.getString("type");
-            pieces.add(PieceDto.from(position, type));
+            final String piece_type = resultSet.getString("piece_type");
+            pieces.add(PieceDto.from(position, piece_type));
         }
         return ChessBoardDto.from(pieces, turn);
     }

@@ -2,7 +2,7 @@ package chess.dao;
 
 import chess.dto.ChessBoardDto;
 
-public interface BoardDao {
+public interface ChessGameDao {
     void addAll(final ChessBoardDto chessBoardDto);
 
     ChessBoardDto findAll();
