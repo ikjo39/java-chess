@@ -19,7 +19,7 @@ public class CommonDao {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (final SQLException e) {
-            throw new IllegalStateException("DB 연결 오류:" + e.getMessage());
+            throw new IllegalStateException("외부 데이터 저장소와의 연결 과정에서 오류가 발생하였습니다.");
         }
     }
 }

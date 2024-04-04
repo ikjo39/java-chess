@@ -21,7 +21,7 @@ public class TableDao {
              final Statement statement = connection.createStatement()) {
             statement.execute(query);
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("테이블 생성 과정에서 오류가 생겨 해당 명령을 수행할 수 없습니다.");
         }
     }
 }

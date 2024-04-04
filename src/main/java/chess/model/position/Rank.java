@@ -35,7 +35,7 @@ public enum Rank {
         return Arrays.stream(values())
                 .filter(rank -> hasSameCoordinate(offset, rank))
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Rank 범위를 벗어났습니다."));
+                .orElseThrow(() -> new IllegalStateException("Rank가 이동 가능한 범위를 벗어났습니다."));
     }
 
     private boolean hasSameCoordinate(final int offset, final Rank rank) {

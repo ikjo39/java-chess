@@ -20,7 +20,7 @@ public class ChessGameDaoImpl implements ChessGameDao {
             pieces.forEach(pieceDto -> addBatch(preparedStatement, chessBoardDto, pieceDto));
             preparedStatement.executeBatch();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("데이터 삽입 과정에서 오류가 생겨 해당 명령을 수행할 수 없습니다.");
         }
     }
 
@@ -33,7 +33,7 @@ public class ChessGameDaoImpl implements ChessGameDao {
             final ResultSet resultSet = preparedStatement.executeQuery();
             return getChessBoardDto(resultSet, pieces);
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("데이터 조회 과정에서 오류가 생겨 해당 명령을 수행할 수 없습니다.");
         }
     }
 
@@ -46,7 +46,7 @@ public class ChessGameDaoImpl implements ChessGameDao {
             validateResultSet(resultSet);
             return resultSet.getInt("count");
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("데이터 개수 조회 과정에서 오류가 생겨 해당 명령을 수행할 수 없습니다.");
         }
     }
 
@@ -57,13 +57,13 @@ public class ChessGameDaoImpl implements ChessGameDao {
              final Statement statement = connection.createStatement()) {
             statement.execute(boardQuery);
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("데이터 삭제 과정에서 오류가 생겨 해당 명령을 수행할 수 없습니다.");
         }
     }
 
     private void validateResultSet(final ResultSet resultSet) throws SQLException {
         if (!resultSet.next()) {
-            throw new RuntimeException("데이터가 존재하지 않습니다.");
+            throw new RuntimeException("데이터가 존재하지 않아 데이터를 불러올 수 없습니다.");
         }
     }
 
@@ -76,7 +76,7 @@ public class ChessGameDaoImpl implements ChessGameDao {
             preparedStatement.setString(3, chessBoardDto.turn());
             preparedStatement.addBatch();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("데이터 조회 시 문제가 생겨 데이터를 불러올 수 없습니다.");
         }
     }
 

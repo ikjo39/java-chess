@@ -38,7 +38,7 @@ public final class ChessPosition {
             final Rank nextRank = rank.findNextRank(step);
             return new ChessPosition(file, nextRank);
         }
-        throw new IllegalArgumentException("해당 방향으로 움직일 수 없습니다");
+        throw new IllegalArgumentException("해당 크기만큼 수직 방향으로 움직일 수 없습니다");
     }
 
     public String getName() {

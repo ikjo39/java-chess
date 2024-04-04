@@ -73,7 +73,7 @@ public class ChessBoard {
                                 Function.identity(),
                                 this::calculatePiecePoints,
                                 (key1, key2) -> {
-                                    throw new IllegalArgumentException("Duplicated Keys");
+                                    throw new IllegalArgumentException("진영이 중복되어 진영별 점수를 계산할 수 없습니다.");
                                 },
                                 () -> new EnumMap<>(Side.class)
                         ),
@@ -120,19 +120,19 @@ public class ChessBoard {
 
     private void validateTurn(final Piece sourcePiece) {
         if (!sourcePiece.isSameSide(turn)) {
-            throw new IllegalArgumentException("반대편 기물을 움직일 차례입니다.");
+            throw new IllegalArgumentException("상대 기물이 움직일 차례입니다.");
         }
     }
 
     private void validateSameSide(final Piece sourcePiece, final Piece targetPiece) {
         if (sourcePiece.isSameSide(targetPiece)) {
-            throw new IllegalArgumentException("아군 기물이 있어 움직일 수 없습니다.");
+            throw new IllegalArgumentException("Target 위치에 아군 기물이 있어 움직일 수 없습니다.");
         }
     }
 
     private void validateSourcePiece(final Piece sourcePiece) {
         if (sourcePiece.isEmpty()) {
-            throw new IllegalArgumentException("Source에 기물이 존재하지 않습니다.");
+            throw new IllegalArgumentException("Source 위치에 기물이 존재하지 않습니다.");
         }
     }
 

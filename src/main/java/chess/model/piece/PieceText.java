@@ -88,14 +88,14 @@ public enum PieceText {
         return Arrays.stream(values())
                 .filter(pieceText -> pieceText.name.equals(value))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("기물 텍스트가 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("해당 값과 일치하는 기물 문구가 존재하지 않습니다."));
     }
 
     public static PieceText from(final Piece piece) {
         return Arrays.stream(values())
                 .filter(pieceText -> pieceText.typeDiscriminator.test(piece))
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException("기물 텍스트가 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalStateException("해당 기물과 일치하는 기물 문구가 존재하지 않습니다."));
     }
 
     public String getName() {
