@@ -32,16 +32,6 @@ class TestBoardDao implements BoardRepository {
     }
 
     @Override
-    public PieceDto findByPosition(final String data) {
-        return BOARDS_CACHE.values()
-                .stream()
-                .filter(chessBoards -> chessBoards.position().equals(data))
-                .map(chessBoard -> PieceDto.from(chessBoard.position(), chessBoard.type()))
-                .findFirst()
-                .get();
-    }
-
-    @Override
     public ChessBoardDto findAll() {
         final String turn = BOARDS_CACHE.get(1).turn();
         return BOARDS_CACHE.values()

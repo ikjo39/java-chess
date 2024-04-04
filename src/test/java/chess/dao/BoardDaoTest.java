@@ -1,7 +1,6 @@
 package chess.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 import chess.dto.ChessBoardDto;
 import chess.dto.PieceDto;
@@ -47,22 +46,6 @@ class BoardDaoTest {
 
         //then
         assertThat(boardRepository.findAll().pieces()).hasSize(6);
-    }
-
-    @Test
-    @DisplayName("위치로 테이블 정보를 조회힌다.")
-    void findByPosition() {
-        //given
-        final String position = "a8";
-
-        //when
-        final PieceDto piece = boardRepository.findByPosition(position);
-
-        //then
-        assertAll(
-                () -> assertThat(piece.position()).isEqualTo(position),
-                () -> assertThat(piece.type()).isEqualTo("R")
-        );
     }
 
     @Test

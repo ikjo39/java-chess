@@ -25,26 +25,6 @@ public class BoardDao implements BoardRepository {
     }
 
     @Override
-    public PieceDto findByPosition(String data) {
-        final String query = """
-                SELECT *
-                FROM chess_board
-                WHERE `position` = ?;
-                """;
-        try (final var connection = CommonDao.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, data);
-            final ResultSet resultSet = preparedStatement.executeQuery();
-            validateResultSet(resultSet);
-            final String position = resultSet.getString("position");
-            final String type = resultSet.getString("type");
-            return PieceDto.from(position, type);
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
     public ChessBoardDto findAll() {
         final String query = "SELECT * FROM chess_board;";
         try (final Connection connection = CommonDao.getConnection();
