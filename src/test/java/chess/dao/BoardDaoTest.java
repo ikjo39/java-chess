@@ -22,7 +22,7 @@ class BoardDaoTest {
                 PieceDto.from("b7", "N"),
                 PieceDto.from("d5", "q")
         );
-        boardRepository.add(ChessBoardDto.from(pieces, "WHITE"));
+        boardRepository.addAll(ChessBoardDto.from(pieces, "WHITE"));
     }
 
     @AfterEach
@@ -32,9 +32,9 @@ class BoardDaoTest {
 
     @Test
     @DisplayName("체스보드 테이블에 데이터를 추가한다.")
-    void add() {
+    void addAll() {
         //given
-        final  Set<PieceDto> pieces = Set.of(
+        final Set<PieceDto> pieces = Set.of(
                 PieceDto.from("a1", "r"),
                 PieceDto.from("b1", "k"),
                 PieceDto.from("c7", "K")
@@ -42,7 +42,7 @@ class BoardDaoTest {
         final ChessBoardDto given = ChessBoardDto.from(pieces, "WHITE");
 
         //when
-        boardRepository.add(given);
+        boardRepository.addAll(given);
 
         //then
         assertThat(boardRepository.findAll().pieces()).hasSize(6);

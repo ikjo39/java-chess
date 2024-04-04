@@ -85,7 +85,7 @@ public class ChessController {
     private void updateBoardChange(final BoardRepository boardRepository, final ChessBoard chessBoard) {
         boardRepository.deleteAll();
         if (!chessBoard.checkChessEnd()) {
-            boardRepository.add(chessBoard.convertDto());
+            boardRepository.addAll(chessBoard.convertDto());
         }
     }
 

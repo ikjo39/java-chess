@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class BoardDao implements BoardRepository {
     @Override
-    public void add(final ChessBoardDto chessBoardDto) {
+    public void addAll(final ChessBoardDto chessBoardDto) {
         final String chessBoardQuery = "INSERT INTO chess_board (position, type, turn) VALUES (?, ?, ?)";
         try (final Connection connection = CommonDao.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(chessBoardQuery)) {

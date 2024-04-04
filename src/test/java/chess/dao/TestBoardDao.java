@@ -16,7 +16,7 @@ class TestBoardDao implements BoardRepository {
     private static int count = 0;
 
     @Override
-    public void add(final ChessBoardDto chessBoardDto) {
+    public void addAll(final ChessBoardDto chessBoardDto) {
         final List<ChessBoards> chessBoards = convertChessBoards(chessBoardDto);
         chessBoards.forEach(chessBoard ->
                 BOARDS_CACHE.put(++count, chessBoard)
